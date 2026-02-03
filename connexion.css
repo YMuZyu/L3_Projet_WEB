@@ -1,0 +1,32 @@
+form{
+    display: grid;
+    grid-template-columns: auto;
+    grid-gap: 10px;
+    width: 400px;
+    margin: auto;
+    padding: 20px;
+    border: 3px solid #000000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1{
+    color: blue;
+    text-align: center;
+    font-size: 400%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+div.entrer{
+    display: grid;
+    grid-template-columns: 150px 250px; /* séparer l'objet en n avec une précision de taille*/
+    grid-gap: 0px; /*marge de saut de page*/
+    align-items: center;
+}
+
+div.action{
+    display: grid;
+    grid-template-columns: 200px 200px;
+    grid-gap: 0px;
+    align-items: center;
+}
