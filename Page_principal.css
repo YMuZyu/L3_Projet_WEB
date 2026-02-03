@@ -1,27 +1,7 @@
 h1{
     text-align: center;
 }
-
-<<<<<<< HEAD
-.new-msg{
-    text-align: center;   
-    margin-top: 50px; 
-    margin-left: 25%;
-    border-width: 2px;
-    border-radius: 15px;
-    border-style: none;
-    padding: 10px; /* espace entre le texte et le cadre*/
-    width: 60%;
-}
-
-#nouveau_message{
-    width: 100%;
-    height: 150px;
-}
-
-#liste_messages{
     
-=======
 header{
     display: flex;
     justify-content: space-between;
@@ -69,5 +49,25 @@ header{
     display: block;
     width: 120px;
     text-align: center;
->>>>>>> 96eab619919448dc39b514b17ec2cfd57994a7bb
 }
+
+.new-msg{
+    text-align: center;   
+    margin-top: 50px; 
+    margin-left: 25%;
+    border-width: 2px;
+    border-radius: 15px;
+    border-style: none;
+    padding: 10px; /* espace entre le texte et le cadre*/
+    width: 60%;
+}
+
+#nouveau_message{
+    width: 100%;
+    height: 150px;
+}
+
+/*
+#liste_messages{
+}
+*/
