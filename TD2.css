@@ -1,0 +1,38 @@
+form{
+	margin: auto;
+    border: 2px solid black; /* eppaisseur */
+    padding: 10px; /* espace entre le texte et le cadre*/
+    width: 300px;
+}
+
+h1{
+    color: blue;
+    text-align: center;
+    text-shadow: 2px 2px 2px black;
+}
+
+div.name div{
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 100px 100px;
+}
+
+div.name div label{
+    text-align: center;
+}
+
+div.field, div.name{
+    display: grid;
+    grid-template-columns: 150px 150px; /* diviser une ligne en plusieurs colonnes de taille identiques*/
+    margin: 10px 0;
+}
+
+div.actions{
+    display: grid;
+    grid-template-columns: 150px 150px;
+}
+
+button{
+    color: white;
+    background-color: grey;
+}
