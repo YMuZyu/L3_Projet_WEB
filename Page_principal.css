@@ -2,6 +2,7 @@ h1{
     text-align: center;
 }
 
+<<<<<<< HEAD
 .new-msg{
     text-align: center;   
     margin-top: 50px; 
@@ -20,4 +21,53 @@ h1{
 
 #liste_messages{
     
+=======
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 2px solid black;
+}
+
+/* Logo styles */
+#logo img {
+    height: 75px;
+    width: auto;
+}
+
+/* Search bar styles */
+#search input {
+    padding: 5px;
+    font-size: 16px;
+}
+
+#search button {
+    padding: 5px 10px;
+    font-size: 16px;
+    background-color: grey;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Links styles */
+#liens {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+#liens a {
+    border: 2px solid black;
+    border-radius: 5px;
+    color: white;
+    background-color: grey;
+    padding: 8px 12px; /* Space inside the button */
+    text-decoration: none; /* Remove underline */
+
+    display: block;
+    width: 120px;
+    text-align: center;
+>>>>>>> 96eab619919448dc39b514b17ec2cfd57994a7bb
 }
