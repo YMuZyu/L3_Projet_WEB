@@ -26,17 +26,27 @@
 			<div id="lien-deconnexion">
 				<a href="#">Déconnexion</a>
 			</div>
-
-			<div id="lien-enregistrement">
-				<a href="enregistrement.html">Enregistrement</a>
-			</div>
 			
 		</header>
-		
-		<div class="contenu">
-			<div id="indo">
-				
+		<hr>
+
+		<section class="main-content">
+			<h2>Contenu Principal</h2>
+			<form method="POST" action="javascript:envoyerMessage">
+			</form>
+			<div class="new-msg">
+				<input id="nouveau_message" name="nouveau_message" type="text" placeholder="Nouveau message">
+				<button type="submit">Envoyer</button>
 			</div>
-		</div>
+
+			<div class="Liste-des-messages">
+				<ul id="liste-message" class="liste-message">
+					<!-- en attente de js pour remplir li de la liste -->
+				</ul>
+			</div>
+
+			<h2>Informations</h2>
+		</section>
+
 	</body>
 </html>
