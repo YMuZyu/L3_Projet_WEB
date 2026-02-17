@@ -1,0 +1,26 @@
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>TME2</title>
+        <link rel="stylesheet" href="connexion.css">
+    </head>
+    <!-- on peut écrire directement du css dans le html via <style> puis même format que css -->
+    <body>
+        <header>
+            <h1>Page de connexion</h1>
+        </header>
+        <form>
+            <div class="entrer">
+                <label for="Methode_de_connexion">Utilisateur</label> <!--Label, quand on click sur le nom, le label ça nous renvoie au l'élément désigné par l'id-->
+                <input type="text" placeholder="Methode_de_connexion" id="Methode_de_connexion">
+                <label for="Mot_de_passe">Mot de passe</label>
+                <input type="password" placeholder="Mot de passe" id="Mot_de_passe">
+            </div>
+            <div class="action">
+                <button id="loginButton">Se connecter</button>
+                <button id="cancelButton">Annuler</button>
+            </div>
+        </form>
+    </body>
+</html>

@@ -30,3 +30,10 @@ div.action{
     grid-gap: 0px;
     align-items: center;
 }
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: grid;
+    place-items: center;
+}
