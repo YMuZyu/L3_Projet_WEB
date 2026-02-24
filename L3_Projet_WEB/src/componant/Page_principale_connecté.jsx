@@ -1,81 +1,83 @@
 import "../resources/Page_principale.css"
 import logo from "../resources/Sciences_SU.png"
 
-
-
-export default function Page_principale_connecté(props) {
-
-
+export default function Page_principale(props) {
   return (
     <>
-      <h1>Nom Forum</h1>
-
-      <header>
-        <div id="logo">
+      <header className="main-header">
+        <div className="logo-container">
           <img src={logo} alt="Logo du forum" />
         </div>
 
-        <div id="search">
-          <input type="text" placeholder="Zone Recherche" />
-          <button type="submit">Recherche</button>
-        </div>
-
-        <div id="liens">
-          <div id="lien-deconnexion">
-            <button onClick={() => props.onNavigate("principale")}>Déconnexion</button>
-          </div>
-        </div>
-      </header>
-
-      <section className="main-content">
-        <h2>Contenu Principal</h2>
-
-        <div className="new-msg">
-          <input
-            id="nouveau_message"
-            name="nouveau_message"
-            type="text"
-            placeholder="Nouveau message"
-          />
-          <button type="submit">Envoyer</button>
-        </div>
-
-        <div className="Liste-des-messages">
-          <ul id="liste-message" className="liste-message"></ul>
-        </div>
-
-        <h2>Informations</h2>
-      </section>
-
-      <div className="contenu">
-        <div id="infomation">
-          <h3>Informations du forum</h3>
-          <p>Bienvenue sur notre forum de discussion !</p>
-          <p>On aime tous RODIIIIII !</p>
-        </div>
-
-        <div id="newMessage">
-          <h3>Nouveau message</h3>
-          <form>
-            <label htmlFor="sujet">Sujet :</label><br />
-            <input type="text" id="sujet" name="sujet" /><br /><br />
-
-            <label htmlFor="message">Message :</label><br />
-            <textarea id="message" name="message" rows="4" cols="50"></textarea><br /><br />
-
-            <input type="submit" value="Envoyer" />
+        <div className="search-container">
+          <form onSubmit={(e) => e.preventDefault()}>
+            <input 
+              type="text" 
+              placeholder="Rechercher des messages..." 
+              aria-label="Recherche"
+            />
+            <button type="submit">Rechercher</button>
           </form>
         </div>
 
-        <div id="listeMessages">
-          <h3>Liste des messages</h3>
-          <ul>
-            <li><strong>Sujet 1 :</strong> Ceci est le contenu du message 1.</li>
-            <li><strong>Sujet 2 :</strong> Ceci est le contenu du message 2.</li>
-            <li><strong>Sujet 3 :</strong> Ceci est le contenu du message 3.</li>
-          </ul>
+        <div className="auth-links">
+          <button onClick={() => props.onNavigate("principale")}>
+            Déconnexion
+          </button>
         </div>
-      </div>
+      </header>
+
+      <main className="main-content">
+        <div className="left-column">
+          <section className="new-message-section">
+            <h2>Nouveau message</h2>
+            <form>
+              <input
+                type="text"
+                placeholder="Sujet"
+                aria-label="Sujet du message"
+              />
+              <textarea
+                placeholder="Votre message..."
+                aria-label="Contenu du message"
+              ></textarea>
+              <button type="submit">Publier</button>
+            </form>
+          </section>
+
+          <section className="messages-list-section">
+            <h2>Messages récents</h2>
+            <ul className="messages-list">
+              <li>
+                <div className="message-subject">Sujet 1</div>
+                <div className="message-content">
+                  Ceci est le contenu du message 1.
+                </div>
+              </li>
+              <li>
+                <div className="message-subject">Sujet 2</div>
+                <div className="message-content">
+                  Ceci est le contenu du message 2.
+                </div>
+              </li>
+              <li>
+                <div className="message-subject">Sujet 3</div>
+                <div className="message-content">
+                  Ceci est le contenu du message 3.
+                </div>
+              </li>
+            </ul>
+          </section>
+        </div>
+
+        <aside className="info-section">
+          <h3>Informations du forum</h3>
+          <p>Bienvenue sur notre forum de discussion !</p>
+          <p>👋 On aime tous RODIIIIII !</p>
+          <p>📝 N'hésitez pas à participer aux discussions</p>
+          <p>🔔 Restez informés des derniers messages</p>
+        </aside>
+      </main>
     </>
   )
 }
