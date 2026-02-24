@@ -1,39 +1,111 @@
-form{
-    display: grid;
-    grid-template-columns: auto;
-    grid-gap: 10px;
-    width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 3px solid #000000;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h1{
-    color: blue;
-    text-align: center;
-    font-size: 400%;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-div.entrer{
-    display: grid;
-    grid-template-columns: 150px 250px; /* séparer l'objet en n avec une précision de taille*/
-    grid-gap: 0px; /*marge de saut de page*/
-    align-items: center;
-}
-
-div.action{
-    display: grid;
-    grid-template-columns: 200px 200px;
-    grid-gap: 0px;
-    align-items: center;
+* {
+    box-sizing: border-box;  /* Essentiel : inclut padding et border dans la largeur */
 }
 
 body {
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
+    padding-top: 160px;      
+    background-color: #f5f5f5;
+}
+
+#mascotte {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 150px;
+    height: auto;
+    z-index: 1000;
+}
+
+#mascotte img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+h1 {
+    color: blue;
+    text-align: center;
+    font-size: 400%;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+
+form {
     display: grid;
-    place-items: center;
+    grid-template-columns: 1fr;  
+    gap: 15px;
+    width: 90%;                  
+    max-width: 500px;            
+    margin: 0 auto;              
+    padding: 30px;
+    border: 3px solid #000;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+div.entrer {
+    display: grid;
+    grid-template-columns: 1fr 2fr;  
+    gap: 10px;
+    align-items: center;
+}
+
+div.entrer label {
+    text-align: right;
+    font-weight: bold;
+    white-space: nowrap;        /* Empêche le label de passer à la ligne */
+}
+
+div.entrer input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+
+div.action {
+    display: grid;
+    grid-template-columns: 1fr 1fr;  
+    gap: 15px;
+    margin-top: 20px;
+}
+
+div.action button {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+div.action button:first-child {
+    background-color: blue;
+    color: white;
+}
+
+div.action button:last-child {
+    background-color: #f0f0f0;
+    color: black;
+    border: 1px solid #ccc;
+}
+
+div.action button:hover {
+    opacity: 0.8;
+    transform: translateY(-2px);
+}
+
+/* Ajuste l'espacement des labels dans le formulaire */
+form label {
+    font-weight: bold;
+    color: #333;
 }

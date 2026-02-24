@@ -10,10 +10,19 @@ header{
     border-bottom: 2px solid black;
 }
 
-/* Logo styles */
+#logo {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 150px;
+    height: auto;
+    z-index: 1000;
+}
+
 #logo img {
-    height: 75px;
-    width: auto;
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* Search bar styles */

@@ -1,9 +1,9 @@
-import "../resources/Page_principal.css"
+import "../resources/Page_principale.css"
 import logo from "../resources/Sciences_SU.png"
-import { Connexion } from "./Connexion"
 
 
-export default function Page_principale() {
+
+export default function Page_principale_connecté(props) {
 
 
   return (
@@ -21,17 +21,8 @@ export default function Page_principale() {
         </div>
 
         <div id="liens">
-          <div id="lien-connexion">
-            <button onClick={() => window.location.href = "../ressources/connexion.html"}> Connexion
-            </button>
-          </div>
-
           <div id="lien-deconnexion">
-            <a href="#">Déconnexion</a>
-          </div>
-
-          <div id="lien-enregistrement">
-            <a href="#">Enregistrement</a>
+            <button onClick={() => props.onNavigate("principale")}>Déconnexion</button>
           </div>
         </div>
       </header>
