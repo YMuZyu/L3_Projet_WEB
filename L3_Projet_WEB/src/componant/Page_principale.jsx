@@ -4,12 +4,12 @@ import logo from "../resources/Sciences_SU.png"
 export default function Page_principale(props) {
   return (
     <>
-      <header className="main-header">
-        <div className="logo-container">
+      <header className="en-tete-principal">
+        <div className="conteneur-logo">
           <img src={logo} alt="Logo du forum" />
         </div>
 
-        <div className="search-container">
+        <div className="conteneur-recherche">
           <form onSubmit={(e) => e.preventDefault()}>
             <input 
               type="text" 
@@ -20,7 +20,7 @@ export default function Page_principale(props) {
           </form>
         </div>
 
-        <div className="auth-links">
+        <div className="liens-authentification">
           <button onClick={() => props.onNavigate("connexion")}>
             Connexion
           </button>
@@ -30,9 +30,9 @@ export default function Page_principale(props) {
         </div>
       </header>
 
-      <main className="main-content">
-        <div className="left-column">
-          <section className="new-message-section">
+      <main className="contenu-principal">
+        <div className="colonne-gauche">
+          <section className="section-nouveau-message">
             <h2>Nouveau message</h2>
             <form>
               <input
@@ -48,24 +48,24 @@ export default function Page_principale(props) {
             </form>
           </section>
 
-          <section className="messages-list-section">
+          <section className="section-liste-messages">
             <h2>Messages récents</h2>
-            <ul className="messages-list">
+            <ul className="liste-messages">
               <li>
-                <div className="message-subject">Sujet 1</div>
-                <div className="message-content">
+                <div className="sujet-message">Sujet 1</div>
+                <div className="contenu-message">
                   Ceci est le contenu du message 1.
                 </div>
               </li>
               <li>
-                <div className="message-subject">Sujet 2</div>
-                <div className="message-content">
+                <div className="sujet-message">Sujet 2</div>
+                <div className="contenu-message">
                   Ceci est le contenu du message 2.
                 </div>
               </li>
               <li>
-                <div className="message-subject">Sujet 3</div>
-                <div className="message-content">
+                <div className="sujet-message">Sujet 3</div>
+                <div className="contenu-message">
                   Ceci est le contenu du message 3.
                 </div>
               </li>
@@ -73,12 +73,12 @@ export default function Page_principale(props) {
           </section>
         </div>
 
-        <aside className="info-section">
+        <aside className="section-informations">
           <h3>Informations du forum</h3>
           <p>Bienvenue sur notre forum de discussion !</p>
-          <p>👋 On aime tous RODIIIIII !</p>
-          <p>📝 N'hésitez pas à participer aux discussions</p>
-          <p>🔔 Restez informés des derniers messages</p>
+          <p>On aime tous RODIIIIII !</p>
+          <p>N'hésitez pas à participer aux discussions</p>
+          <p>Restez informés des derniers messages</p>
         </aside>
       </main>
     </>

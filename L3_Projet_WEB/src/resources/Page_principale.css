@@ -7,12 +7,11 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f5f5;
+    overflow-x: hidden;
 }
 
-/* Header principal */
-.main-header {
+/* En-tête principal */
+.en-tete-principal {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -24,30 +23,30 @@ body {
 }
 
 /* Logo */
-.logo-container {
+.conteneur-logo {
     flex: 0 0 auto;
     width: 150px;
 }
 
-.logo-container img {
+.conteneur-logo img {
     width: 100%;
     height: auto;
     display: block;
 }
 
 /* Zone de recherche */
-.search-container {
+.conteneur-recherche {
     flex: 1;
-    max-width: 500px;
-    margin: 0 20px;
+    max-width: 800px;
+    margin: 20px 60px;
 }
 
-.search-container form {
+.conteneur-recherche form {
     display: flex;
-    gap: 10px;
+    gap: 20px;
 }
 
-.search-container input {
+.conteneur-recherche input {
     flex: 1;
     padding: 10px;
     border: 1px solid #ccc;
@@ -55,34 +54,34 @@ body {
     font-size: 14px;
 }
 
-.search-container input:focus {
+.conteneur-recherche input:focus {
     outline: none;
     border-color: #007bff;
 }
 
-.search-container button {
+.conteneur-recherche button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s;
 }
 
-.search-container button:hover {
+.conteneur-recherche button:hover {
     background-color: #0056b3;
 }
 
-/* Liens et connexion */
-.auth-links {
+/* Liens d'authentification */
+.liens-authentification {
     display: flex;
     gap: 15px;
     flex: 0 0 auto;
 }
 
-.auth-links button {
+.liens-authentification button {
     padding: 10px 20px;
     border: 2px solid #007bff;
     border-radius: 5px;
@@ -93,13 +92,13 @@ body {
     transition: all 0.3s;
 }
 
-.auth-links button:hover {
+.liens-authentification button:hover {
     background-color: #007bff;
     color: white;
 }
 
 /* Contenu principal */
-.main-content {
+.contenu-principal {
     display: grid;
     grid-template-columns: 1fr 300px;
     gap: 20px;
@@ -108,8 +107,8 @@ body {
     margin: 0 auto;
 }
 
-/* Zone nouveaux message (colonne de gauche) */
-.new-message-section {
+/* Zone nouveau message (colonne de gauche) */
+.section-nouveau-message {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
@@ -117,13 +116,13 @@ body {
     margin-bottom: 20px;
 }
 
-.new-message-section h2 {
+.section-nouveau-message h2 {
     margin-bottom: 15px;
     color: #333;
     font-size: 1.2em;
 }
 
-.new-message-section input[type="text"] {
+.section-nouveau-message input[type="text"] {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -132,7 +131,7 @@ body {
     font-size: 14px;
 }
 
-.new-message-section textarea {
+.section-nouveau-message textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
@@ -143,7 +142,7 @@ body {
     min-height: 100px;
 }
 
-.new-message-section button[type="submit"] {
+.section-nouveau-message button[type="submit"] {
     padding: 10px 20px;
     background-color: #28a745;
     color: white;
@@ -154,55 +153,55 @@ body {
     transition: background-color 0.3s;
 }
 
-.new-message-section button[type="submit"]:hover {
+.section-nouveau-message button[type="submit"]:hover {
     background-color: #218838;
 }
 
 /* Liste messages (colonne de gauche) */
-.messages-list-section {
+.section-liste-messages {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.messages-list-section h2 {
+.section-liste-messages h2 {
     margin-bottom: 15px;
     color: #333;
     font-size: 1.2em;
 }
 
-.messages-list {
+.liste-messages {
     list-style: none;
 }
 
-.messages-list li {
+.liste-messages li {
     padding: 15px;
     border-bottom: 1px solid #eee;
     transition: background-color 0.3s;
 }
 
-.messages-list li:hover {
+.liste-messages li:hover {
     background-color: #f8f9fa;
 }
 
-.messages-list li:last-child {
+.liste-messages li:last-child {
     border-bottom: none;
 }
 
-.message-subject {
+.sujet-message {
     font-weight: bold;
     color: #007bff;
     margin-bottom: 5px;
 }
 
-.message-content {
+.contenu-message {
     color: #666;
     font-size: 14px;
 }
 
 /* Zone Informations (colonne de droite) */
-.info-section {
+.section-informations {
     background-color: white;
     border-radius: 8px;
     padding: 20px;
@@ -211,14 +210,14 @@ body {
     top: 20px;
 }
 
-.info-section h3 {
+.section-informations h3 {
     margin-bottom: 15px;
     color: #333;
     border-bottom: 2px solid #007bff;
     padding-bottom: 10px;
 }
 
-.info-section p {
+.section-informations p {
     margin-bottom: 10px;
     color: #666;
     line-height: 1.6;
@@ -226,45 +225,34 @@ body {
 
 /* Responsive design */
 @media (max-width: 1024px) {
-    .main-content {
+    .contenu-principal {
         grid-template-columns: 1fr;
     }
     
-    .info-section {
+    .section-informations {
         position: static;
     }
 }
 
 @media (max-width: 768px) {
-    .main-header {
+    .en-tete-principal {
         flex-direction: column;
         gap: 15px;
         padding: 15px;
     }
     
-    .search-container {
+    .conteneur-recherche {
         width: 100%;
         margin: 10px 0;
     }
     
-    .auth-links {
+    .liens-authentification {
         width: 100%;
         justify-content: center;
     }
     
-    .logo-container {
+    .conteneur-logo {
         width: 100px;
     }
 }
 
-/* Utilitaires */
-.visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-}
