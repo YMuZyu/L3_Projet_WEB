@@ -1,16 +1,23 @@
-export default function CategoryFilter({value, onChange, onSelect}){
+import "./CategoryFilter.css"
+
+export default function CategoryFilter({onSelect,activeCategory,categories}){
+    
     return (
+        <div className="category-filter">
+        <label htmlFor="category-select" >Catégorie :</label>
         <select
-            value={value}
-            onChange={(e) => {
-                onChange(e.target.value)
-                onSelect()
-            }}
+            id="category-select"
+            value={activeCategory}
+            onChange={(e) => onSelect(e.target.value)}
+            className="category-select"
         >
-            <option value="">Toutes les catégories</option>
-            <option value="Economie">Science</option>
-            <option value="Sport">Maths</option>
-            <option value="Informatique">Informatique</option>
+            <option value="">Tous</option>
+            {categories.map((categorie) => (
+            <option key={categorie} value={categorie}>
+                {categorie}
+            </option>
+            ))}
         </select>
-    )
+        </div>
+    );
 }

@@ -1,13 +1,14 @@
-export default function SearchBar({value, onChange, onSearch}){
+import "./SearchBar.css"
+
+export default function SearchBar({onSearch}){
     return (
-        <div>
+        <div className="search-bar">
             <input
                 type="text"
-                value={value}
-                placeholder="Rechercher..."
-                onChange={(e) => onChange(e.target.value)}
+                placeholder="Sujet à rechercher"
+                className="search-input"
+                onChange={(e) => onSearch(e.target.value)}
             />
-            <button onClick={onSearch}>Rechercher</button>
         </div>
-    )
+    );
 }

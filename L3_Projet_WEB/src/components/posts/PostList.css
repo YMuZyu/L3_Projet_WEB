@@ -1,0 +1,80 @@
+.post-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.post-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.post-card:hover {
+  background-color: #f8f9fa;
+  transform: translateY(-2px);
+}
+
+.post-card > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.post-category {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #eaf3ff;
+  color: #1e00ff;
+  border: 1px solid #cfe2ff;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.post-date {
+  font-size: 13px;
+  color: #666;
+}
+
+.post-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  color: #000000;
+}
+
+.post-card p {
+  margin: 0 0 16px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.read-more {
+  padding: 9px 16px;
+  background-color: #2d8ef6;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.read-more:hover {
+  background-color: #0056b3;
+}
+
+.pas-post {
+  text-align: center;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  color: #666;
+}

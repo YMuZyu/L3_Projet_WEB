@@ -35,7 +35,7 @@ function Header(){
         <header className="header-left">
             <div className="logo">
                 <img src={logo} alt="Logo du forum" />
-                MyForum
+                Forum _ J'ai pas de nom
                 <NavMenu />
             </div>
 

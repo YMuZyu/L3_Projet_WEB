@@ -1,14 +1,14 @@
-export default function SortSelector({ value, onChange, onSort }) {
+import "./SortSelector.css"
+
+export default function SortSelector({onSort}) {
   return (
-    <select
-      value={value}
-      onChange={(e) => {
-        onChange(e.target.value);
-        onSort();
-      }}
-    >
-      <option value="recent">Les plus récents</option>
-      <option value="popular">Les plus populaires</option>
-    </select>
+    <div className="sort">
+      <label>Trier par :</label>
+      <select onChange={(e)=> onSort(e.target.value)}>
+        <option value="recent">Plus récents</option>
+        <option value="ancien">Plus anciens</option>
+        <option value="alphabetique">A-Z</option>
+      </select>
+    </div>
   );
 }

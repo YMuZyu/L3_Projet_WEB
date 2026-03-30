@@ -1,35 +1,24 @@
-import { useState } from "react"
+
 import SearchBar from './SearchBar'
 import CategoryFilter from './CategoryFilter'
 import SortSelector from './SortSelector'
 
-export default function FilterBar({setPosts}){
-    const [searchKeyword, setSearchKeyword] = useState("");
-    const [selectedCategory, setSelectedCategory] = useState("");
-    const [sortOrder, setSortOrder] = useState("recent");
+import "./FilterBar.css"
 
-    // envoyer une requete au serveur quand user veut chercher une catégorie ou trier la liste
-    // rafraichir les posts aussi
-    const updatePosts = () => {
-
-    }
+export default function FilterBar({setSearch, setCategory,setSort,activeCategory,categories}){
 
     return (
         <section className="filter-bar">
             <SearchBar
-                value={searchKeyword}
-                onChange={(val) => setSearchKeyword(val)}
-                onSearch={updatePosts}
+                onSearch={setSearch}
             />
             <CategoryFilter
-                value={selectedCategory}
-                onChange={(val) => setSelectedCategory(val)}
-                onSelect={updatePosts}
+                onSelect={setCategory}
+                activeCategory={activeCategory}
+                categories={categories}
             />
             <SortSelector
-                value={sortOrder}
-                onChange={(val) => setSortOrder(val)}
-                onSort={updatePosts}
+                onSort={setSort}
             />
         </section>
     )

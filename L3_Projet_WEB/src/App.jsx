@@ -16,17 +16,14 @@ function App() {
     <div className='app'>
       <Header />
       <ContentArea />
-    </div>
+      {/* {page === "principale" && <Page_principale onNavigate={setPage}/>} */}
 
-      
-      
-      // {/* {page === "principale" && <Page_principale onNavigate={setPage}/>} */}
+      {/* {page === "connexion" && <Connexion onNavigate={setPage}/>} */}
 
-      // {/* {page === "connexion" && <Connexion onNavigate={setPage}/>} */}
+      {/* {page === "principale_connecté" && <Page_principale_connecté onNavigate={setPage}/>} */}
 
-      // {/* {page === "principale_connecté" && <Page_principale_connecté onNavigate={setPage}/>} */}
-
-      // {/* {page === "enregistrement" && <Enregistrement onNavigate={setPage}/>} */}
+      {/* {page === "enregistrement" && <Enregistrement onNavigate={setPage}/>} */}
+      </div>
    )
 }
 
