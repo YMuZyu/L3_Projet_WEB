@@ -4,7 +4,7 @@ import FilterBar from '../../filter/FilterBar'
 
 import "./HomePage.css"
 
-function HomePage(){
+export default function HomePage(){
 
     const [posts, setPosts] = useState([
         { id: 1, sujet: "Sujet 1", contenu: "Contenu du message 1", date: "2024-03-01", category: "Economie" },
@@ -50,5 +50,3 @@ function HomePage(){
     )
    
 }
-
-export default HomePage

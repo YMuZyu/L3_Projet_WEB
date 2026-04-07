@@ -1,19 +1,16 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+html, body, #root {
+  height: 100%;
+  width: 100%;
+
+  margin: 0;
+  padding: 0;
+
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .app {
-  font-family: 'Segoe UI', sans-serif;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-}
-
-.content-area {
-  flex: 1;
-  padding: 20px;
   background-color: var(--bg-light);
 }

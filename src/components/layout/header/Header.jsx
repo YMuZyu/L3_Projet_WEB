@@ -9,7 +9,7 @@ import UserDropdown from '../../user/UserDropdown'
 
 import './Header.css'
 
-function Header(){
+export default function Header(){
     
     const [isNotifOpen, setIsNotifOpen] = useState(false)
     const [isUserOpen, setIsUserOpen] = useState(false)
@@ -32,35 +32,38 @@ function Header(){
     }, [])
 
     return (
-        <header className="header-left">
+        <header className="header">
+
             <div className="logo">
                 <img src={logo} alt="Logo du forum" />
                 Forum _ J'ai pas de nom
-                <NavMenu />
             </div>
+
+            <NavMenu />
 
             <div className='header-right'>
-                <NotifButton 
-                    onClick={() => {
-                        setIsNotifOpen(!isNotifOpen)
-                        setIsUserOpen(false)
-                    }}
-                    ref={notifRef}
-                />
-                <UserButton 
-                    onClick={() => {
-                        setIsUserOpen(!isUserOpen)
-                        setIsNotifOpen(false)
-                    }}
-                    ref={userRef} 
-                />
+                <div ref={notifRef}>
+                    <NotifButton 
+                        onClick={() => {
+                            setIsNotifOpen(!isNotifOpen)
+                            setIsUserOpen(false)
+                        }}
+                    />
+                    {isNotifOpen && <NotifDropdown buttonRef={notifRef} />}
+                </div>
+                
+                <div ref={userRef}>
+                    <UserButton 
+                        onClick={() => {
+                            setIsUserOpen(!isUserOpen)
+                            setIsNotifOpen(false)
+                        }}
+                    />
+                    {isUserOpen && <UserDropdown buttonRef={userRef} />}
+                </div>
             </div>
-
-            {isNotifOpen && <NotifDropdown buttonRef={notifRef} />}
-            {isUserOpen && <UserDropdown buttonRef={userRef} />}
+            
             
         </header>
     )
 }
-
-export default Header
