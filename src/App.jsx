@@ -1,5 +1,3 @@
-import { Routes, Route } from 'react-router-dom'
-
 import Header from './components/layout/header/Header'
 import ContentArea from './components/layout/contentArea/ContentArea'
 

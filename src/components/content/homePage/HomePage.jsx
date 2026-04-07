@@ -17,7 +17,7 @@ export default function HomePage(){
     const [sort, setSort] = useState("recent");
 
     // mecanisme de triage :
-    const postsAffiché = posts
+    const postsAffiches = posts
     .filter(p => p.sujet.toLowerCase().includes(search.toLowerCase()))
     .filter(p => category === "" || p.category === category)
     .sort((a, b) => {
@@ -37,7 +37,7 @@ export default function HomePage(){
     const categories = [...new Set(posts.map((post) => post.category))];
         
     return (
-        <main className="contenu-principal">
+        <main className="homepage">
             <FilterBar 
                 setSearch={setSearch} 
                 setCategory={setCategory} 
@@ -45,7 +45,7 @@ export default function HomePage(){
                 activeCategory={category}
                 categories={categories}
             />
-            <PostList posts={postsAffiché} />
+            <PostList posts={postsAffiches} />
         </main>
     )
    

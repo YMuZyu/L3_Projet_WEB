@@ -1,5 +1,10 @@
-.contenu-principal {
+.homepage {
+  width: 100%;
+  margin: 0 auto;
+  padding: 1rem;
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 1rem;
 }
