@@ -9,7 +9,7 @@ function UserDropdown({buttonRef}){
         <Dropdown buttonRef={buttonRef}>
             <button >Page Profil</button>
             <button onClick={() => navigate("/login")}>Connexion</button>
-            <button>Inscription</button>
+            <button onClick={() => navigate("/register")}>Inscription</button>
             <button>Déconnexion</button>
         </Dropdown>
     )

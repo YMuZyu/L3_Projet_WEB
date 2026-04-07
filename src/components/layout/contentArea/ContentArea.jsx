@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "../../content/homePage/HomePage";
 import LoginPage from "../../content/loginPage/LoginPage";
+import Register from "../../content/registerPage/RegisterPage";
 
 import './ContentArea.css'
 
@@ -15,6 +16,7 @@ export default function ContentArea() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<Register />} />
 
         {/* <Route path="/logout" element={<LogoutPage />} />
         <Route path="/post/:id" element={<PostPage />} />

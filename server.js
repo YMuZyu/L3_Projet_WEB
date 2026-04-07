@@ -36,7 +36,7 @@ let db;
 async function connectDB() {
   try {
     await client.connect(); //connexion à mongo
-    db = client.db("monprojet");
+    db = client.db("projet_Web");
     console.log("Mongo connecté");
   } catch (err) {
     console.error("Erreur Mongo", err);
@@ -51,6 +51,8 @@ connectDB();
 app.get("/", (req, res) => {
   res.send("Serveur OK");
 });
+
+// cf TME 7, on doit écrire tout les méthodes nécessaire pour les routes, puis dans notre serveur, la route sera appelé avec la methode
 
 // ========================
 // CREATE USER
