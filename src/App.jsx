@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
 
 import Header from './components/layout/header/Header'
-import ContentArea from './components/layout/ContentArea'
+import ContentArea from './components/layout/contentArea/ContentArea'
 
 import './App.css'
 

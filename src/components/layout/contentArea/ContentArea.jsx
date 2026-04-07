@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "../content/homePage/HomePage";
-import LoginPage from "../content/loginPage/LoginPage";
+import HomePage from "../../content/homePage/HomePage";
+import LoginPage from "../../content/loginPage/LoginPage";
 
 import './ContentArea.css'
 
