@@ -8,3 +8,9 @@
   flex-direction: column;
   gap: 1rem;
 }
+
+@media (max-width: 768px) {
+  .homepage {
+    padding: 0.5rem;
+  }
+}

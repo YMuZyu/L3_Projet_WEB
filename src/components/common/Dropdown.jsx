@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Dropdown.css"
 
-function Dropdown({buttonRef, children}){
+export default function Dropdown({buttonRef, children}){
     const [position, setPosition] = useState({top:0, left:0})
     const [show, setShow] = useState(false)
 
@@ -31,5 +31,3 @@ function Dropdown({buttonRef, children}){
        </div>
     )
 }
-
-export default Dropdown

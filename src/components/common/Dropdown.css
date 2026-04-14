@@ -1,38 +1,53 @@
 .dropdown {
   position: absolute;
-  background-color: white;
+  background-color: #dddddd;
   border: 1px solid #ccc;
+  border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  border-radius: 6px;
+  /* min-width: 160px; */
+
   padding: 8px 0;
   z-index: 1000;
+
   opacity: 0;
   transform: translateY(-10px);
-  transition: all 0.2s ease;
-  min-width: 160px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-/* 显示动画 */
 .dropdown.show {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* 箭头三角形 */
 .dropdown-arrow {
   position: absolute;
-  top: -8px; /* 箭头在上方 */
-  left: 16px; /* 距离左边按钮对齐 */
+  top: -8px; 
+  left: 16px;
   width: 0;
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid white; /* 箭头颜色与背景相同 */
+  border-bottom: 8px solid #dddddd;
   filter: drop-shadow(0 -1px 1px rgba(0,0,0,0.1));
 }
 
 .dropdown-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.dropdown-content button {
+  background: none;
+  border: none;
+  text-align: left;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+
+.dropdown-content button:hover {
+  background-color: #f0f0f0;
 }
