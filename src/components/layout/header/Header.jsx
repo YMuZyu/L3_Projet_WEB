@@ -9,7 +9,7 @@ import UserDropdown from '../../user/UserDropdown'
 
 import './Header.css'
 
-export default function Header(){
+export default function Header({isLogged}){
     
     const [isNotifOpen, setIsNotifOpen] = useState(false)
     const [isUserOpen, setIsUserOpen] = useState(false)
@@ -49,7 +49,7 @@ export default function Header(){
                             setIsUserOpen(false)
                         }}
                     />
-                    {isNotifOpen && <NotifDropdown buttonRef={notifRef} />}
+                    {isNotifOpen && <NotifDropdown buttonRef={notifRef} isLogged={isLogged} />}
                 </div>
                 
                 <div ref={userRef}>
@@ -59,7 +59,7 @@ export default function Header(){
                             setIsNotifOpen(false)
                         }}
                     />
-                    {isUserOpen && <UserDropdown buttonRef={userRef} />}
+                    {isUserOpen && <UserDropdown buttonRef={userRef} isLogged={isLogged}/>}
                 </div>
             </div>
             

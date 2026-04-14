@@ -10,12 +10,12 @@ import './ContentArea.css'
 // import CreatePostPage from "../../content/createPostPage/CreatePostPage";
 // import ProfilePage from "../../content/profilePage/ProfilePage";
 
-export default function ContentArea() {
+export default function ContentArea({isLogged, onLoginSuccess, onLogout}) {
   return (
     <div className="content-area">
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<HomePage isLogged={isLogged}/>} />
+        <Route path="/login" element={<LoginPage onLoginSuccess={onLoginSuccess}/>} />
         <Route path="/register" element={<Register />} />
 
         {/* <Route path="/logout" element={<LogoutPage />} />

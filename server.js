@@ -18,6 +18,7 @@ app.use(express.json()); //permet transformer le JSON reçu en objet JS
 
 
 //garder l'utilisateur connecté
+//on a utilisé session, un système intégré de express-session qui stocke des données coté serveur, et qui crée un cookie de session côté client pour faire le lien entre les deux
 app.use(session({
   secret: "secret",
   resave: false,
@@ -54,8 +55,26 @@ app.get("/", (req, res) => {
 
 // cf TME 7, on doit écrire tout les méthodes nécessaire pour les routes, puis dans notre serveur, la route sera appelé avec la methode
 
+
 // ========================
-// CREATE USER
+// Vérification si connecté 
+// ========================
+app.get("/connexion", (req, res) => {
+  if (!req.session.userId) {
+    return res.json({
+      logged: false
+    });
+  }
+
+  return res.json({
+    logged: true,
+    userId: req.session.userId
+  });
+});
+
+
+// ========================
+// CREATE USER / Register
 // ========================
 app.put("/user", async (req, res) => {
   const { login, password, password2 } = req.body;
