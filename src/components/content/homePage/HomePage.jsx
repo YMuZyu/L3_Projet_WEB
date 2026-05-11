@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PostList from '../../posts/PostList'
 import FilterBar from '../../filter/FilterBar'
 
@@ -6,11 +6,28 @@ import "./HomePage.css"
 
 export default function HomePage(){
 
-    const [posts, setPosts] = useState([
-        { id: 1, sujet: "Sujet 1", contenu: "Contenu du message 1", date: "2024-03-01", category: "Economie" },
-        { id: 2, sujet: "Sujet 2", contenu: "Contenu du message 2", date: "2024-03-05", category: "Sport" },
-        { id: 3, sujet: "Sujet 3", contenu: "Contenu du message 3", date: "2024-03-02", category: "Informatique" }
-    ])
+    const [posts, setPosts] = useState([])
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await fetch('http://localhost:10000/posts');
+                if (response.ok) {
+                    const data = await response.json();
+                    setPosts(data.map(post => ({
+                        id: post._id,
+                        sujet: post.title,
+                        contenu: post.content,
+                        date: post.createdAt,
+                        category: post.domain
+                    })));
+                }
+            } catch (error) {
+                console.error('Erreur lors du fetch des posts:', error);
+            }
+        };
+        fetchPosts();
+    }, []);
 
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("");

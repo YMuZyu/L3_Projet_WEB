@@ -5,6 +5,7 @@ export default function NavMenu(){
         <nav className="nav-menu">
             <NavLink to="/">Acceuil</NavLink>
             <NavLink to="/categories">Catégories</NavLink>
+            <NavLink to="/create">Création</NavLink>
         </nav>
     )
 }

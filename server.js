@@ -171,6 +171,66 @@ app.post("/user/login", async (req, res) => {
 });
 
 // ========================
+// CREATE POST
+// ========================
+app.post("/posts", async (req, res) => {
+  const { title, content, domain } = req.body;
+
+  if (!title || !content || !domain) {
+    return res.status(400).json({
+      status: 400,
+      message: "Champs manquants"
+    });
+  }
+
+  if (!req.session.userId) {
+    return res.status(401).json({
+      status: 401,
+      message: "Non connecté"
+    });
+  }
+
+  try {
+    const posts = db.collection("posts");
+
+    await posts.insertOne({
+      title,
+      content,
+      domain,
+      userId: req.session.userId,
+      createdAt: new Date()
+    });
+
+    return res.status(201).json({
+      status: 201,
+      message: "Post créé"
+    });
+
+  } catch (err) {
+    return res.status(500).json({
+      status: 500,
+      message: "Erreur serveur"
+    });
+  }
+});
+
+// ========================
+// GET POSTS
+// ========================
+app.get("/posts", async (req, res) => {
+  try {
+    const posts = db.collection("posts");
+    const allPosts = await posts.find({}).toArray();
+    return res.json(allPosts);
+  } catch (err) {
+    return res.status(500).json({
+      status: 500,
+      message: "Erreur serveur"
+    });
+  }
+});
+
+// ========================
 // LANCEMENT
 // ========================
 app.listen(PORT, () => {
