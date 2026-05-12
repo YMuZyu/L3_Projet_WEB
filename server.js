@@ -116,6 +116,7 @@ app.put("/user", async (req, res) => {
     });
 
   } catch (err) {
+    console.error(err);
     return res.status(500).json({
       status: 500,
       message: "Erreur serveur"
@@ -163,6 +164,7 @@ app.post("/user/login", async (req, res) => {
     });
 
   } catch (err) {
+    console.error(err);
     return res.status(500).json({
       status: 500,
       message: "Erreur serveur"
@@ -207,6 +209,7 @@ app.post("/posts", async (req, res) => {
     });
 
   } catch (err) {
+    console.error(err);
     return res.status(500).json({
       status: 500,
       message: "Erreur serveur"
@@ -223,6 +226,7 @@ app.get("/posts", async (req, res) => {
     const allPosts = await posts.find({}).toArray();
     return res.json(allPosts);
   } catch (err) {
+    console.error(err);
     return res.status(500).json({
       status: 500,
       message: "Erreur serveur"
