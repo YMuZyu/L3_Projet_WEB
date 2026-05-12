@@ -60,7 +60,7 @@ export default function CreatePostPage() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="domain">Domaine:</label>
+                    <label htmlFor="domain">Catégorie:</label>
                     <input
                         type="text"
                         id="domain"
