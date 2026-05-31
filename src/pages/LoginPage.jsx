@@ -1,36 +1,29 @@
-import { useState } from "react";
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import '../styles/pages/LoginPage.css'
 
-import '../styles/pages/LoginPage.css';
+export default function LoginPage({ onLogin }) {
+  const navigate = useNavigate()
 
-
-export default function LoginPage({ onLoginSuccess }) {
-  const navigate = useNavigate();
-
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (!username || !password) {
-      setError("Veuillez remplir tous les champs");
-      return;
+      setError("Veuillez remplir tous les champs")
+      return
     }
 
     try {
       const res = await fetch("http://localhost:10000/user/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({
-          login: username,
-          password: password
-        })
-      });
+        body: JSON.stringify({ login: username, password: password })
+      })
 
       const data = await res.json();
 
@@ -39,9 +32,9 @@ export default function LoginPage({ onLoginSuccess }) {
         return;
       }
 
-      setError("");
-      onLoginSuccess();
-      navigate("/");
+      setError("")
+      onLogin(data.user)
+      navigate("/")
 
     } catch (err) {
       setError("Erreur serveur");
@@ -71,6 +64,7 @@ export default function LoginPage({ onLoginSuccess }) {
 
         <button type="submit">Se connecter</button>
       </form>
+      <p>Pas encore de compte ? <span onClick={() => navigate("/register")}>S'inscrire</span></p>
     </div>
-  );
+  )
 }

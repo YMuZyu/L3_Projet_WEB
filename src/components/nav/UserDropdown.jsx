@@ -1,28 +1,23 @@
 import { useNavigate } from "react-router-dom"
-import Dropdown from "../common/Dropdown"
+import Dropdown from "../common/Dropdown.jsx"
 
-function UserDropdown({buttonRef,isLogged}){
+export default function UserDropdown({ buttonRef, user, isConnected, onLogout }) {
     
     const navigate = useNavigate()
 
-    if(isLogged === true){
+    if (isConnected) {
         return (
-        <Dropdown buttonRef={buttonRef}>
-            <button >Page Profil</button>
-            <button>Déconnexion</button>
-        </Dropdown>
+            <Dropdown buttonRef={buttonRef}>
+                <button onClick={() => navigate(`/profile/${user?.id}`)}>Page Profil</button>
+                <button onClick={onLogout}>Déconnexion</button>
+            </Dropdown>
+        )
+    } else {
+        return (
+            <Dropdown buttonRef={buttonRef}>
+                <button onClick={() => navigate("/login")}>Connexion</button>
+                <button onClick={() => navigate("/register")}>Inscription</button>
+            </Dropdown>
         )
     }
-    else{
-        return (
-        <Dropdown buttonRef={buttonRef}>
-            <button onClick={() => navigate("/login")}>Connexion</button>
-            <button onClick={() => navigate("/register")}>Inscription</button>
-        </Dropdown>
-        )
-    }
-
-    
 }
-
-export default UserDropdown

@@ -1,11 +1,13 @@
-import Dropdown from "../common/Dropdown"
+import Dropdown from "../common/Dropdown.jsx"
+import NotifList from "./NotifList.jsx"
 
-export default function NotifDropdown({buttonRef}){
+export default function NotifDropdown({ buttonRef, isConnected }) {
     return (
         <Dropdown buttonRef={buttonRef}>
-            <p>Message 1</p>
-            <p>Message 2</p>
-            <p>Message 3</p>
+            {isConnected 
+                ? <NotifList />
+                : <p className="notif-empty">Connectez-vous pour voir vos notifications</p>
+            }
         </Dropdown>
     )
 }

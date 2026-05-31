@@ -1,15 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
+import logo from "../../resources/Sciences_SU.png"
+import NotifButton from '../notifications/NotifButton.jsx'
+import NotifDropdown from '../notifications/NotifDropdown.jsx'
+import UserButton from '../nav/UserButton.jsx'
+import UserDropdown from '../nav/UserDropdown.jsx'
+import '../../styles/layout/Header.css'
 
-import logo from "../../../resources/Sciences_SU.png"
-import NavMenu from '../nav/NavMenu'
-import NotifButton from '../../notification/NotifButton'
-import NotifDropdown from '../../notification/NotifDropdown'
-import UserButton from '../user/UserButton'
-import UserDropdown from '../user/UserDropdown'
-
-import './Header.css'
-
-export default function Header({isLogged}){
+export default function Header({ user, isConnected, onLogout }) {
     
     const [isNotifOpen, setIsNotifOpen] = useState(false)
     const [isUserOpen, setIsUserOpen] = useState(false)
@@ -39,8 +36,6 @@ export default function Header({isLogged}){
                 Forum _ J'ai pas de nom
             </div>
 
-            <NavMenu />
-
             <div className='header-right'>
                 <div ref={notifRef}>
                     <NotifButton 
@@ -49,7 +44,7 @@ export default function Header({isLogged}){
                             setIsUserOpen(false)
                         }}
                     />
-                    {isNotifOpen && <NotifDropdown buttonRef={notifRef} isLogged={isLogged} />}
+                    {isNotifOpen && <NotifDropdown buttonRef={notifRef} isConnected={isConnected} />}
                 </div>
                 
                 <div ref={userRef}>
@@ -59,11 +54,10 @@ export default function Header({isLogged}){
                             setIsNotifOpen(false)
                         }}
                     />
-                    {isUserOpen && <UserDropdown buttonRef={userRef} isLogged={isLogged}/>}
+                    {isUserOpen && <UserDropdown buttonRef={userRef} user={user} isConnected={isConnected} onLogout={onLogout} />}
                 </div>
             </div>
-            
-            
+
         </header>
     )
 }
