@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from "react-router-dom"
 import logo from "../../resources/Sciences_SU.png"
 import NotifButton from '../notifications/NotifButton.jsx'
 import NotifDropdown from '../notifications/NotifDropdown.jsx'
@@ -7,7 +8,9 @@ import UserDropdown from '../nav/UserDropdown.jsx'
 import '../../styles/layout/Header.css'
 
 export default function Header({ user, isConnected, onLogout }) {
-    
+
+    const navigate = useNavigate()
+
     const [isNotifOpen, setIsNotifOpen] = useState(false)
     const [isUserOpen, setIsUserOpen] = useState(false)
 
@@ -30,10 +33,11 @@ export default function Header({ user, isConnected, onLogout }) {
 
     return (
         <header className="header">
-
-            <div className="logo">
-                <img src={logo} alt="Logo du forum" />
-                Forum _ J'ai pas de nom
+            <div className="header-left">
+                <div className="logo" onClick={() => navigate('/')}>
+                    <img src={logo} alt="Logo du forum" />
+                    Forum
+                </div>
             </div>
 
             <div className='header-right'>
