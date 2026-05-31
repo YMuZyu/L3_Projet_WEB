@@ -1,0 +1,13 @@
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+
+  background: var(--card-bg);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-soft);
+  box-shadow: var(--shadow-leaf);
+  margin-bottom: 2rem;
+}

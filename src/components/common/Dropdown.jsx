@@ -21,10 +21,10 @@ export default function Dropdown({buttonRef, children}){
     return (
        <div
         className={`dropdown ${show ? "show" : ""}`}
-        style={{
-            top: `${position.top}px`,
-            left: `${position.left}px`
-        }}
+        // style={{
+        //     top: `${position.top}px`,
+        //     left: `${position.left}px`
+        // }}
        >
             <div className="dropdown-arrow" />
             <div className="dropdown-content">{children}</div>
