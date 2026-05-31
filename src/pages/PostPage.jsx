@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import PostDetail from "../components/posts/PostDetail.jsx"
 import ReplySection from "../components/reply/ReplySection.jsx"
 import '../styles/pages/PostPage.css'
@@ -7,6 +7,8 @@ import '../styles/pages/PostPage.css'
 export default function PostPage({ user, isConnected }) {
 
     const { postId } = useParams()
+    const navigate = useNavigate()
+
     const [post, setPost] = useState(null)
     const [replies, setReplies] = useState([])
     const [loading, setLoading] = useState(true)
@@ -45,11 +47,23 @@ export default function PostPage({ user, isConnected }) {
         fetchReplies()
     }, [postId])
 
-    if (loading) return <p className="loading">Chargement...</p>
-    if (error) return <p className="error">{error}</p>
+    if (loading) return (
+        <div className="post-page">
+            <button className="back-btn" onClick={() => navigate('/')}>← Retour</button>
+            <p>Chargement...</p>
+        </div>
+    )
+
+    if (error) return (
+        <div className="post-page">
+            <button className="back-btn" onClick={() => navigate('/')}>← Retour</button>
+            <p className="error">{error}</p>
+        </div>
+    )
 
     return (
         <div className="post-page">
+            <button className="back-btn" onClick={() => navigate('/')}>← Retour</button>
             <PostDetail post={post} />
             <ReplySection
                 postId={postId}
