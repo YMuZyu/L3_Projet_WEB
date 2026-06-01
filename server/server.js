@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import session from "express-session";
-import { MongoClient } from "mongodb";
+import { MongoClient, ObjectId } from "mongodb";
 import { promises as fs } from "fs";
 import { Buffer } from "buffer";
 import path from "path";
@@ -19,7 +19,9 @@ try {
     const [key, ...rest] = trimmed.split("=");
     process.env[key.trim()] = rest.join("=").trim();
   }
-} catch { /* pas de fichier .env, on utilise les valeurs par défaut */ }
+} catch { 
+  /* pas de fichier .env, on utilise les valeurs par défaut */ 
+}
 
 const app = express();
 const PORT = 10000;
@@ -31,10 +33,13 @@ await fs.mkdir(uploadsDir, { recursive: true });
 // ========================
 // Middleware
 // ========================
-app.use(cors({ //utilisation de cors pour autoriser React à parler au serveur 
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+app.use(
+  cors({ 
+    //utilisation de cors pour autoriser React à parler au serveur 
+    origin: "http://localhost:5173",
+    credentials: true
+  })
+);
 
 app.use(express.json({ limit: '10mb' }));
 app.use('/uploads', express.static(uploadsDir));
@@ -91,6 +96,16 @@ app.get("/connexion", (req, res) => {
 
 
 // ========================
+// GET SESSION USER
+// ========================
+app.get("/user/me", (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ message: "Non connecté" });
+  }
+  return res.status(200).json({ user: req.session.user });
+});
+
+// ========================
 // CREATE USER / Register
 // ========================
 app.put("/user", async (req, res) => {
@@ -122,14 +137,18 @@ app.put("/user", async (req, res) => {
       });
     }
 
-    await users.insertOne({
+    const result = await users.insertOne({
       login,
-      password
+      password, 
+      isAdmin: false,
+      isValidated: false, // attend validation admin
+      createdAt: new Date()
     });
 
     return res.status(201).json({
       status: 201,
-      message: "Utilisateur créé"
+      message: "Utilisateur créé", 
+      user: { _id: result.insertedId, login }
     });
 
   } catch (err) {
@@ -173,11 +192,20 @@ app.post("/user/login", async (req, res) => {
       });
     }
 
-    req.session.user = { _id: user._id, login: user.login };
+    req.session.user = {
+      _id: user._id, 
+      login: user.login,
+      isAdmin: user.isAdmin || false,
+      isValidated: user.isValidated || false 
+    };
 
     return res.status(200).json({
-      user: { _id: user._id, login: user.login },
-      roles: user.roles || []
+      user: {
+        _id: user._id, 
+        login: user.login,
+        isAdmin: user.isAdmin || false,
+        isValidated: user.isValidated || false
+      }
     });
 
   } catch (err) {
@@ -190,25 +218,31 @@ app.post("/user/login", async (req, res) => {
 });
 
 // ========================
-// GET SESSION USER
-// ========================
-app.get("/user/me", (req, res) => {
-  if (!req.session.user) {
-    return res.status(401).json({ message: "Non connecté" });
-  }
-  return res.status(200).json({
-    user: req.session.user,
-    roles: req.session.user.roles || []
-  });
-});
-
-// ========================
 // LOGOUT
 // ========================
 app.post("/user/logout", (req, res) => {
   req.session.destroy(() => {
     res.status(200).json({ message: "Déconnecté" });
   });
+});
+
+// ========================
+// GET USER by ID
+// ========================
+app.get("/user/:id", async (req, res) => {
+  try {
+    const users = db.collection("users");
+    const user = await users.findOne(
+      { _id: new ObjectId(req.params.id) },
+      { projection: { password: 0 } }
+    );
+ 
+    if (!user) return res.status(404).json({ message: "Utilisateur introuvable" });
+ 
+    return res.json(user);
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
 });
 
 // ========================
@@ -285,6 +319,161 @@ app.get("/posts", async (req, res) => {
       status: 500,
       message: "Erreur serveur"
     });
+  }
+});
+
+// ========================
+// GET ONE POST
+// ========================
+app.get("/posts/:postId", async (req, res) => {
+  try {
+    const posts = db.collection("posts");
+    const post = await posts.findOne({ _id: new ObjectId(req.params.postId) });
+ 
+    if (!post) return res.status(404).json({ message: "Post introuvable" });
+ 
+    return res.json(post);
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// ========================
+// GET POSTS BY USER
+// ========================
+app.get("/posts/user/:userId", async (req, res) => {
+  try {
+    const posts = db.collection("posts");
+    const userPosts = await posts
+      .find({ userId: req.params.userId })
+      .sort({ createdAt: -1 })
+      .toArray();
+    return res.json(userPosts);
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+ 
+// ========================
+// GET REPLIES
+// ========================
+app.get("/posts/:postId/replies", async (req, res) => {
+  try {
+    const replies = db.collection("replies");
+    const allReplies = await replies
+      .find({ postId: req.params.postId })
+      .sort({ createdAt: 1 })
+      .toArray();
+    return res.json(allReplies);
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+ 
+// ========================
+// CREATE REPLY
+// ========================
+app.post("/posts/:postId/replies", async (req, res) => {
+  const { content } = req.body;
+ 
+  if (!content) return res.status(400).json({ message: "Contenu manquant" });
+  if (!req.session.user) return res.status(401).json({ message: "Non connecté" });
+ 
+  try {
+    const replies = db.collection("replies");
+    const posts = db.collection("posts");
+ 
+    const newReply = {
+      postId: req.params.postId,
+      content,
+      author: req.session.user.login,
+      userId: req.session.user._id.toString(),
+      createdAt: new Date(),
+    };
+ 
+    const result = await replies.insertOne(newReply);
+ 
+    await posts.updateOne(
+      { _id: new ObjectId(req.params.postId) },
+      { $inc: { comments: 1 } }
+    );
+ 
+    return res.status(201).json({ ...newReply, _id: result.insertedId });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+ 
+// ========================
+// Middleware admin
+// ========================
+function requireAdmin(req, res, next) {
+  if (!req.session.user || !req.session.user.isAdmin) {
+    return res.status(403).json({ message: "Accès refusé" });
+  }
+  next();
+}
+ 
+// ========================
+// GET ALL USERS (admin)
+// ========================
+app.get("/admin/users", requireAdmin, async (req, res) => {
+  try {
+    const users = db.collection("users");
+    const allUsers = await users
+      .find({}, { projection: { password: 0 } })
+      .toArray();
+    return res.json(allUsers);
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+ 
+// ========================
+// VALIDER / REJETER un utilisateur (admin)
+// ========================
+app.patch("/admin/users/:id/validate", requireAdmin, async (req, res) => {
+  const { isValidated } = req.body;
+ 
+  try {
+    const users = db.collection("users");
+    await users.updateOne(
+      { _id: new ObjectId(req.params.id) },
+      { $set: { isValidated } }
+    );
+    return res.json({
+      message: isValidated ? "Utilisateur validé" : "Utilisateur rejeté",
+    });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+ 
+// ========================
+// DONNER / RETIRER admin (admin)
+// ========================
+app.patch("/admin/users/:id/admin", requireAdmin, async (req, res) => {
+  const { isAdmin } = req.body;
+ 
+  // Un admin ne peut pas modifier ses propres droits
+  if (req.params.id === req.session.user._id.toString()) {
+    return res
+      .status(403)
+      .json({ message: "Impossible de modifier ses propres droits" });
+  }
+ 
+  try {
+    const users = db.collection("users");
+    await users.updateOne(
+      { _id: new ObjectId(req.params.id) },
+      { $set: { isAdmin } }
+    );
+    return res.json({
+      message: isAdmin ? "Droits admin accordés" : "Droits admin retirés",
+    });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
   }
 });
 

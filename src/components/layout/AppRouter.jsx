@@ -5,6 +5,7 @@ import RegisterPage from '../../pages/RegisterPage.jsx'
 import PostPage from '../../pages/PostPage.jsx'
 import CreatePostPage from '../../pages/CreatePostPage.jsx'
 import UserProfilePage from '../../pages/UserProfilePage.jsx'
+import AdminPage from '../../pages/AdminPage.jsx'
 
 import QuestionsPage from '../../pages/QuestionsPage.jsx'
 import TagsPage from '../../pages/TagsPage.jsx'
@@ -19,6 +20,7 @@ export default function NavMenu({ user, isConnected, onLogin, onLogout }) {
       <Route path="/post/:postId" element={<PostPage />} />
       <Route path="/create" element={<CreatePostPage isConnected={isConnected} />} />
       <Route path="/profile/:userId" element={<UserProfilePage user={user} />} />
+      <Route path="/admin" element={<AdminPage />} />
 
       <Route path="/questions" element={<QuestionsPage />} />
       <Route path="/tags" element={<TagsPage />} />
