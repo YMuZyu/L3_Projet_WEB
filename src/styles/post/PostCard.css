@@ -110,9 +110,18 @@
   cursor: pointer;
   flex-shrink: 0;
   transition: opacity 0.15s;
+  overflow: hidden;
 }
 
 .post-author-badge:hover { opacity: 0.8; }
+
+.author-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
 
 .post-author-name {
   cursor: pointer;

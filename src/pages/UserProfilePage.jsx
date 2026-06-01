@@ -61,14 +61,24 @@ export default function UserProfilePage({ user, isConnected }) {
                     isOwnProfile={isOwnProfile}
                     onAvatarUpdate={handleAvatarUpdate}
                 />
-                {isOwnProfile && (
-                    <button
-                        className="edit-profile-btn"
-                        onClick={() => navigate(`/profile/${userId}/edit`)}
-                    >
-                        Modifier le profil
-                    </button>
-                )}
+                <div className="profile-actions">
+                    {isOwnProfile && (
+                        <button
+                            className="edit-profile-btn"
+                            onClick={() => navigate(`/profile/${userId}/edit`)}
+                        >
+                            Modifier le profil
+                        </button>
+                    )}
+                    {isConnected && !isOwnProfile && (
+                        <button
+                            className="message-profile-btn"
+                            onClick={() => navigate(`/messages/${userId}`)}
+                        >
+                            ✉️ Envoyer un message
+                        </button>
+                    )}
+                </div>
             </div>
 
             <div className="profile-tabs">

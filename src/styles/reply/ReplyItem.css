@@ -50,3 +50,24 @@
 
 .like-btn.small:hover { background: var(--card-bg); }
 .like-btn.small.liked { border-color: #e0245e; color: #e0245e; }
+
+.like-btn.small.dislike-btn { color: var(--text-muted); }
+.like-btn.small.dislike-btn.disliked { border-color: #f59e0b; color: #f59e0b; }
+
+.delete-reply-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  transition: background 0.15s, color 0.15s;
+}
+
+.delete-reply-btn:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.delete-reply-btn:disabled { opacity: 0.5; cursor: not-allowed; }
