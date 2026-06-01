@@ -1,7 +1,7 @@
 import ReplyItem from "./ReplyItem.jsx"
 import '../../styles/reply/ReplySection.css'
 
-export default function ReplyList({ replies, postId, user }) {
+export default function ReplyList({ replies, postId, user, onDelete }) {
     if (!replies || replies.length === 0) {
         return <p className="no-reply">Aucun commentaire pour l'instant</p>
     }
@@ -9,7 +9,7 @@ export default function ReplyList({ replies, postId, user }) {
     return (
         <div className="reply-list">
             {replies.map(reply => (
-                <ReplyItem key={reply._id} reply={reply} postId={postId} user={user} />
+                <ReplyItem key={reply._id} reply={reply} postId={postId} user={user} onDelete={onDelete} />
             ))}
         </div>
     )

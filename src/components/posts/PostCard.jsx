@@ -38,13 +38,18 @@ export default function PostCard({ post }) {
                     onClick={goToProfile}
                     title={`Voir le profil de ${post.author}`}
                 >
-                    {post.author?.[0]?.toUpperCase() ?? '?'}
+                    {post.authorAvatar
+                        ? <img src={`http://localhost:10000${post.authorAvatar}`} alt={post.author} className="author-avatar-img" />
+                        : post.author?.[0]?.toUpperCase() ?? '?'
+                    }
                 </span>
                 <span className="post-author-name" onClick={goToProfile}>
                     {post.author}
                 </span>
                 <span className="post-footer-right">
                     ❤️ {post.likes?.length ?? 0}
+                    &nbsp;
+                    👎 {post.dislikes?.length ?? 0}
                     &nbsp;&nbsp;
                     💬 {post.comments ?? 0}
                 </span>

@@ -13,24 +13,49 @@ export default function Header({ user, isConnected, onLogout }) {
     const navigate = useNavigate()
 
     const [isNotifOpen, setIsNotifOpen] = useState(false)
-    const [isUserOpen, setIsUserOpen] = useState(false)
+    const [isUserOpen,  setIsUserOpen]  = useState(false)
+    const [notifCount,  setNotifCount]  = useState(0)
 
     const notifRef = useRef(null)
-    const userRef = useRef(null)
+    const userRef  = useRef(null)
 
-    // Fermer le dropdown quand l'utilisateir clique un endroit ailleurs
-    useEffect( () => {
-        function closeDropdown(event){
-            if (notifRef.current && !notifRef.current.contains(event.target)){
+    // Récupérer le compteur de notifications non lues
+    useEffect(() => {
+        if (!isConnected) { setNotifCount(0); return }
+
+        const fetchCount = async () => {
+            try {
+                const res = await fetch('http://localhost:10000/notifications/count', { credentials: 'include' })
+                if (res.ok) {
+                    const data = await res.json()
+                    setNotifCount(data.count)
+                }
+            } catch {}
+        }
+
+        fetchCount()
+        const interval = setInterval(fetchCount, 30000)
+        return () => clearInterval(interval)
+    }, [isConnected])
+
+    // Fermer les dropdowns au clic extérieur
+    useEffect(() => {
+        function closeDropdown(event) {
+            if (notifRef.current && !notifRef.current.contains(event.target)) {
                 setIsNotifOpen(false)
             }
-            if (userRef.current && !userRef.current.contains(event.target)){
+            if (userRef.current && !userRef.current.contains(event.target)) {
                 setIsUserOpen(false)
             }
         }
         document.addEventListener('mousedown', closeDropdown)
         return () => document.removeEventListener('mousedown', closeDropdown)
     }, [])
+
+    const handleNotifOpen = () => {
+        setIsNotifOpen(!isNotifOpen)
+        setIsUserOpen(false)
+    }
 
     return (
         <header className="header">
@@ -47,17 +72,20 @@ export default function Header({ user, isConnected, onLogout }) {
 
             <div className='header-right'>
                 <div ref={notifRef} className="header-icon-wrapper">
-                    <NotifButton 
-                        onClick={() => {
-                            setIsNotifOpen(!isNotifOpen)
-                            setIsUserOpen(false)
-                        }}
+                    <NotifButton
+                        onClick={handleNotifOpen}
+                        count={notifCount}
                     />
-                    {isNotifOpen && <NotifDropdown isConnected={isConnected} />}
+                    {isNotifOpen && (
+                        <NotifDropdown
+                            isConnected={isConnected}
+                            onRead={() => setNotifCount(0)}
+                        />
+                    )}
                 </div>
-                
+
                 <div ref={userRef} className="header-icon-wrapper">
-                    <UserButton 
+                    <UserButton
                         onClick={() => {
                             setIsUserOpen(!isUserOpen)
                             setIsNotifOpen(false)

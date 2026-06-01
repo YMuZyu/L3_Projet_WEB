@@ -96,3 +96,11 @@
   border-color: #e0245e;
   color: #e0245e;
 }
+
+.post-vote-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.like-btn.dislike-btn { color: var(--text-muted); }
+.like-btn.dislike-btn.disliked { border-color: #f59e0b; color: #f59e0b; }

@@ -1,7 +1,12 @@
-export default function NotifButton({ onClick }) {
+import '../../styles/layout/Header.css'
+
+export default function NotifButton({ onClick, count }) {
     return (
-        <button className="header-button" onClick={onClick}>
+        <button className="header-button notif-button-wrap" onClick={onClick}>
             🔔
+            {count > 0 && (
+                <span className="notif-badge">{count > 99 ? '99+' : count}</span>
+            )}
         </button>
     )
 }

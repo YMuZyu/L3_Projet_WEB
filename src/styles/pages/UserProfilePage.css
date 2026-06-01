@@ -16,6 +16,28 @@
   flex-direction: column;
   gap: 0.75rem;
 }
+.profile-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.message-profile-btn {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: var(--radius-pill);
+  background-color: var(--card-mint, #d1fae5);
+  color: #065f46;
+  font-weight: 700;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.message-profile-btn:hover {
+  opacity: 0.85;
+}
+
 .edit-profile-btn {
   align-self: flex-end;
   padding: 0.5rem 1.25rem;
