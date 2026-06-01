@@ -17,7 +17,7 @@ export default function ReplySection({ postId, replies, setReplies, user, isConn
                 : <p className="reply-login">Connectez-vous pour laisser un commentaire</p>
             }
 
-            <ReplyList replies={replies} />
+            <ReplyList replies={replies} postId={postId} user={user} />
         </div>
     )
 }

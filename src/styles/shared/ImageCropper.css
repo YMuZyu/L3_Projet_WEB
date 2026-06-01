@@ -1,0 +1,83 @@
+.image-cropper-picker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cropper-file-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5em 1em;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--radius-soft);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.cropper-file-label:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.cropper-file-label input[type="file"] {
+  display: none;
+}
+
+.image-cropper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cropper-hint {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.cropper-viewport {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-soft);
+  background: #111;
+  box-shadow: var(--shadow-card);
+}
+
+.cropper-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.cropper-cancel {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 0.4em 1em;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.cropper-cancel:hover {
+  background: var(--card-bg);
+}
+
+.cropper-confirm {
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0.4em 1.2em;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.cropper-confirm:hover {
+  opacity: 0.9;
+}

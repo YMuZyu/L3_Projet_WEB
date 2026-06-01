@@ -1,16 +1,17 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import ImageCropper from '../components/shared/ImageCropper.jsx'
 import '../styles/pages/CreatePostPage.css'
 
 export default function CreatePostPage({ isConnected }) {
     const navigate = useNavigate()
 
-    const [title, setTitle] = useState('')
-    const [content, setContent] = useState('')
-    const [category, setCategory] = useState('')
-    const [imageBase64, setImageBase64] = useState(null)
-    const [imagePreview, setImagePreview] = useState(null)
-    const [error, setError] = useState('')
+    const [title,        setTitle]        = useState('')
+    const [content,      setContent]      = useState('')
+    const [category,     setCategory]     = useState('')
+    const [imageBase64,  setImageBase64]  = useState(null)
+    const [showCropper,  setShowCropper]  = useState(false)
+    const [error,        setError]        = useState('')
 
     if (!isConnected) {
         return (
@@ -21,15 +22,9 @@ export default function CreatePostPage({ isConnected }) {
         )
     }
 
-    const handleImageChange = (e) => {
-        const file = e.target.files[0]
-        if (!file) return
-        const reader = new FileReader()
-        reader.onload = (ev) => {
-            setImageBase64(ev.target.result)
-            setImagePreview(ev.target.result)
-        }
-        reader.readAsDataURL(file)
+    const handleCrop = (base64) => {
+        setImageBase64(base64)
+        setShowCropper(false)
     }
 
     const handleSubmit = async (e) => {
@@ -48,17 +43,15 @@ export default function CreatePostPage({ isConnected }) {
                 credentials: 'include',
                 body: JSON.stringify({ title, content, category, imageBase64 })
             })
-
             const data = await response.json()
 
             if (response.ok) {
                 navigate('/')
             } else if (response.status === 401) {
-                setError(data.message || 'Vous devez être connecté pour créer un post')
+                setError(data.message || 'Vous devez être connecté')
             } else {
                 setError(data.message || 'Erreur lors de la création du post')
             }
-
         } catch (err) {
             setError('Erreur serveur')
             console.error(err)
@@ -107,20 +100,24 @@ export default function CreatePostPage({ isConnected }) {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="image">Image (optionnelle)</label>
-                    <input
-                        type="file"
-                        id="image"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                    />
-                    {imagePreview && (
-                        <div className="image-preview">
-                            <img src={imagePreview} alt="Aperçu" />
-                            <button type="button" onClick={() => { setImageBase64(null); setImagePreview(null) }}>
+                    <label>Image (optionnelle)</label>
+                    {imageBase64 ? (
+                        <div className="image-preview-box">
+                            <img src={imageBase64} alt="Aperçu" />
+                            <button type="button" onClick={() => { setImageBase64(null); setShowCropper(false) }}>
                                 Supprimer l'image
                             </button>
                         </div>
+                    ) : showCropper ? (
+                        <ImageCropper
+                            shape="rect"
+                            onCrop={handleCrop}
+                            onCancel={() => setShowCropper(false)}
+                        />
+                    ) : (
+                        <button type="button" className="add-image-btn" onClick={() => setShowCropper(true)}>
+                            📷 Ajouter une image
+                        </button>
                     )}
                 </div>
 

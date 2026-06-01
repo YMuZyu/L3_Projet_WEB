@@ -47,7 +47,7 @@ export default function RegisterPage({ onLogin }) {
             setMessage(data.message)
 
             if (response.status === 201) {
-                onLogin(data.user)
+                onLogin(data)
                 setTimeout(() => navigate("/"), 1000)
             }
 

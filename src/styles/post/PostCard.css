@@ -87,11 +87,42 @@
   line-height: 1.5;
 }
 
-/* Footer : auteur + commentaires */
+/* Footer : auteur + stats */
 .post-card-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.5rem;
   font-size: 0.82rem;
   color: var(--text-muted);
+}
+
+.post-author-badge {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--primary, #6c63ff);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+
+.post-author-badge:hover { opacity: 0.8; }
+
+.post-author-name {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: color 0.15s;
+}
+
+.post-author-name:hover { color: var(--primary, #6c63ff); }
+
+.post-footer-right {
+  margin-left: auto;
 }

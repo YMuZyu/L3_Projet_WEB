@@ -139,16 +139,17 @@ app.put("/user", async (req, res) => {
 
     const result = await users.insertOne({
       login,
-      password, 
+      password,
       isAdmin: false,
-      isValidated: false, // attend validation admin
+      isValidated: false,
       createdAt: new Date()
     });
 
+    req.session.user = { _id: result.insertedId, login, isAdmin: false, isValidated: false };
+
     return res.status(201).json({
-      status: 201,
-      message: "Utilisateur créé", 
-      user: { _id: result.insertedId, login }
+      user: { _id: result.insertedId, login, isAdmin: false, isValidated: false },
+      roles: []
     });
 
   } catch (err) {
@@ -323,23 +324,7 @@ app.get("/posts", async (req, res) => {
 });
 
 // ========================
-// GET ONE POST
-// ========================
-app.get("/posts/:postId", async (req, res) => {
-  try {
-    const posts = db.collection("posts");
-    const post = await posts.findOne({ _id: new ObjectId(req.params.postId) });
- 
-    if (!post) return res.status(404).json({ message: "Post introuvable" });
- 
-    return res.json(post);
-  } catch (err) {
-    return res.status(500).json({ message: "Erreur serveur" });
-  }
-});
-
-// ========================
-// GET POSTS BY USER
+// GET POSTS BY USER  (doit être avant /posts/:postId)
 // ========================
 app.get("/posts/user/:userId", async (req, res) => {
   try {
@@ -349,6 +334,20 @@ app.get("/posts/user/:userId", async (req, res) => {
       .sort({ createdAt: -1 })
       .toArray();
     return res.json(userPosts);
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// ========================
+// GET ONE POST
+// ========================
+app.get("/posts/:postId", async (req, res) => {
+  try {
+    const posts = db.collection("posts");
+    const post = await posts.findOne({ _id: new ObjectId(req.params.postId) });
+    if (!post) return res.status(404).json({ message: "Post introuvable" });
+    return res.json(post);
   } catch (err) {
     return res.status(500).json({ message: "Erreur serveur" });
   }
@@ -405,6 +404,101 @@ app.post("/posts/:postId/replies", async (req, res) => {
   }
 });
  
+// ========================
+// LIKE POST
+// ========================
+app.post("/posts/:postId/like", async (req, res) => {
+  if (!req.session.user) return res.status(401).json({ message: "Non connecté" });
+  try {
+    const posts = db.collection("posts");
+    const post = await posts.findOne({ _id: new ObjectId(req.params.postId) });
+    if (!post) return res.status(404).json({ message: "Post introuvable" });
+
+    const userId = req.session.user._id.toString();
+    const likes = post.likes || [];
+    const hasLiked = likes.includes(userId);
+
+    await posts.updateOne(
+      { _id: post._id },
+      hasLiked ? { $pull: { likes: userId } } : { $push: { likes: userId } }
+    );
+    return res.json({ likes: hasLiked ? likes.length - 1 : likes.length + 1, liked: !hasLiked });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// ========================
+// LIKE REPLY
+// ========================
+app.post("/posts/:postId/replies/:replyId/like", async (req, res) => {
+  if (!req.session.user) return res.status(401).json({ message: "Non connecté" });
+  try {
+    const replies = db.collection("replies");
+    const reply = await replies.findOne({ _id: new ObjectId(req.params.replyId) });
+    if (!reply) return res.status(404).json({ message: "Réponse introuvable" });
+
+    const userId = req.session.user._id.toString();
+    const likes = reply.likes || [];
+    const hasLiked = likes.includes(userId);
+
+    await replies.updateOne(
+      { _id: reply._id },
+      hasLiked ? { $pull: { likes: userId } } : { $push: { likes: userId } }
+    );
+    return res.json({ likes: hasLiked ? likes.length - 1 : likes.length + 1, liked: !hasLiked });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// ========================
+// GET REPLIES BY USER (historique profil)
+// ========================
+app.get("/user/:userId/replies", async (req, res) => {
+  try {
+    const replies = db.collection("replies");
+    const userReplies = await replies
+      .find({ userId: req.params.userId })
+      .sort({ createdAt: -1 })
+      .toArray();
+    return res.json(userReplies);
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// ========================
+// UPDATE AVATAR
+// ========================
+app.patch("/user/me/avatar", async (req, res) => {
+  if (!req.session.user) return res.status(401).json({ message: "Non connecté" });
+  const { imageBase64 } = req.body;
+  if (!imageBase64) return res.status(400).json({ message: "Image manquante" });
+
+  try {
+    const matches = imageBase64.match(/^data:([a-zA-Z]+\/[a-zA-Z+]+);base64,(.+)$/);
+    if (!matches) return res.status(400).json({ message: "Format invalide" });
+
+    const ext = matches[1].split('/')[1].replace('+xml', '');
+    const buffer = Buffer.from(matches[2], 'base64');
+    const filename = `avatar-${req.session.user._id}-${Date.now()}.${ext}`;
+    await fs.writeFile(path.join(uploadsDir, filename), buffer);
+    const avatarUrl = `/uploads/${filename}`;
+
+    const users = db.collection("users");
+    await users.updateOne(
+      { _id: req.session.user._id },
+      { $set: { avatar: avatarUrl } }
+    );
+    req.session.user.avatar = avatarUrl;
+
+    return res.json({ avatar: avatarUrl });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
 // ========================
 // Middleware admin
 // ========================

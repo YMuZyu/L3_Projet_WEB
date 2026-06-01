@@ -64,7 +64,7 @@ export default function PostPage({ user, isConnected }) {
     return (
         <div className="post-page">
             <button className="back-btn" onClick={() => navigate('/')}>← Retour</button>
-            <PostDetail post={post} />
+            <PostDetail post={post} user={user} />
             <ReplySection
                 postId={postId}
                 replies={replies}

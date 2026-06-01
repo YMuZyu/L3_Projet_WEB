@@ -43,3 +43,95 @@
   font-weight: 700;
   color: var(--text-main);
 }
+
+.profile-tabs {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0;
+}
+
+.profile-tabs button {
+  background: none;
+  border: none;
+  padding: 0.6em 1.2em;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.profile-tabs button.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  font-weight: 700;
+}
+
+.user-replies {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.user-reply-item {
+  background: var(--card-bg);
+  border-radius: var(--radius-soft);
+  padding: 0.9rem 1.1rem;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 0.15s;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.user-reply-item:hover { transform: translateY(-2px); }
+
+.user-reply-content {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.user-reply-date {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* Avatar */
+.user-avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-edit-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 0.7rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-cropper-wrapper {
+  margin-top: 0.75rem;
+}
+
+.saving-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 0.25rem 0 0;
+}
