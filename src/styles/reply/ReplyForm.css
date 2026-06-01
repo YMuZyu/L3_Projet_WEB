@@ -3,17 +3,17 @@
   flex-direction: column;
   gap: 0.75rem;
   background-color: var(--card-bg);
-  border: 1.5px solid var(--border-light);
   border-radius: var(--radius-soft);
   padding: 1.25rem;
+  box-shadow: var(--shadow-card);
 }
 
 /* Textarea (pas de className, ciblé via parent) */
 .reply-form textarea {
   width: 100%;
-  padding: 0.7rem 1rem;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-soft);
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 12px;
   background-color: var(--bg-color);
   color: var(--text-main);
   font-size: 0.95rem;
@@ -21,11 +21,11 @@
   line-height: 1.6;
   resize: vertical;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: box-shadow 0.2s ease;
 }
 
 .reply-form textarea:focus {
-  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary);
 }
 
 .reply-form textarea::placeholder {
@@ -38,12 +38,8 @@
   align-items: center;
   gap: 0.75rem;
 }
-
-.error {
+.reply-form .error {
   flex: 1;
-  margin: 0;
-  font-size: 0.85rem;
-  color: #e05c5c;
 }
 
 /* Bouton envoyer (pas de className, ciblé via parent) */
@@ -53,11 +49,14 @@
   border: none;
   border-radius: var(--radius-pill);
   background-color: var(--primary);
-  color: #fff;
+  color: var(--on-primary);
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: none;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .reply-form button[type="submit"]:hover {
@@ -72,17 +71,18 @@
 
 /* Bouton toggle emoji (pas de className) */
 .emoji-picker > button {
-  padding: 0.3rem 0.5rem;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-soft);
+  padding: 0.35rem 0.6rem;
+  border: none;
+  border-radius: 12px;
   background-color: var(--bg-color);
   font-size: 1.1rem;
   cursor: pointer;
-  transition: border-color 0.2s ease;
+  box-shadow: none;
+  transition: background 0.2s ease;
 }
 
 .emoji-picker > button:hover {
-  border-color: var(--primary);
+  background-color: var(--hover-bg);
 }
 
 /* Liste d'emojis */
@@ -96,21 +96,20 @@
   gap: 0.25rem;
   padding: 0.5rem;
   background-color: var(--card-bg);
-  border: 1.5px solid var(--border-light);
   border-radius: var(--radius-soft);
-  box-shadow: var(--shadow-card);
+  box-shadow: var(--shadow-hover);
   animation: dropdown-in 0.15s ease forwards;
 }
 
 .emoji-list span {
   font-size: 1.2rem;
   padding: 0.2rem;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   text-align: center;
   transition: background 0.15s ease;
 }
 
 .emoji-list span:hover {
-  background-color: var(--border-light);
+  background-color: var(--hover-bg);
 }

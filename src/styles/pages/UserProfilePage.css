@@ -6,45 +6,38 @@
   flex-direction: column;
   gap: 2rem;
 }
-
 .loading {
   text-align: center;
   padding: 3rem;
   color: var(--text-muted);
 }
-
-/* Header profil : UserInfo + bouton modifier */
 .profile-header {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
-
 .edit-profile-btn {
   align-self: flex-end;
   padding: 0.5rem 1.25rem;
-  border: 1.5px solid var(--primary);
+  border: none;
   border-radius: var(--radius-pill);
-  background-color: transparent;
+  background-color: var(--primary-soft);
   color: var(--primary);
   font-weight: 700;
   font-size: 0.875rem;
   cursor: pointer;
+  box-shadow: none;
   transition: all 0.2s ease;
 }
-
 .edit-profile-btn:hover {
   background-color: var(--primary);
-  color: #fff;
+  color: var(--on-primary);
 }
-
-/* Section posts */
 .profile-content {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
-
 .profile-content > h3 {
   font-size: 1.1rem;
   font-weight: 700;

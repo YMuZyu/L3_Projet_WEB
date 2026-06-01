@@ -17,8 +17,8 @@
   color: var(--text-muted);
   font-size: 0.9rem;
   background-color: var(--card-bg);
-  border: 1.5px solid var(--border-light);
   border-radius: var(--radius-soft);
+  box-shadow: var(--shadow-card);
 }
 
 /* Liste */

@@ -2,14 +2,15 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  width: 100%;
   background-color: var(--card-bg);
-  border: 1.5px solid var(--border-light);
   border-radius: var(--radius-soft);
   box-shadow: var(--shadow-card);
+  box-sizing: border-box;
 }
-
+ 
 @media (max-width: 600px) {
   .filter-bar {
     flex-direction: column;

@@ -6,21 +6,20 @@
   flex-direction: column;
   gap: 1.5rem;
 }
-
 .back-btn {
   align-self: flex-start;
-  padding: 0.45rem 1rem;
-  border: 1.5px solid var(--border-light);
+  padding: 0.45rem 1.1rem;
+  border: none;
   border-radius: var(--radius-pill);
-  background-color: transparent;
+  background-color: var(--card-bg);
   color: var(--text-muted);
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
+  box-shadow: var(--shadow-card);
   transition: all 0.2s ease;
 }
-
 .back-btn:hover {
-  border-color: var(--primary);
   color: var(--primary);
+  transform: translateY(-1px);
 }

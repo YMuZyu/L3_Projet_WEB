@@ -1,112 +1,111 @@
 .register-page {
-  width: 100%;
-  max-width: 440px;
-  margin: 3rem auto;
+  width: min(540px, 90vw);
+  margin: 4rem auto;
   padding: 0 1rem;
 }
-
+ 
 .register-page h2 {
   text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.75rem;
-  color: var(--primary);
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-main);
 }
-
+ 
 .register-form {
   display: flex;
   flex-direction: column;
-  gap: 0.875rem;
+  gap: 1rem;
   background-color: var(--card-bg);
-  border: 1.5px solid var(--border-light);
   border-radius: var(--radius-soft);
-  padding: 2rem;
+  padding: 2.5rem;
   box-shadow: var(--shadow-card);
 }
-
-/* Inputs sans className */
+ 
 .register-form input {
   width: 100%;
-  padding: 0.7rem 1rem;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-soft);
+  padding: 0.9rem 1.25rem;
+  border: none;
+  border-radius: 12px;
   background-color: var(--bg-color);
   color: var(--text-main);
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-family: inherit;
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: box-shadow 0.2s ease;
+  box-sizing: border-box;
 }
-
+ 
 .register-form input:focus {
-  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--text-main);
 }
-
+ 
 .register-form input::placeholder {
   color: var(--text-muted);
 }
-
-/* Champ mot de passe + bouton œil */
+ 
 .password-field {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
-
+ 
 .password-field input {
   flex: 1;
 }
-
+ 
 .password-field button {
-  padding: 0.6rem 0.75rem;
-  border: 1.5px solid var(--border-light);
-  border-radius: var(--radius-soft);
-  background-color: var(--bg-color);
-  font-size: 1rem;
-  cursor: pointer;
-  transition: border-color 0.2s ease;
-}
-
-.password-field button:hover {
-  border-color: var(--primary);
-}
-
-.message {
-  font-size: 0.875rem;
-  text-align: center;
-  color: var(--primary);
-  margin: 0;
-}
-
-.register-btn {
-  padding: 0.7rem;
+  padding: 0.75rem 0.9rem;
   border: none;
-  border-radius: var(--radius-pill);
-  background-color: var(--primary);
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 700;
+  border-radius: 12px;
+  background-color: var(--bg-color);
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
+  box-shadow: none;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
 }
-
-.register-btn:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-1px);
+ 
+.password-field button:hover {
+  background-color: var(--hover-bg);
 }
-
-.register-form > p {
-  text-align: center;
+ 
+.message {
   font-size: 0.9rem;
+  text-align: center;
   color: var(--text-muted);
   margin: 0;
 }
-
-.register-form > p span {
-  color: var(--primary);
+ 
+.register-btn {
+  padding: 0.9rem;
+  border: none;
+  border-radius: var(--radius-pill);
+  background-color: var(--primary);
+  color: var(--on-primary);
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
+  box-shadow: none;
+  transition: opacity 0.2s ease;
+  margin-top: 0.25rem;
 }
-
-.register-form > p span:hover {
-  color: var(--primary-dark);
+ 
+.register-btn:hover {
+  opacity: 0.85;
+}
+ 
+.register-form > p {
+  text-align: center;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+ 
+.register-form > p span {
+  color: var(--text-main);
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
