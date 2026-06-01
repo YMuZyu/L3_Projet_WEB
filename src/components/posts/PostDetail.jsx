@@ -7,7 +7,7 @@ export default function PostDetail({ post }) {
     return (
         <div className="post-detail">
             <div className="post-detail-header">
-                <span className="post-category">{post.domain}</span>
+                <span className="post-category">{post.category}</span>
                 <span className="post-date">{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
             <h1 className="post-detail-title">{post.title}</h1>

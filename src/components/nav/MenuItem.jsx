@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import '../../styles/nav/MenuItem.css'
+// import '../../styles/nav/MenuItem.css'
 
 export default function MenuItem({ label, to, onClick }) {
     const navigate = useNavigate()

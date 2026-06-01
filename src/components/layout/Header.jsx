@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
 import logo from "../../resources/Sciences_SU.png"
+import NavMenu from '../nav/NavMenu.jsx'
 import NotifButton from '../notifications/NotifButton.jsx'
 import NotifDropdown from '../notifications/NotifDropdown.jsx'
 import UserButton from '../nav/UserButton.jsx'
@@ -40,25 +41,29 @@ export default function Header({ user, isConnected, onLogout }) {
                 </div>
             </div>
 
+            <div className="header-center">
+                <NavMenu isConnected={isConnected} />
+            </div>
+
             <div className='header-right'>
-                <div ref={notifRef}>
+                <div ref={notifRef} className="header-icon-wrapper">
                     <NotifButton 
                         onClick={() => {
                             setIsNotifOpen(!isNotifOpen)
                             setIsUserOpen(false)
                         }}
                     />
-                    {isNotifOpen && <NotifDropdown buttonRef={notifRef} isConnected={isConnected} />}
+                    {isNotifOpen && <NotifDropdown isConnected={isConnected} />}
                 </div>
                 
-                <div ref={userRef}>
+                <div ref={userRef} className="header-icon-wrapper">
                     <UserButton 
                         onClick={() => {
                             setIsUserOpen(!isUserOpen)
                             setIsNotifOpen(false)
                         }}
                     />
-                    {isUserOpen && <UserDropdown buttonRef={userRef} user={user} isConnected={isConnected} onLogout={onLogout} />}
+                    {isUserOpen && <UserDropdown user={user} isConnected={isConnected} onLogout={onLogout} />}
                 </div>
             </div>
 

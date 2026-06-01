@@ -1,5 +1,5 @@
 :root {
-  font-family: 'Nunito', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
   font-size: 16px;
@@ -12,35 +12,42 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* variable des couleurs du theme */
-  --bg-color: #f2faf5;
-  --primary-green: #4fa16d;
-  --dark-green: #3a7a53;
-  --flower-pink: #fba9b6;
-  --card-bg: #ffffff;
-  --text-main: #2c4032;
-  --text-muted: #5dbd7c;
-  --border-light: #070707;
+  /* ---- Couleurs ---- */
+  --bg-color:     #edfaf7;   /* vert menthe très clair */
+  --card-bg:      #ffffff;
+  --primary:      #00c4b4;   /* turquoise vif */
+  --primary-dark: #009e90;
+  --accent:       #ff4d8d;   /* rose bonbon */
+  --accent-dark:  #e0397a;
+  --yellow:       #ffc107;   /* jaune bonbon — pour les tags, badges */
+  --blue:         #3b9eff;   /* bleu ciel — variante accent */
+  --text-main:    #0d2b28;
+  --text-muted:   #4a8a80;
+  --border-light: #b8ece5;
 
+  /* ---- Formes & ombres ---- */
   --radius-soft: 16px;
   --radius-pill: 50px;
-  --shadow-leaf: 0 4px 20px rgba(107, 194, 139, 0.12);
+  --shadow-card:  0 4px 20px rgba(0, 196, 180, 0.12);
+  --shadow-hover: 0 8px 28px rgba(0, 196, 180, 0.22);
 
   color-scheme: light dark;
   color: var(--text-main);
   background-color: var(--bg-color);
 }
 
+/* ---- Liens ---- */
 a {
   font-weight: 500;
-  color: var(--primary-green);
-  text-decoration: inherit;
-  transition: color 0.3s ease;
+  color: var(--primary-dark);
+  text-decoration: none;
+  transition: color 0.25s ease;
 }
 a:hover {
-  color: var(--dark-green);
+  color: var(--accent);
 }
 
+/* ---- Scrollbar ---- */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -52,65 +59,89 @@ a:hover {
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-green);
+  background: var(--primary);
 }
 
+/* ---- Body ---- */
 body {
   margin: 0;
-  /* display: flex;
-  place-items: center; */
   min-width: 320px;
   min-height: 100vh;
-  background-image: radial-gradient(circle at top left, #ffffff, transparent 70%);
+  background-color: var(--bg-color);
 }
 
+/* ---- Images ---- */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
+/* ---- Titres ---- */
 h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-  color: var(--dark-green);
+  font-size: 2.4em;
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+h2 {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: var(--text-main);
+}
+h3 {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: var(--text-main);
 }
 
+/* ---- Boutons ---- */
 button {
   border-radius: var(--radius-soft);
-  border: 1px solid var(--border-light);
-  padding: 0.6em 1.2em;
+  border: 1.5px solid var(--border-light);
+  padding: 0.55em 1.2em;
   font-size: 1em;
   font-weight: 600;
   font-family: inherit;
   background-color: var(--card-bg);
-  color: var(--dark-green);
+  color: var(--text-main);
   cursor: pointer;
-  /* transition: border-color 0.25s; */
-  transition: all 0.25s ease;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+  transition: all 0.22s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 button:hover {
-  border-color: var(--primary-green);
+  border-color: var(--primary);
+  color: var(--primary);
   transform: translateY(-2px);
-  box-shadow: var(--shadow-leaf);
+  box-shadow: var(--shadow-hover);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px solid rgba(107, 194, 139, 0.4);
+  outline: 3px solid rgba(0, 196, 180, 0.35);
+  outline-offset: 2px;
 }
 
+/* ---- Thème sombre ---- */
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color: #1a241d;
-    --card-bg: #223026;
-    --text-main: #e2ede5;
-    --text-muted: #8fa696;
-    --border-light: #2c4032;
-    --shadow-leaf: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --bg-color:     #1e2023;   /* gris anthracite */
+    --card-bg:      #2a2d31;
+    --primary:      #00e5d2;   /* turquoise lumineux */
+    --primary-dark: #33ece2;
+    --accent:       #ff6ba8;   /* rose bonbon clair */
+    --accent-dark:  #ff90be;
+    --yellow:       #ffd54f;
+    --blue:         #64b5ff;
+    --text-main:    #dff5f2;
+    --text-muted:   #8a9099;
+    --border-light: #3a3d42;
+    --shadow-card:  0 4px 20px rgba(0, 0, 0, 0.40);
+    --shadow-hover: 0 8px 28px rgba(0, 0, 0, 0.50);
   }
+}
 
-  body {
-    background-image: radial-gradient(circle at top left, rgba(255,255,255,0.05), transparent 70%);
-  }
+.error {
+  color: #e05c5c;
+  font-size: 0.875rem;
+  margin: 0;
 }

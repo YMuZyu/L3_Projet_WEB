@@ -1,9 +1,9 @@
-import { forwardRef } from "react";
+import '../../styles/nav/UserButton.css'
 
-const UserButton = forwardRef( ({onClick}, ref) => (
-    <button className="header-button" ref={ref} onClick={onClick}>
-        👤
-    </button>
-))
-
-export default UserButton
+export default function UserButton({ onClick }) {
+    return (
+        <button className="header-button" onClick={onClick}>
+            👤
+        </button>
+    )
+}

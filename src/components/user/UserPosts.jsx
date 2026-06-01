@@ -18,7 +18,7 @@ export default function UserPosts({ posts, onPostClick }) {
                     onClick={() => onPostClick ? onPostClick(post._id) : navigate(`/post/${post._id}`)}
                 >
                     <div className="user-post-header">
-                        <span className="post-category">{post.domain}</span>
+                        <span className="post-category">{post.category}</span>
                         <span className="post-date">
                             {new Date(post.createdAt).toLocaleDateString()}
                         </span>

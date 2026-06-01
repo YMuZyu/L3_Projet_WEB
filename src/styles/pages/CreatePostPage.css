@@ -1,44 +1,104 @@
 .create-post-page {
-    padding: 20px;
-    max-width: 600px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.create-post-page h2 {
-    margin-bottom: 20px;
+.create-post-page > h2 {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: var(--primary);
 }
 
-.create-post-page form div {
-    margin-bottom: 15px;
+/* Message non connecté */
+.create-post-page > p {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
 }
 
-.create-post-page label {
-    display: block;
-    margin-bottom: 5px;
+.create-post-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background-color: var(--card-bg);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-soft);
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
 }
 
-.create-post-page input,
-.create-post-page textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }
 
-.create-post-page textarea {
-    height: 150px;
-    resize: vertical;
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-muted);
 }
 
-.create-post-page button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+/* Inputs et textarea sans className */
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-soft);
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
 }
 
-.create-post-page button:hover {
-    background-color: #0056b3;
+.form-group input:focus,
+.form-group textarea:focus {
+  border-color: var(--primary);
+}
+
+.form-group textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+/* Boutons annuler / créer */
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.form-actions button[type="button"] {
+  padding: 0.6rem 1.25rem;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  background-color: transparent;
+  color: var(--text-muted);
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form-actions button[type="button"]:hover {
+  border-color: var(--text-muted);
+  color: var(--text-main);
+}
+
+.form-actions button[type="submit"] {
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: var(--radius-pill);
+  background-color: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.form-actions button[type="submit"]:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
 }

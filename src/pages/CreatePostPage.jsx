@@ -7,7 +7,7 @@ export default function CreatePostPage({ isConnected }) {
 
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
-    const [domain, setDomain] = useState('')
+    const [category, setCategory] = useState('')
     const [error, setError] = useState('')
 
     if (!isConnected) {
@@ -33,7 +33,7 @@ export default function CreatePostPage({ isConnected }) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({ title, content, domain })
+                body: JSON.stringify({ title, content, category })
             })
 
             const data = await response.json()
@@ -70,13 +70,13 @@ export default function CreatePostPage({ isConnected }) {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="domain">Catégorie</label>
+                    <label htmlFor="category">Catégorie</label>
                     <input
                         type="text"
-                        id="domain"
-                        value={domain}
-                        onChange={(e) => setDomain(e.target.value)}
-                        placeholder="Ex: Informatique, Mathématiques..."
+                        id="category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                        placeholder="Ex: Python, JavaScript, Java..."
                         required
                     />
                 </div>

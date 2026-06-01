@@ -5,16 +5,16 @@ export default function PostCard({ post }) {
     const navigate = useNavigate()
 
     return (
-        <article className="post-card" onClick={() => navigate(`/post/${post.id}`)}>
+        <article className="post-card" onClick={() => navigate(`/post/${post._id}`)}>
             <div className="post-card-header">
                 <span className="post-category">{post.category}</span>
-                <span className="post-date">{new Date(post.date).toLocaleDateString()}</span>
+                <span className="post-date">{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
-            <h3 className="post-title">{post.sujet}</h3>
+            <h3 className="post-title">{post.title}</h3>
             <p className="post-preview">
-                {post.contenu.length > 150
-                    ? post.contenu.substring(0, 150) + "..."
-                    : post.contenu
+                {post.content.length > 150
+                    ? post.content.substring(0, 150) + "..."
+                    : post.content
                 }
             </p>
             <div className="post-card-footer">

@@ -14,7 +14,7 @@ export default function UserProfilePage({ user, isConnected }) {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
 
-    const isOwnProfile = user && user.id === userId
+    const isOwnProfile = user && user._id === userId
 
     useEffect(() => {
         const fetchProfile = async () => {

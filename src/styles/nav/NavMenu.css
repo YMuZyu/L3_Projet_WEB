@@ -1,0 +1,14 @@
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Override de MenuItem pour le contexte horizontal */
+.nav-menu .menu-item {
+  width: auto;
+  padding: 0.45rem 0.9rem;
+  font-size: 0.9rem;
+  border-radius: var(--radius-pill);
+  white-space: nowrap;
+}

@@ -1,4 +1,5 @@
 import NotifItem from "./NotifItem.jsx"
+import '../../styles/notifications/NotifItem.css'
 
 const fakeNotifs = [
     { id: 1, message: "Quelqu'un a répondu à votre post", read: false },

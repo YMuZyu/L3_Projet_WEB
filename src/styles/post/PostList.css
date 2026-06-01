@@ -1,132 +1,13 @@
 .post-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-.post-card {
-  background: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 18px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  min-height: 260px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  color: #000;
-}
-
-.post-card:hover {
-  background-color: #f8f9fa;
-  transform: translateY(-2px);
-}
-
-.post-card > div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  gap: 10px;
-}
-
-.post-category {
-  display: inline-block;
-  padding: 4px 10px;
-  background: rgba(234, 243, 255, 0.9);
-  color: #1e00ff;
-  border: 1px solid #cfe2ff;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.post-date {
-  font-size: 13px;
-  color: #666;
-}
-
-.post-card h3 {
-  margin: 0 0 8px;
-  font-size: 1.2rem;
-}
-
-.post-card p {
-  margin: 0 0 16px;
-  font-size: 14px;
-  line-height: 1.5;
-  max-height: 5.2em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.read-more {
-  padding: 9px 16px;
-  background-color: #2d8ef6;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s ease;
-}
-
-.read-more:hover {
-  background-color: #0056b3;
+  gap: 1rem;
+  width: 100%;
 }
 
 .pas-post {
   text-align: center;
-  padding: 28px;
-  background: #ffffff;
-  border: 1px dashed #ccc;
-  border-radius: 8px;
-  color: #666;
-}
-
-.post-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  z-index: 1000;
-}
-
-.post-modal-card {
-  width: min(900px, 100%);
-  max-height: 90vh;
-  overflow: hidden;
-  border-radius: 12px;
-  background: #fff;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-}
-
-.post-modal-body {
-  padding: 24px;
-  overflow-y: auto;
-  max-height: 90vh;
-}
-
-.post-modal-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.post-modal-body h2 {
-  margin: 0 0 14px;
-}
-
-.post-modal-body p {
-  color: #333;
-  line-height: 1.7;
-}
-
-.post-modal .read-more {
-  margin-top: 22px;
+  padding: 3rem;
+  color: var(--text-muted);
+  font-size: 1rem;
 }

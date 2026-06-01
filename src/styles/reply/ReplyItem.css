@@ -1,0 +1,32 @@
+.reply-item {
+  background-color: var(--card-bg);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-soft);
+  padding: 1rem 1.25rem;
+}
+
+.reply-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.reply-author {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.reply-date {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.reply-content {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}

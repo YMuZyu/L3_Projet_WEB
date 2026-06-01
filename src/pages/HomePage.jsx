@@ -15,13 +15,7 @@ export default function HomePage({ isConnected }) {
                 const response = await fetch('http://localhost:10000/posts')
                 if (response.ok) {
                     const data = await response.json()
-                    setPosts(data.map(post => ({
-                        id: post._id,
-                        sujet: post.title,
-                        contenu: post.content,
-                        date: post.createdAt,
-                        category: post.domain
-                    })))
+                    setPosts(data)  // plus de mapping, on garde les champs tels quels
                 }
             } catch (error) {
                 console.error('Erreur lors du fetch des posts:', error)
@@ -35,18 +29,18 @@ export default function HomePage({ isConnected }) {
     const [sort, setSort] = useState("recent")
 
     const postsAffiches = posts
-        .filter(p => p.sujet.toLowerCase().includes(search.toLowerCase()))
+        .filter(p => p.title?.toLowerCase().includes(search.toLowerCase()))
         .filter(p => category === "" || p.category === category)
         .sort((a, b) => {
-            if (sort === "recent") return new Date(b.date) - new Date(a.date)
-            if (sort === "ancien") return new Date(a.date) - new Date(b.date)
-            if (sort === "alphabetique") return a.sujet.localeCompare(b.sujet)
+            if (sort === "recent") return new Date(b.createdAt) - new Date(a.createdAt)
+            if (sort === "ancien") return new Date(a.createdAt) - new Date(b.createdAt)
+            if (sort === "alphabetique") return a.title?.localeCompare(b.title)
             return 0
-        })
+    })
 
     // on va faire en sorte que pour chaque objet crée, une catégorie est automatiquement crée dans CategoryFilter
     // donc on va faire une copie d'ensemble tel que pour chaque post on prend son category
-    const categories = [...new Set(posts.map((post) => post.category))];
+    const categories = [...new Set(posts.map(post => post.category))]
         
     return (
         <div className="home-page">

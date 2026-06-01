@@ -1,0 +1,45 @@
+.post-detail {
+  background-color: var(--card-bg);
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-soft);
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+}
+
+/* Header : catégorie + date */
+.post-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* .post-category est partagé avec PostCard.css */
+
+.post-detail-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--text-main);
+  line-height: 1.25;
+}
+
+.post-detail-author {
+  margin: 0 0 1.5rem 0;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Zone de contenu */
+.post-detail-content {
+  border-top: 1.5px solid var(--border-light);
+  padding-top: 1.25rem;
+}
+
+.post-detail-content p {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-main);
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
