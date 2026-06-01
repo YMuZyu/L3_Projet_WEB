@@ -33,7 +33,7 @@ export default function LoginPage({ onLogin }) {
       }
 
       setError("")
-      onLogin(data.user)
+      onLogin(data)
       navigate("/")
 
     } catch (err) {

@@ -6,7 +6,7 @@ export default function NavMenu({ isConnected }) {
         <nav className="nav-menu">
             <MenuItem label="🏠 Home"       to="/" />
             <MenuItem label="❓ Questions"  to="/questions" />
-            <MenuItem label="🏷️ Tags"       to="/tags" />
+            <MenuItem label="🏷️ Catégories"  to="/tags" />
 
             {isConnected && (
                 <>

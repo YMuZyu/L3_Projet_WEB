@@ -5,7 +5,15 @@ export default function PostCard({ post }) {
     const navigate = useNavigate()
 
     return (
-        <article className="post-card" onClick={() => navigate(`/post/${post._id}`)}>
+        <article
+            className={`post-card${post.imageUrl ? ' has-image' : ''}`}
+            onClick={() => navigate(`/post/${post._id}`)}
+        >
+            {post.imageUrl && (
+                <div className="post-card-image">
+                    <img src={`http://localhost:10000${post.imageUrl}`} alt={post.title} />
+                </div>
+            )}
             <div className="post-card-header">
                 <span className="post-category">{post.category}</span>
                 <span className="post-date">{new Date(post.createdAt).toLocaleDateString()}</span>

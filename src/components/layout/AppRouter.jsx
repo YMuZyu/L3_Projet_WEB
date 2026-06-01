@@ -17,7 +17,7 @@ export default function NavMenu({ user, isConnected, onLogin, onLogout }) {
       <Route path="/login" element={<LoginPage onLogin={onLogin} />} />
       <Route path="/register" element={<RegisterPage onLogin={onLogin} />} />
       <Route path="/post/:postId" element={<PostPage />} />
-      <Route path="/create" element={<CreatePostPage />} />
+      <Route path="/create" element={<CreatePostPage isConnected={isConnected} />} />
       <Route path="/profile/:userId" element={<UserProfilePage user={user} />} />
 
       <Route path="/questions" element={<QuestionsPage />} />

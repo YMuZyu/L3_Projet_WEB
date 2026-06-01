@@ -8,6 +8,26 @@
     transform 0.2s ease,
     box-shadow 0.2s ease;
   border: none;
+  overflow: hidden;
+}
+
+/* Carte avec image : fond neutre, l'image porte la couleur */
+.post-card.has-image {
+  background-color: var(--card-bg) !important;
+}
+
+.post-card-image {
+  margin: -1.25rem -1.4rem 1rem -1.4rem;
+  height: 160px;
+  overflow: hidden;
+  border-radius: var(--radius-soft) var(--radius-soft) 0 0;
+}
+
+.post-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .post-card:hover {

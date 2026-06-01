@@ -1,10 +1,32 @@
-import express from "express"; //créer le serveur 
-import cors from "cors"; //autoriser React à appeler le serveur 
-import session from "express-session"; //gérer les connexions 
-import { MongoClient } from "mongodb"; //communiquer avec la dbs
+import express from "express";
+import cors from "cors";
+import session from "express-session";
+import { MongoClient } from "mongodb";
+import { promises as fs } from "fs";
+import { Buffer } from "buffer";
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Charger les variables d'environnement depuis .env (sans dépendance externe)
+try {
+  const envFile = await fs.readFile(path.join(__dirname, ".env"), "utf8");
+  for (const line of envFile.split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const [key, ...rest] = trimmed.split("=");
+    process.env[key.trim()] = rest.join("=").trim();
+  }
+} catch { /* pas de fichier .env, on utilise les valeurs par défaut */ }
 
 const app = express();
 const PORT = 10000;
+
+// Dossier pour stocker les images uploadées
+const uploadsDir = path.join(__dirname, "uploads");
+await fs.mkdir(uploadsDir, { recursive: true });
 
 // ========================
 // Middleware
@@ -14,7 +36,8 @@ app.use(cors({ //utilisation de cors pour autoriser React à parler au serveur
   credentials: true
 }));
 
-app.use(express.json()); //permet transformer le JSON reçu en objet JS
+app.use(express.json({ limit: '10mb' }));
+app.use('/uploads', express.static(uploadsDir));
 
 
 //garder l'utilisateur connecté
@@ -29,7 +52,7 @@ app.use(session({
 // MongoDB
 // ========================
 
-const uri = "mongodb://localhost:27017"; //27017, le port par défaut de mongo
+const uri = process.env.MONGO_URI || "mongodb://localhost:27017";
 const client = new MongoClient(uri);
 
 let db;
@@ -57,19 +80,13 @@ app.get("/", (req, res) => {
 
 
 // ========================
-// Vérification si connecté 
+// Vérification si connecté
 // ========================
 app.get("/connexion", (req, res) => {
-  if (!req.session.userId) {
-    return res.json({
-      logged: false
-    });
+  if (!req.session.user) {
+    return res.json({ logged: false });
   }
-
-  return res.json({
-    logged: true,
-    userId: req.session.userId
-  });
+  return res.json({ logged: true, user: req.session.user });
 });
 
 
@@ -156,7 +173,7 @@ app.post("/user/login", async (req, res) => {
       });
     }
 
-    req.session.userId = user._id;
+    req.session.user = { _id: user._id, login: user.login };
 
     return res.status(200).json({
       user: { _id: user._id, login: user.login },
@@ -175,28 +192,14 @@ app.post("/user/login", async (req, res) => {
 // ========================
 // GET SESSION USER
 // ========================
-app.get("/user/me", async (req, res) => {
-  if (!req.session.userId) {
+app.get("/user/me", (req, res) => {
+  if (!req.session.user) {
     return res.status(401).json({ message: "Non connecté" });
   }
-
-  try {
-    const users = db.collection("users");
-    const user = await users.findOne({ _id: req.session.userId });
-
-    if (!user) {
-      return res.status(401).json({ message: "Utilisateur introuvable" });
-    }
-
-    return res.status(200).json({
-      user: { _id: user._id, login: user.login },
-      roles: user.roles || []
-    });
-
-  } catch (err) {
-    console.error(err);
-    return res.status(500).json({ status: 500, message: "Erreur serveur" });
-  }
+  return res.status(200).json({
+    user: req.session.user,
+    roles: req.session.user.roles || []
+  });
 });
 
 // ========================
@@ -212,16 +215,16 @@ app.post("/user/logout", (req, res) => {
 // CREATE POST
 // ========================
 app.post("/posts", async (req, res) => {
-  const { title, content, domain } = req.body;
+  const { title, content, category, imageBase64 } = req.body;
 
-  if (!title || !content || !domain) {
+  if (!title || !content || !category) {
     return res.status(400).json({
       status: 400,
       message: "Champs manquants"
     });
   }
 
-  if (!req.session.userId) {
+  if (!req.session.user) {
     return res.status(401).json({
       status: 401,
       message: "Non connecté"
@@ -229,13 +232,28 @@ app.post("/posts", async (req, res) => {
   }
 
   try {
+    // Si une image est fournie en base64, on l'écrit sur le disque
+    let imageUrl = null;
+    if (imageBase64) {
+      const matches = imageBase64.match(/^data:([a-zA-Z]+\/[a-zA-Z+]+);base64,(.+)$/);
+      if (matches) {
+        const ext = matches[1].split('/')[1].replace('+xml', ''); // ex: jpeg, png, gif
+        const buffer = Buffer.from(matches[2], 'base64');
+        const filename = `${Date.now()}.${ext}`;
+        await fs.writeFile(path.join(uploadsDir, filename), buffer);
+        imageUrl = `/uploads/${filename}`;
+      }
+    }
+
     const posts = db.collection("posts");
 
     await posts.insertOne({
       title,
       content,
-      domain,
-      userId: req.session.userId,
+      category,
+      imageUrl,
+      userId: req.session.user._id,
+      author: req.session.user.login,
       createdAt: new Date()
     });
 

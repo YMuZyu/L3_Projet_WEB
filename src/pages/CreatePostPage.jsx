@@ -8,6 +8,8 @@ export default function CreatePostPage({ isConnected }) {
     const [title, setTitle] = useState('')
     const [content, setContent] = useState('')
     const [category, setCategory] = useState('')
+    const [imageBase64, setImageBase64] = useState(null)
+    const [imagePreview, setImagePreview] = useState(null)
     const [error, setError] = useState('')
 
     if (!isConnected) {
@@ -19,11 +21,22 @@ export default function CreatePostPage({ isConnected }) {
         )
     }
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+        const reader = new FileReader()
+        reader.onload = (ev) => {
+            setImageBase64(ev.target.result)
+            setImagePreview(ev.target.result)
+        }
+        reader.readAsDataURL(file)
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError('')
 
-        if (!title || !content || !domain) {
+        if (!title || !content || !category) {
             setError('Veuillez remplir tous les champs')
             return
         }
@@ -33,7 +46,7 @@ export default function CreatePostPage({ isConnected }) {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({ title, content, category })
+                body: JSON.stringify({ title, content, category, imageBase64 })
             })
 
             const data = await response.json()
@@ -76,7 +89,7 @@ export default function CreatePostPage({ isConnected }) {
                         id="category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
-                        placeholder="Ex: Python, JavaScript, Java..."
+                        placeholder="Ex: Economie, Informatique, Beauté..."
                         required
                     />
                 </div>
@@ -91,6 +104,24 @@ export default function CreatePostPage({ isConnected }) {
                         rows={8}
                         required
                     />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="image">Image (optionnelle)</label>
+                    <input
+                        type="file"
+                        id="image"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                    />
+                    {imagePreview && (
+                        <div className="image-preview">
+                            <img src={imagePreview} alt="Aperçu" />
+                            <button type="button" onClick={() => { setImageBase64(null); setImagePreview(null) }}>
+                                Supprimer l'image
+                            </button>
+                        </div>
+                    )}
                 </div>
 
                 {error && <p className="error">{error}</p>}
