@@ -86,6 +86,7 @@ export default function Header({ user, isConnected, onLogout }) {
 
                 <div ref={userRef} className="header-icon-wrapper">
                     <UserButton
+                        user={user}
                         onClick={() => {
                             setIsUserOpen(!isUserOpen)
                             setIsNotifOpen(false)

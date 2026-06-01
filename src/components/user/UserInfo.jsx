@@ -8,9 +8,7 @@ export default function UserInfo({ user, isOwnProfile, onAvatarUpdate }) {
 
     if (!user) return null
 
-    const avatarSrc = user.avatar
-        ? `http://localhost:10000${user.avatar}`
-        : null
+    const avatarSrc = user.avatar || null
 
     const handleCrop = async (base64) => {
         setSaving(true)

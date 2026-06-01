@@ -39,7 +39,7 @@ export default function PostCard({ post }) {
                     title={`Voir le profil de ${post.author}`}
                 >
                     {post.authorAvatar
-                        ? <img src={`http://localhost:10000${post.authorAvatar}`} alt={post.author} className="author-avatar-img" />
+                        ? <img src={post.authorAvatar} alt={post.author} className="author-avatar-img" />
                         : post.author?.[0]?.toUpperCase() ?? '?'
                     }
                 </span>
