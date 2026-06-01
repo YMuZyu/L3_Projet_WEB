@@ -12,7 +12,7 @@ export default function HomePage({ isConnected }) {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await fetch('http://localhost:10000/posts')
+                const response = await fetch('/posts')
                 if (response.ok) {
                     const data = await response.json()
                     setPosts(data)  // plus de mapping, on garde les champs tels quels

@@ -19,7 +19,7 @@ export default function NotifList({ onRead }) {
     useEffect(() => {
         const fetchNotifs = async () => {
             try {
-                const res = await fetch('http://localhost:10000/notifications', { credentials: 'include' })
+                const res = await fetch('/notifications', { credentials: 'include' })
                 if (res.ok) setNotifs(await res.json())
             } catch {}
         }
@@ -28,7 +28,7 @@ export default function NotifList({ onRead }) {
 
     const markOneRead = async (notifId) => {
         try {
-            await fetch(`http://localhost:10000/notifications/${notifId}/read`, {
+            await fetch(`/notifications/${notifId}/read`, {
                 method: 'PATCH', credentials: 'include'
             })
         } catch {}
@@ -39,7 +39,7 @@ export default function NotifList({ onRead }) {
 
     const markAllRead = async () => {
         try {
-            await fetch('http://localhost:10000/notifications/read-all', {
+            await fetch('/notifications/read-all', {
                 method: 'PATCH', credentials: 'include'
             })
         } catch {}

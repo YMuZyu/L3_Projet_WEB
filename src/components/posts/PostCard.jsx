@@ -14,7 +14,8 @@ export default function PostCard({ post }) {
         >
             {post.imageUrl && (
                 <div className="post-card-image">
-                    <img src={`http://localhost:10000${post.imageUrl}`} alt={post.title} />
+                    {/* /uploads/... est servi par le proxy Vite → image visible depuis n'importe quel PC */}
+                    <img src={post.imageUrl} alt={post.title} />
                 </div>
             )}
 

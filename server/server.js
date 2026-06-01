@@ -610,7 +610,7 @@ app.patch("/user/me/avatar", async (req, res) => {
   try {
     const users = db.collection("users");
     await users.updateOne(
-      { _id: req.session.user._id },
+      { _id: new ObjectId(req.session.user._id) },
       { $set: { avatar: imageBase64 } }
     );
     req.session.user.avatar = imageBase64;

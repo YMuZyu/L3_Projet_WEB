@@ -14,7 +14,7 @@ export default function UserInfo({ user, isOwnProfile, onAvatarUpdate }) {
         setSaving(true)
         setShowCropper(false)
         try {
-            const res = await fetch('http://localhost:10000/user/me/avatar', {
+            const res = await fetch('/user/me/avatar', {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

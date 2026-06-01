@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../context/AuthProvider.jsx"
 import '../styles/pages/AdminPage.css'
 
-const API = "http://localhost:10000"
+const API = ""
 
 export default function AdminPage() {
 

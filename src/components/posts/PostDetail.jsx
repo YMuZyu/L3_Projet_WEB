@@ -14,7 +14,7 @@ export default function PostDetail({ post, user }) {
     const handleLike = async () => {
         if (!user) { navigate('/login'); return }
         try {
-            const res = await fetch(`http://localhost:10000/posts/${post._id}/like`, {
+            const res = await fetch(`/posts/${post._id}/like`, {
                 method: 'POST',
                 credentials: 'include'
             })
@@ -33,7 +33,7 @@ export default function PostDetail({ post, user }) {
     const handleDislike = async () => {
         if (!user) { navigate('/login'); return }
         try {
-            const res = await fetch(`http://localhost:10000/posts/${post._id}/dislike`, {
+            const res = await fetch(`/posts/${post._id}/dislike`, {
                 method: 'POST',
                 credentials: 'include'
             })
@@ -53,7 +53,7 @@ export default function PostDetail({ post, user }) {
         <div className="post-detail">
             {post.imageUrl && (
                 <div className="post-detail-image">
-                    <img src={`http://localhost:10000${post.imageUrl}`} alt={post.title} />
+                    <img src={`${post.imageUrl}`} alt={post.title} />
                 </div>
             )}
 
