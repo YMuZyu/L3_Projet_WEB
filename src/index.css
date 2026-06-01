@@ -3,145 +3,114 @@
   line-height: 1.5;
   font-weight: 400;
   font-size: 16px;
-  @media (max-width: 480px) {
-    font-size: 14px;
-  }
+
+  @media (max-width: 480px) { font-size: 14px; }
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* ---- Couleurs ---- */
-  --bg-color:     #edfaf7;   /* vert menthe très clair */
-  --card-bg:      #ffffff;
-  --primary:      #00c4b4;   /* turquoise vif */
-  --primary-dark: #009e90;
-  --accent:       #ff4d8d;   /* rose bonbon */
-  --accent-dark:  #e0397a;
-  --yellow:       #ffc107;   /* jaune bonbon — pour les tags, badges */
-  --blue:         #3b9eff;   /* bleu ciel — variante accent */
-  --text-main:    #0d2b28;
-  --text-muted:   #4a8a80;
-  --border-light: #b8ece5;
+  /* ---- Couleurs de base ---- */
+  --bg-color:    #f5f1ec;   /* crème chaud */
+  --card-bg:     #ffffff;
+  --text-main:   #2a2622;
+  --text-muted:  #8f897f;
+  --border-light:#e6e0d6;
+
+  /* ---- Couleur d'interface : NOIR (boutons, sélection, focus) ---- */
+  --primary:      #211d18;   /* noir chaud */
+  --primary-dark: #000000;
+  --on-primary:   #f5f1ec;   /* texte clair sur fond noir */
+  --primary-soft: #e8e2d8;   /* survol/sélection douce (beige) */
+  --hover-bg:     #ece6de;   /* survol neutre */
+
+  /* ---- Couleurs de blocs pastels (1 par catégorie / alternance) ---- */
+  --card-lavender: #d6c9f5;
+  --card-peach:    #f9c9b8;
+  --card-mint:     #aee6cf;
+  --card-yellow:   #fbd98f;
+  --card-blue:     #b3d4f5;
+  --card-pink:     #f5bcd9;
 
   /* ---- Formes & ombres ---- */
-  --radius-soft: 16px;
+  --radius-soft: 18px;
   --radius-pill: 50px;
-  --shadow-card:  0 4px 20px rgba(0, 196, 180, 0.12);
-  --shadow-hover: 0 8px 28px rgba(0, 196, 180, 0.22);
+  --shadow-card:  0 2px 12px rgba(42, 38, 34, 0.07);
+  --shadow-hover: 0 8px 24px rgba(42, 38, 34, 0.13);
 
   color-scheme: light dark;
   color: var(--text-main);
   background-color: var(--bg-color);
 }
 
-/* ---- Liens ---- */
-a {
-  font-weight: 500;
-  color: var(--primary-dark);
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-a:hover {
-  color: var(--accent);
-}
+a { font-weight: 500; color: var(--text-main); text-decoration: underline; text-underline-offset: 2px; transition: opacity 0.2s ease; }
+a:hover { opacity: 0.6; }
 
-/* ---- Scrollbar ---- */
-::-webkit-scrollbar {
-  width: 8px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-color);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-light);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--primary);
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg-color); }
+::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-/* ---- Body ---- */
-body {
-  margin: 0;
-  min-width: 320px;
-  min-height: 100vh;
-  background-color: var(--bg-color);
-}
+body { margin: 0; min-width: 320px; min-height: 100vh; background-color: var(--bg-color); }
 
-/* ---- Images ---- */
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
+img { max-width: 100%; height: auto; display: block; }
 
-/* ---- Titres ---- */
-h1 {
-  font-size: 2.4em;
-  line-height: 1.15;
-  font-weight: 800;
-  color: var(--primary-dark);
-}
-h2 {
-  font-size: 1.6em;
-  font-weight: 700;
-  color: var(--text-main);
-}
-h3 {
-  font-size: 1.2em;
-  font-weight: 600;
-  color: var(--text-main);
-}
+h1 { font-size: 2.4em; line-height: 1.15; font-weight: 800; color: var(--text-main); }
+h2 { font-size: 1.6em; font-weight: 700; color: var(--text-main); }
+h3 { font-size: 1.2em; font-weight: 600; color: var(--text-main); }
 
-/* ---- Boutons ---- */
+/* Bouton par défaut : neutre, contour fin (pills non sélectionnées) */
 button {
-  border-radius: var(--radius-soft);
+  border-radius: var(--radius-pill);
   border: 1.5px solid var(--border-light);
-  padding: 0.55em 1.2em;
-  font-size: 1em;
-  font-weight: 600;
-  font-family: inherit;
-  background-color: var(--card-bg);
-  color: var(--text-main);
-  cursor: pointer;
-  transition: all 0.22s ease;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  padding: 0.5em 1.1em;
+  font-size: 0.95em; font-weight: 600; font-family: inherit;
+  background-color: var(--card-bg); color: var(--text-main);
+  cursor: pointer; transition: all 0.18s ease;
 }
-button:hover {
+button:hover { border-color: var(--text-main); }
+button:focus, button:focus-visible { outline: 3px solid rgba(33, 29, 24, 0.25); outline-offset: 2px; }
+
+/* Variante action principale : fond noir, texte clair */
+.btn-primary {
+  background-color: var(--primary);
+  color: var(--on-primary);
   border-color: var(--primary);
-  color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-hover);
 }
-button:focus,
-button:focus-visible {
-  outline: 3px solid rgba(0, 196, 180, 0.35);
-  outline-offset: 2px;
+.btn-primary:hover { background-color: var(--primary-dark); border-color: var(--primary-dark); }
+
+/* Variante sélectionnée : contour noir, fond crème */
+.btn-selected {
+  background-color: transparent;
+  color: var(--text-main);
+  border-color: var(--text-main);
 }
 
-/* ---- Thème sombre ---- */
+.error { color: #c0392b; font-size: 0.875rem; margin: 0; }
+
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg-color:     #1e2023;   /* gris anthracite */
-    --card-bg:      #2a2d31;
-    --primary:      #00e5d2;   /* turquoise lumineux */
-    --primary-dark: #33ece2;
-    --accent:       #ff6ba8;   /* rose bonbon clair */
-    --accent-dark:  #ff90be;
-    --yellow:       #ffd54f;
-    --blue:         #64b5ff;
-    --text-main:    #dff5f2;
-    --text-muted:   #8a9099;
-    --border-light: #3a3d42;
+    --bg-color:    #1e2023;   /* gris anthracite */
+    --card-bg:     #2a2d31;
+    --text-main:   #dff5f2;
+    --text-muted:  #8a9099;
+    --border-light:#3a3d42;
+
+    --primary:      #e4e7e6;   /* pill claire discrète (inverse du noir jour) */
+    --primary-dark: #ffffff;
+    --on-primary:   #1e2023;   /* texte foncé sur fond clair */
+    --primary-soft: #3d4146;   /* sélection douce (gris neutre) */
+    --hover-bg:     #34383d;   /* survol neutre */
+
+    --card-lavender:#393058;
+    --card-peach:  #4d2e26;
+    --card-mint:   #1d3d30;
+    --card-yellow: #463618;
+    --card-blue:   #21344f;
+    --card-pink:   #482a3d;
+
     --shadow-card:  0 4px 20px rgba(0, 0, 0, 0.40);
     --shadow-hover: 0 8px 28px rgba(0, 0, 0, 0.50);
   }
-}
-
-.error {
-  color: #e05c5c;
-  font-size: 0.875rem;
-  margin: 0;
 }
