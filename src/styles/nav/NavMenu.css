@@ -10,5 +10,6 @@
   padding: 0.45rem 0.9rem;
   font-size: 0.9rem;
   border-radius: var(--radius-pill);
+  box-shadow: none;
   white-space: nowrap;
 }

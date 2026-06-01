@@ -7,10 +7,10 @@
   justify-content: space-between;
   gap: 1rem;
   height: 64px;
-  padding: 0 1.5rem;
+  padding: 0 1.75rem;
   background-color: var(--card-bg);
-  border-bottom: 1.5px solid var(--border-light);
-  box-shadow: var(--shadow-card);
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 1px 8px rgba(28, 28, 46, 0.05);
 }
 
 /* --- Logo (gauche) --- */
@@ -24,8 +24,8 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-weight: 700;
-  font-size: 1.2rem;
+  font-weight: 800;
+  font-size: 1.15rem;
   color: var(--primary);
   cursor: pointer;
   transition: opacity 0.2s ease;
@@ -36,10 +36,10 @@
 }
 
 .logo img {
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   object-fit: contain;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 /* --- NavMenu (centre) --- */
@@ -68,6 +68,6 @@
     display: none;
   }
   .header {
-    padding: 0 0.75rem;
+    padding: 0 1rem;
   }
 }

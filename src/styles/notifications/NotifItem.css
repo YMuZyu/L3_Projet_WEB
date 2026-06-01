@@ -11,21 +11,20 @@
   color: var(--text-main);
 }
 
-/* Non lue — bordure gauche turquoise + fond léger */
+/* Non lue*/
 .notif-item.unread {
-  border-left: 3px solid var(--primary);
-  background-color: var(--border-light);
+  background-color: var(--primary-soft);
 }
 
 .notif-item.unread p {
   font-weight: 700;
 }
 
-/* Lue — aspect discret */
+/* Lue*/
 .notif-item.read p {
   color: var(--text-muted);
 }
 
 .notif-item:hover {
-  background-color: var(--border-light);
+  background-color: var(--hover-bg);
 }
