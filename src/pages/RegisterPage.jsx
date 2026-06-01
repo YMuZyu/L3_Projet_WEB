@@ -2,13 +2,12 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import '../styles/pages/RegisterPage.css'
 
-
 const isPasswordStrong = (password) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$/
     return regex.test(password)
 }
 
-export default function RegisterPage({ onLogin }) {
+export default function RegisterPage( ) {
 
     const navigate = useNavigate()
 
@@ -16,8 +15,8 @@ export default function RegisterPage({ onLogin }) {
     const [password, setPassword] = useState("")
     const [password2, setPassword2] = useState("")
     const [message, setMessage] = useState("")
+    const [isSuccess, setIsSuccess] = useState(false)
     const [showPassword, setShowPassword] = useState(false)
-    const [showPassword2, setShowPassword2] = useState(false)
 
     const handleRegister = async () => {
 
@@ -44,11 +43,14 @@ export default function RegisterPage({ onLogin }) {
             })
 
             const data = await response.json()
-            setMessage(data.message)
 
             if (response.status === 201) {
-                onLogin(data)
-                setTimeout(() => navigate("/"), 1000)
+                // Ne pas connecter l'utilisateur, il doit attendre validation admin
+                setIsSuccess(true)
+                setMessage("Inscription envoyée ! Un administrateur doit valider votre compte avant que vous puissiez vous connecter."),
+                setTimeout(() => navigate("/login"), 3000)
+            }else {
+                setMessage(data.message)
             }
 
         } catch (error) {
@@ -69,35 +71,40 @@ export default function RegisterPage({ onLogin }) {
                     onChange={(e) => setLogin(e.target.value)}
                 />
 
-                <div className="password-field">
+                <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Mot de passe"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Confirmer le mot de passe"
+                    value={password2}
+                    onChange={(e) => setPassword2(e.target.value)}
+                />
+                
+                <label className="show-password-label">
                     <input
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Mot de passe"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        type="checkbox"
+                        checked={showPassword}
+                        onChange={() => setShowPassword(!showPassword)}
                     />
-                    <button onClick={() => setShowPassword(!showPassword)}>
-                        {showPassword ? "🙈" : "👁️"}
+                    Afficher
+                </label>
+
+                {message && (
+                    <p className={isSuccess ? "message success" : "message"}>
+                        {message}
+                    </p>
+                )}
+
+                {!isSuccess && (
+                    <button className="register-btn" onClick={handleRegister}>
+                        S'inscrire
                     </button>
-                </div>
-
-                <div className="password-field">
-                    <input
-                        type={showPassword2 ? "text" : "password"}
-                        placeholder="Confirmer le mot de passe"
-                        value={password2}
-                        onChange={(e) => setPassword2(e.target.value)}
-                    />
-                    <button onClick={() => setShowPassword2(!showPassword2)}>
-                        {showPassword2 ? "🙈" : "👁️"}
-                    </button>
-                </div>
-
-                {message && <p className="message">{message}</p>}
-
-                <button className="register-btn" onClick={handleRegister}>
-                    S'inscrire
-                </button>
+                )}
 
                 <p>Déjà un compte ? <span onClick={() => navigate("/login")}>Se connecter</span></p>
             </div>
