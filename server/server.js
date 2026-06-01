@@ -159,8 +159,8 @@ app.post("/user/login", async (req, res) => {
     req.session.userId = user._id;
 
     return res.status(200).json({
-      status: 200,
-      message: "Login OK"
+      user: { _id: user._id, login: user.login },
+      roles: user.roles || []
     });
 
   } catch (err) {
@@ -170,6 +170,42 @@ app.post("/user/login", async (req, res) => {
       message: "Erreur serveur"
     });
   }
+});
+
+// ========================
+// GET SESSION USER
+// ========================
+app.get("/user/me", async (req, res) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ message: "Non connecté" });
+  }
+
+  try {
+    const users = db.collection("users");
+    const user = await users.findOne({ _id: req.session.userId });
+
+    if (!user) {
+      return res.status(401).json({ message: "Utilisateur introuvable" });
+    }
+
+    return res.status(200).json({
+      user: { _id: user._id, login: user.login },
+      roles: user.roles || []
+    });
+
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ status: 500, message: "Erreur serveur" });
+  }
+});
+
+// ========================
+// LOGOUT
+// ========================
+app.post("/user/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.status(200).json({ message: "Déconnecté" });
+  });
 });
 
 // ========================
