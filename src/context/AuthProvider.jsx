@@ -40,6 +40,11 @@ export default function AuthProvider({ children }) {
         setIsAuthenticated(true)
     }
 
+    // Met à jour l'avatar dans le contexte global (header, UserButton, etc.)
+    const updateAvatar = (avatar) => {
+        setUser(prev => ({ ...prev, avatar }))
+    }
+
     // Appelé quand l'utilisateur clique sur "Déconnexion"
     // On détruit la session côté serveur puis on réinitialise l'état local
     const logout = async () => {
@@ -65,7 +70,8 @@ export default function AuthProvider({ children }) {
             isAdmin: user?.isAdmin || false, // raccourci pour éviter user?.isAdmin partout
             isValidated: user?.isValidated || false, // raccourci pour savoir si le compte est validé
             login,
-            logout
+            logout,
+            updateAvatar
         }}>
             {children}
         </AuthContext.Provider>
