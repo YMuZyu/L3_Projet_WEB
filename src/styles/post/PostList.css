@@ -5,6 +5,7 @@
   width: 100%;
 }
 
+/* Message quand aucun post ne correspond aux filtres */
 .pas-post {
   text-align: center;
   padding: 3rem;
