@@ -105,7 +105,7 @@ async function initDB() {
 async function connectDB() {
   try {
     await client.connect();
-    db = client.db("projet_Web");
+    db = client.db("LC_MF");
     console.log("Mongo connecté");
     await initDB();
   } catch (err) {
