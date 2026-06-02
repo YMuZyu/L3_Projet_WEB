@@ -99,14 +99,14 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
                         onClick={handleLike}
                         title="J'aime"
                     >
-                        {liked ? '❤️' : '🤍'} {likes}
+                        ❤️ {likes}
                     </button>
                     <button
                         className={`like-btn small dislike-btn${disliked ? ' disliked' : ''}`}
                         onClick={handleDislike}
                         title="Je n'aime pas"
                     >
-                        {disliked ? '👎' : '👍🏻'} {dislikes}
+                        👎 {dislikes}
                     </button>
 
                     {/* Bouton supprimer visible seulement pour l'auteur ou l'admin */}
