@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
-import logo from "../../resources/Sciences_SU.png"
+import logo from "../../ressources/logo.png"
 import NavMenu from '../nav/NavMenu.jsx'
 import NotifButton from '../notifications/NotifButton.jsx'
 import NotifDropdown from '../notifications/NotifDropdown.jsx'
@@ -71,7 +71,7 @@ export default function Header({ user, isConnected, onLogout }) {
             <div className="header-left">
                 <div className="logo" onClick={() => navigate('/')}>
                     <img src={logo} alt="Logo du forum" />
-                    Forum
+                    MixHub
                 </div>
             </div>
 
