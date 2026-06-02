@@ -1,20 +1,22 @@
+// Affiche la carte de profil d'un utilisateur : avatar, nom, date d'inscription, stats
+// Si c'est son propre profil, il peut modifier son avatar
+
 import { useState } from 'react'
 import ImageCropper from '../shared/ImageCropper.jsx'
 import '../../styles/user/UserInfo.css'
 
-export default function UserInfo({ user, isOwnProfile, onAvatarUpdate }) {
+export default function UserInfo({ user, isOwnProfile, onAvatarUpdate, postsCount = 0, repliesCount = 0 }) {
     const [showCropper, setShowCropper] = useState(false)
-    const [saving,      setSaving]      = useState(false)
+    const [saving, setSaving] = useState(false)
 
     if (!user) return null
 
-    const avatarSrc = user.avatar || null
-
+    // Envoie le nouvel avatar au serveur en base64
     const handleCrop = async (base64) => {
         setSaving(true)
         setShowCropper(false)
         try {
-            const res = await fetch('/user/me/avatar', {
+            const res = await fetch('http://localhost:10000/user/me/avatar', {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -33,10 +35,12 @@ export default function UserInfo({ user, isOwnProfile, onAvatarUpdate }) {
 
     return (
         <div className="user-info">
+
+            {/* Avatar avec bouton de modification si c'est son propre profil */}
             <div className="user-avatar-wrapper">
                 <div className="user-avatar">
-                    {avatarSrc
-                        ? <img src={avatarSrc} alt={user.login} />
+                    {user.avatar
+                        ? <img src={user.avatar} alt={user.login} />
                         : <div className="avatar-placeholder">{user.login?.[0]?.toUpperCase() ?? '👤'}</div>
                     }
                 </div>
@@ -51,6 +55,7 @@ export default function UserInfo({ user, isOwnProfile, onAvatarUpdate }) {
                 )}
             </div>
 
+            {/* Cropper d'image pour modifier l'avatar */}
             {showCropper && (
                 <div className="avatar-cropper-wrapper">
                     <ImageCropper
@@ -68,8 +73,8 @@ export default function UserInfo({ user, isOwnProfile, onAvatarUpdate }) {
                     Membre depuis {new Date(user.createdAt).toLocaleDateString()}
                 </p>
                 <div className="user-stats">
-                    <span>📝 {user.postsCount ?? 0} posts</span>
-                    <span>💬 {user.repliesCount ?? 0} commentaires</span>
+                    <span>📝 {postsCount} posts</span>
+                    <span>💬 {repliesCount} commentaires</span>
                 </div>
             </div>
         </div>

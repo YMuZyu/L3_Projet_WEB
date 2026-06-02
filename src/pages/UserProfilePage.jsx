@@ -74,6 +74,8 @@ export default function UserProfilePage({ user, isConnected }) {
                     user={profileUser}
                     isOwnProfile={isOwnProfile}
                     onAvatarUpdate={handleAvatarUpdate}
+                    postsCount={userPosts.length}
+                    repliesCount={userReplies.length}
                 />
                 <div className="profile-actions">
                     {isOwnProfile && (

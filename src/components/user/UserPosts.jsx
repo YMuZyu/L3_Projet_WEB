@@ -1,3 +1,6 @@
+// Liste des posts d'un utilisateur sur sa page profil
+// Clique sur un post : navigue vers la page du post
+
 import { useNavigate } from "react-router-dom"
 import '../../styles/user/UserInfo.css'
 
