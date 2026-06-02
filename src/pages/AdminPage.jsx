@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Navigate } from "react-router-dom"
 import { AuthContext } from "../context/AuthProvider.jsx"
 import '../styles/pages/AdminPage.css'
 
@@ -15,12 +15,10 @@ export default function AdminPage() {
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
 
-    // Rediriger si pas admin
-    useEffect(() => {
-        if (!isAuthenticated || !user?.isAdmin) {
-            navigate("/")
-        }
-    }, [isAuthenticated, user])
+    // Rediriger si pas admin ou déconnecter
+    if (!isAuthenticated || !user?.isAdmin) {
+        return <Navigate to="/" replace />
+    }
 
     useEffect(() => {
         fetchUsers()
