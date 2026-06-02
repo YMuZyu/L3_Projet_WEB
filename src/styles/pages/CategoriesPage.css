@@ -1,0 +1,107 @@
+.tags-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.tags-page h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.tags-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+}
+
+/* Grille : force 3 colonnes minimum */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+@media (min-width: 600px) {
+  .categories-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .categories-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Carte compacte */
+.category-card {
+  border-radius: var(--radius-soft);
+  padding: 0.9rem 1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.color-1 { background-color: var(--card-lavender); }
+.color-2 { background-color: var(--card-peach); }
+.color-3 { background-color: var(--card-mint); }
+.color-4 { background-color: var(--card-yellow); }
+.color-5 { background-color: var(--card-blue); }
+.color-6 { background-color: var(--card-pink); }
+
+.cat-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.cat-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+
+.cat-count {
+  font-size: 0.72rem;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 0.1em 0.5em;
+  border-radius: var(--radius-pill);
+  color: var(--text-main);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cat-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.07);
+  padding-top: 0.5rem;
+}
+
+.cat-latest,
+.cat-author {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+.empty {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-top: 2rem;
+  text-align: center;
+}

@@ -30,6 +30,9 @@
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .sidebar-left li {
@@ -38,9 +41,7 @@
   font-size: 0.9rem;
   color: var(--text-muted);
   cursor: pointer;
-  transition:
-    background 0.15s ease,
-    color 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .sidebar-left li:hover {

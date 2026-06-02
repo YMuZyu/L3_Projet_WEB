@@ -2,7 +2,7 @@
 // Accessible à tous, mais seuls les membres connectés peuvent créer un post
 
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import PostList from '../components/posts/PostList.jsx'
 import FilterBar from '../components/filters/FilterBar.jsx'
 import '../styles/pages/HomePage.css'
@@ -32,7 +32,8 @@ export default function HomePage({ isConnected }) {
 
     // États pour les filtres
     const [search, setSearch] = useState("")
-    const [category, setCategory] = useState("")
+    const [searchParams] = useSearchParams()
+    const [category, setCategory] = useState(searchParams.get('cat') || "")
     const [sort, setSort] = useState("recent")
 
     // Filtre et trie les posts selon les critères choisis par l'utilisateur
