@@ -55,11 +55,59 @@ const client = new MongoClient(uri);
 
 let db;
 
+// ========================
+// Initialisation de la base de données
+// ========================
+async function initDB() {
+  try {
+    const collections = await db.listCollections().toArray()
+    const names = collections.map(c => c.name)
+
+    if (names.includes('users')) {
+      console.log('Base déjà initialisée')
+      return
+    }
+
+    console.log('Initialisation de la base...')
+
+    await db.collection('users').insertMany([
+      { login: 'admin', password: 'admin123', isAdmin: true,  isValidated: true,  avatar: null, createdAt: new Date() },
+      { login: 'alice', password: 'alice123', isAdmin: false, isValidated: true,  avatar: null, createdAt: new Date() },
+      { login: 'bob',   password: 'bob123',   isAdmin: false, isValidated: true,  avatar: null, createdAt: new Date() }
+    ])
+
+    const admin = await db.collection('users').findOne({ login: 'admin' })
+    const alice = await db.collection('users').findOne({ login: 'alice' })
+
+    await db.collection('posts').insertMany([
+      {
+        title: 'Bienvenue sur MixHub !',
+        content: 'Ceci est le premier post du forum. N\'hésitez pas à participer !',
+        category: 'Général', author: 'admin', userId: admin._id,
+        imageUrl: null, likes: [], dislikes: [], comments: 0, createdAt: new Date()
+      },
+      {
+        title: 'Comment utiliser le forum ?',
+        content: 'Pour poster un message, connectez-vous et cliquez sur "Créer un post".',
+        category: 'Aide', author: 'alice', userId: alice._id,
+        imageUrl: null, likes: [], dislikes: [], comments: 0, createdAt: new Date()
+      }
+    ])
+
+    await db.collection('config').insertOne({ key: 'forum_open', value: true })
+
+    console.log('Base initialisée avec succès')
+  } catch (err) {
+    console.error('Erreur initDB:', err)
+  }
+}
+
 async function connectDB() {
   try {
     await client.connect();
     db = client.db("projet_Web");
     console.log("Mongo connecté");
+    await initDB();
   } catch (err) {
     console.error("Erreur Mongo", err);
   }
