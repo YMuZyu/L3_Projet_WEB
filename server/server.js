@@ -491,15 +491,16 @@ app.post("/posts/:postId/like", async (req, res) => {
 
     await posts.updateOne({ _id: post._id }, { $set: { likes, dislikes } });
 
-    if (!hasLiked && post.userId) {
-      await createNotification(db, {
-        userId: post.userId.toString(),
-        type: 'like_post',
-        fromUserId: req.session.user._id,
-        fromUserLogin: req.session.user.login,
-        postId: req.params.postId,
-        preview: `a aimé votre post "${(post.title || '').substring(0, 40)}"`
-      });
+    if (post.userId && post.userId.toString() !== req.session.user._id.toString()) {
+      const notifs = db.collection("notifications");
+      const notifFilter = { userId: post.userId.toString(), type: 'like_post', fromUserId: req.session.user._id.toString(), postId: req.params.postId };
+      if (hasLiked) {
+        await notifs.deleteOne(notifFilter);
+      } else {
+        await notifs.updateOne(notifFilter, {
+          $set: { fromUserLogin: req.session.user.login, preview: `a aimé votre post "${(post.title || '').substring(0, 40)}"`, createdAt: new Date(), read: false }
+        }, { upsert: true });
+      }
     }
 
     return res.json({ likes: likes.length, liked: !hasLiked, dislikes: dislikes.length, disliked: false });
@@ -566,16 +567,16 @@ app.post("/posts/:postId/replies/:replyId/like", async (req, res) => {
 
     await replies.updateOne({ _id: reply._id }, { $set: { likes, dislikes } });
 
-    if (!hasLiked && reply.userId) {
-      await createNotification(db, {
-        userId: reply.userId.toString(),
-        type: 'like_reply',
-        fromUserId: req.session.user._id,
-        fromUserLogin: req.session.user.login,
-        postId: req.params.postId,
-        replyId: req.params.replyId,
-        preview: `a aimé votre réponse "${(reply.content || '').substring(0, 40)}"`
-      });
+    if (reply.userId && reply.userId.toString() !== req.session.user._id.toString()) {
+      const notifs = db.collection("notifications");
+      const notifFilter = { userId: reply.userId.toString(), type: 'like_reply', fromUserId: req.session.user._id.toString(), replyId: req.params.replyId };
+      if (hasLiked) {
+        await notifs.deleteOne(notifFilter);
+      } else {
+        await notifs.updateOne(notifFilter, {
+          $set: { fromUserLogin: req.session.user.login, postId: req.params.postId, preview: `a aimé votre réponse "${(reply.content || '').substring(0, 40)}"`, createdAt: new Date(), read: false }
+        }, { upsert: true });
+      }
     }
 
     return res.json({ likes: likes.length, liked: !hasLiked, dislikes: dislikes.length, disliked: false });
