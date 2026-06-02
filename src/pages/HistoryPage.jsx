@@ -18,6 +18,8 @@ export default function HistoryPage({ user, isConnected }) {
     const [date,      setDate]      = useState("")
     const [recipient, setRecipient] = useState("")
 
+    const [tab, setTab] = useState('posts')
+
     const hasFilter = !!(search || category || date || recipient)
 
     const fetchHistory = useCallback(async () => {
@@ -108,101 +110,126 @@ export default function HistoryPage({ user, isConnected }) {
                 )}
             </div>
 
+            {/* Onglets */}
+            <div className="history-tabs">
+                <button
+                    className={tab === 'posts' ? 'active' : ''}
+                    onClick={() => setTab('posts')}
+                >
+                    📝 Posts ({posts.length})
+                </button>
+                <button
+                    className={tab === 'replies' ? 'active' : ''}
+                    onClick={() => setTab('replies')}
+                >
+                    💬 Réponses ({replies.length})
+                </button>
+                <button
+                    className={tab === 'messages' ? 'active' : ''}
+                    onClick={() => setTab('messages')}
+                >
+                    ✉️ Messages ({messages.length})
+                </button>
+            </div>
+
             {loading ? (
                 <p className="history-empty">Chargement...</p>
             ) : (
                 <div className="history-sections">
 
                     {/* Posts */}
-                    <section className="history-section">
-                        <h2>📝 Posts ({posts.length})</h2>
-                        {posts.length === 0
-                            ? <p className="history-empty">Aucun post trouvé</p>
-                            : posts.map(post => (
-                                <div
-                                    key={post._id}
-                                    className="history-item"
-                                    onClick={() => navigate(`/post/${post._id}`)}
-                                >
-                                    <div className="history-item-header">
-                                        <span className="history-item-badge">{post.category}</span>
-                                        <span className="history-item-date">
-                                            {new Date(post.createdAt).toLocaleDateString('fr-FR', {
-                                                day: '2-digit', month: '2-digit', year: 'numeric',
-                                                hour: '2-digit', minute: '2-digit'
-                                            })}
-                                        </span>
+                    {tab === 'posts' && (
+                        <section className="history-section">
+                            {posts.length === 0
+                                ? <p className="history-empty">Aucun post trouvé</p>
+                                : posts.map(post => (
+                                    <div
+                                        key={post._id}
+                                        className="history-item"
+                                        onClick={() => navigate(`/post/${post._id}`)}
+                                    >
+                                        <div className="history-item-header">
+                                            <span className="history-item-badge">{post.category}</span>
+                                            <span className="history-item-date">
+                                                {new Date(post.createdAt).toLocaleDateString('fr-FR', {
+                                                    day: '2-digit', month: '2-digit', year: 'numeric',
+                                                    hour: '2-digit', minute: '2-digit'
+                                                })}
+                                            </span>
+                                        </div>
+                                        <h3 className="history-item-title">{post.title}</h3>
+                                        <p className="history-item-preview">
+                                            {post.content?.length > 150
+                                                ? post.content.substring(0, 150) + '...'
+                                                : post.content}
+                                        </p>
                                     </div>
-                                    <h3 className="history-item-title">{post.title}</h3>
-                                    <p className="history-item-preview">
-                                        {post.content?.length > 150
-                                            ? post.content.substring(0, 150) + '...'
-                                            : post.content}
-                                    </p>
-                                </div>
-                            ))
-                        }
-                    </section>
+                                ))
+                            }
+                        </section>
+                    )}
 
                     {/* Réponses */}
-                    <section className="history-section">
-                        <h2>💬 Réponses ({replies.length})</h2>
-                        {replies.length === 0
-                            ? <p className="history-empty">Aucune réponse trouvée</p>
-                            : replies.map(reply => (
-                                <div
-                                    key={reply._id}
-                                    className="history-item"
-                                    onClick={() => navigate(`/post/${reply.postId}`)}
-                                >
-                                    <div className="history-item-header">
-                                        <span className="history-item-date">
-                                            {new Date(reply.createdAt).toLocaleDateString('fr-FR', {
-                                                day: '2-digit', month: '2-digit', year: 'numeric',
-                                                hour: '2-digit', minute: '2-digit'
-                                            })}
-                                        </span>
+                    {tab === 'replies' && (
+                        <section className="history-section">
+                            {replies.length === 0
+                                ? <p className="history-empty">Aucune réponse trouvée</p>
+                                : replies.map(reply => (
+                                    <div
+                                        key={reply._id}
+                                        className="history-item"
+                                        onClick={() => navigate(`/post/${reply.postId}`)}
+                                    >
+                                        <div className="history-item-header">
+                                            <span className="history-item-date">
+                                                {new Date(reply.createdAt).toLocaleDateString('fr-FR', {
+                                                    day: '2-digit', month: '2-digit', year: 'numeric',
+                                                    hour: '2-digit', minute: '2-digit'
+                                                })}
+                                            </span>
+                                        </div>
+                                        <p className="history-item-preview">
+                                            {reply.content?.length > 200
+                                                ? reply.content.substring(0, 200) + '...'
+                                                : reply.content}
+                                        </p>
+                                        <span className="history-item-meta">→ Voir le post</span>
                                     </div>
-                                    <p className="history-item-preview">
-                                        {reply.content?.length > 200
-                                            ? reply.content.substring(0, 200) + '...'
-                                            : reply.content}
-                                    </p>
-                                    <span className="history-item-meta">→ Voir le post</span>
-                                </div>
-                            ))
-                        }
-                    </section>
+                                ))
+                            }
+                        </section>
+                    )}
 
                     {/* Messages */}
-                    <section className="history-section">
-                        <h2>✉️ Messages envoyés ({messages.length})</h2>
-                        {messages.length === 0
-                            ? <p className="history-empty">Aucun message trouvé</p>
-                            : messages.map(msg => (
-                                <div
-                                    key={msg._id}
-                                    className="history-item"
-                                    onClick={() => navigate(`/messages/${msg.toUserId}`)}
-                                >
-                                    <div className="history-item-header">
-                                        <span className="history-item-badge">À : {msg.toUserLogin}</span>
-                                        <span className="history-item-date">
-                                            {new Date(msg.createdAt).toLocaleDateString('fr-FR', {
-                                                day: '2-digit', month: '2-digit', year: 'numeric',
-                                                hour: '2-digit', minute: '2-digit'
-                                            })}
-                                        </span>
+                    {tab === 'messages' && (
+                        <section className="history-section">
+                            {messages.length === 0
+                                ? <p className="history-empty">Aucun message trouvé</p>
+                                : messages.map(msg => (
+                                    <div
+                                        key={msg._id}
+                                        className="history-item"
+                                        onClick={() => navigate(`/messages/${msg.toUserId}`)}
+                                    >
+                                        <div className="history-item-header">
+                                            <span className="history-item-badge">À : {msg.toUserLogin}</span>
+                                            <span className="history-item-date">
+                                                {new Date(msg.createdAt).toLocaleDateString('fr-FR', {
+                                                    day: '2-digit', month: '2-digit', year: 'numeric',
+                                                    hour: '2-digit', minute: '2-digit'
+                                                })}
+                                            </span>
+                                        </div>
+                                        <p className="history-item-preview">
+                                            {msg.content?.length > 200
+                                                ? msg.content.substring(0, 200) + '...'
+                                                : msg.content}
+                                        </p>
                                     </div>
-                                    <p className="history-item-preview">
-                                        {msg.content?.length > 200
-                                            ? msg.content.substring(0, 200) + '...'
-                                            : msg.content}
-                                    </p>
-                                </div>
-                            ))
-                        }
-                    </section>
+                                ))
+                            }
+                        </section>
+                    )}
 
                 </div>
             )}

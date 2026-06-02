@@ -8,14 +8,15 @@ import '../../styles/filters/FilterBar.css'
 export default function FilterBar({ setSearch, setAuthor, setCategory, setSort, activeCategory, categories }) {
     return (
         <section className="filter-bar">
-            <SearchBar onSearch={setSearch} />
-
-            <input
-                type="text"
-                className="search-input author-search"
-                placeholder="Auteur..."
-                onChange={e => setAuthor?.(e.target.value)}
-            />
+            <div className="filter-row">
+                <SearchBar onSearch={setSearch} placeholder="Titre..." />
+                <input
+                    type="text"
+                    className="search-input"
+                    placeholder="Auteur..."
+                    onChange={e => setAuthor?.(e.target.value)}
+                />
+            </div>
 
             <div className="filter-controls">
                 <CategoryFilter

@@ -63,6 +63,14 @@ export default function HomePage({ isConnected, user }) {
 
     const categories = [...new Set(posts.map(post => post.category))]
 
+    // 8 catégories avec le plus de posts pour la sidebar
+    const topCategories = [...categories]
+        .sort((a, b) =>
+            posts.filter(p => p.category === b).length -
+            posts.filter(p => p.category === a).length
+        )
+        .slice(0, 8)
+
     if (!forumOpen) {
         return (
             <div className="forum-closed">
@@ -75,17 +83,20 @@ export default function HomePage({ isConnected, user }) {
     return (
         <div className="home-page">
 
-            {/* Sidebar gauche : liste des catégories cliquables */}
+            {/* Sidebar gauche : top 8 catégories cliquables */}
             <aside className="sidebar-left">
                 <h3>Catégories</h3>
                 <ul>
-                    {categories.map(cat => (
+                    {topCategories.map(cat => (
                         <li
                             key={cat}
                             className={category === cat ? "active" : ""}
                             onClick={() => setCategory(category === cat ? "" : cat)}
                         >
-                            {cat}
+                            <span>{cat}</span>
+                            <span className="sidebar-cat-count">
+                                {posts.filter(p => p.category === cat).length}
+                            </span>
                         </li>
                     ))}
                 </ul>

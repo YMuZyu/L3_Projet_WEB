@@ -14,7 +14,30 @@
 .tags-subtitle {
   font-size: 0.9rem;
   color: var(--text-muted);
-  margin-bottom: 1.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.categories-search {
+  width: 100%;
+  max-width: 360px;
+  padding: 0.55rem 1rem;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  background: var(--bg-color);
+  color: var(--text-main);
+  font-size: 0.9rem;
+  font-family: inherit;
+  outline: none;
+  margin-bottom: 1.5rem;
+  transition: border-color 0.2s;
+}
+
+.categories-search:focus {
+  border-color: var(--primary);
+}
+
+.categories-search::placeholder {
+  color: var(--text-muted);
 }
 
 /* Grille : force 3 colonnes minimum */

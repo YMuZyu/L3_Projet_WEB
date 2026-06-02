@@ -76,6 +76,34 @@
   background: #fca5a5;
 }
 
+/* Onglets */
+.history-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.history-tabs button {
+  padding: 0.5rem 1.1rem;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: var(--shadow-card);
+  transition: all 0.15s;
+}
+
+.history-tabs button:hover {
+  color: var(--text-main);
+}
+
+.history-tabs button.active {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
 /* Sections */
 .history-sections {
   display: flex;

@@ -7,6 +7,7 @@ import '../styles/pages/CategoriesPage.css'
 
 export default function CategoriesPage() {
     const [posts, setPosts] = useState([])
+    const [search, setSearch] = useState("")
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -16,8 +17,9 @@ export default function CategoriesPage() {
             .catch(console.error)
     }, [])
 
-    // Catégories uniques
+    // Catégories uniques, filtrées par recherche
     const categories = [...new Set(posts.map(p => p.category).filter(Boolean))]
+        .filter(cat => cat.toLowerCase().includes(search.toLowerCase()))
 
     // Calcule les stats d'une catégorie
     const getStats = (cat) => {
@@ -62,6 +64,14 @@ export default function CategoriesPage() {
             <p className="tags-subtitle">
                 {categories.length} catégorie{categories.length > 1 ? 's' : ''} — cliquez pour explorer
             </p>
+
+            <input
+                type="text"
+                className="categories-search"
+                placeholder="Rechercher une catégorie..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+            />
 
             {categories.length === 0
                 ? <p className="empty">Aucune catégorie pour l'instant.</p>

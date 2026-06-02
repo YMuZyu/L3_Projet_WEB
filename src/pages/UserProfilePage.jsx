@@ -73,6 +73,22 @@ export default function UserProfilePage({ user, isConnected }) {
         } catch (err) { console.error(err) }
     }
 
+    // Admin: révoquer / réactiver un membre
+    const handleAdminRevoke = async () => {
+        const newState = !profileUser.isValidated
+        const msg = newState ? 'Réactiver ce membre ?' : 'Révoquer ce membre ? Il ne pourra plus se connecter.'
+        if (!confirm(msg)) return
+        try {
+            const res = await fetch(`${API}/admin/users/${userId}/validate`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ isValidated: newState })
+            })
+            if (res.ok) setProfileUser(prev => ({ ...prev, isValidated: newState }))
+        } catch (err) { console.error(err) }
+    }
+
     // Admin: supprimer une réponse de force
     const handleAdminDeleteReply = async (replyId) => {
         if (!confirm('Supprimer cette réponse par force ?')) return
@@ -113,7 +129,12 @@ export default function UserProfilePage({ user, isConnected }) {
                         </button>
                     )}
                     {isAdmin && !isOwnProfile && (
-                        <span className="admin-badge-profile">👮 Vue admin</span>
+                        <button
+                            className={`admin-revoke-btn${profileUser?.isValidated === false ? ' revoked' : ''}`}
+                            onClick={handleAdminRevoke}
+                        >
+                            {profileUser?.isValidated === false ? '✅ Réactiver membre' : '🚫 Révoquer membre'}
+                        </button>
                     )}
                 </div>
             </div>

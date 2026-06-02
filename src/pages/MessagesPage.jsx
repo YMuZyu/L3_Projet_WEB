@@ -95,7 +95,10 @@ export default function MessagesPage({ user, isConnected }) {
         <div className="messages-page">
             {/* Panneau gauche : liste des conversations */}
             <aside className="conversations-panel">
-                <h2 className="conv-title">Messages</h2>
+                <div className="conv-header">
+                    <button className="back-btn" onClick={() => navigate(-1)}>← Retour</button>
+                    <h2 className="conv-title">Messages</h2>
+                </div>
                 {conversations.length === 0
                     ? <p className="conv-empty">Aucune conversation</p>
                     : conversations.map(conv => (
