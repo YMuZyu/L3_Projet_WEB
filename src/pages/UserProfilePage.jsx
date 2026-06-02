@@ -78,14 +78,6 @@ export default function UserProfilePage({ user, isConnected }) {
                     repliesCount={userReplies.length}
                 />
                 <div className="profile-actions">
-                    {isOwnProfile && (
-                        <button
-                            className="edit-profile-btn"
-                            onClick={() => navigate(`/profile/${userId}/edit`)}
-                        >
-                            Modifier le profil
-                        </button>
-                    )}
                     {isConnected && !isOwnProfile && (
                         <button
                             className="message-profile-btn"
