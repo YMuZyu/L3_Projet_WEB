@@ -12,7 +12,7 @@ import MessagesPage from '../../pages/MessagesPage.jsx'
 export default function AppRouter({ user, isConnected, onLogin, onLogout }) {
   return (
     <Routes>
-      <Route path="/"                   element={<HomePage isConnected={isConnected} />} />
+      <Route path="/"                   element={<HomePage isConnected={isConnected} user={user} />} />
       <Route path="/login"              element={<LoginPage onLogin={onLogin} />} />
       <Route path="/register"           element={<RegisterPage onLogin={onLogin} />} />
       <Route path="/post/:postId"       element={<PostPage user={user} isConnected={isConnected} />} />
