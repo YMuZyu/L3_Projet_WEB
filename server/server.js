@@ -423,35 +423,6 @@ app.post("/posts/:postId/replies", async (req, res) => {
 });
 
 // ========================
-// COMPTEUR DE NOTIFICATIONS
-// ========================
-app.get("/notifications/count", async (req, res) => {
-    if (!req.session.user) return res.json({ count: 0 })
-
-    try {
-        const posts = db.collection("posts")
-        const replies = db.collection("replies")
-
-        // On récupère tous les posts de l'utilisateur
-        const userPosts = await posts
-            .find({ userId: req.session.user._id.toString() })
-            .toArray()
-
-        const postIds = userPosts.map(p => p._id.toString())
-
-        // On compte les réponses reçues sur ses posts
-        const count = await replies.countDocuments({
-            postId: { $in: postIds },
-            userId: { $ne: req.session.user._id.toString() } // pas ses propres réponses
-        })
-
-        return res.json({ count })
-    } catch (err) {
-        return res.status(500).json({ count: 0 })
-    }
-})
-
-// ========================
 // DELETE REPLY (auteur seulement)
 // ========================
 app.delete("/posts/:postId/replies/:replyId", async (req, res) => {

@@ -1,3 +1,5 @@
+/* Carte d'aperçu d'un post dans la liste */
+
 .post-card {
   background-color: var(--card-bg);
   border-radius: var(--radius-soft);
@@ -11,11 +13,7 @@
   overflow: hidden;
 }
 
-/* Carte avec image : fond neutre, l'image porte la couleur */
-.post-card.has-image {
-  background-color: var(--card-bg) !important;
-}
-
+/* Image en haut de la carte, pleine largeur */
 .post-card-image {
   margin: -1.25rem -1.4rem 1rem -1.4rem;
   height: 160px;
@@ -35,7 +33,7 @@
   box-shadow: var(--shadow-hover);
 }
 
-/* Cartes colorées en rotation automatique */
+/* Alternance automatique de couleurs pastels sur les cartes */
 .post-card:nth-child(4n + 1) {
   background-color: var(--card-lavender);
 }
@@ -56,6 +54,7 @@
   margin-bottom: 0.75rem;
 }
 
+/* Badge catégorie avec fond semi-transparent pour rester lisible sur les couleurs */
 .post-category {
   background-color: rgba(255, 255, 255, 0.65);
   color: var(--text-main);
@@ -87,7 +86,7 @@
   line-height: 1.5;
 }
 
-/* Footer : auteur + stats */
+/* Footer : auteur à gauche, stats à droite */
 .post-card-footer {
   display: flex;
   align-items: center;
@@ -96,12 +95,13 @@
   color: var(--text-muted);
 }
 
+/* Cercle avec l'initiale ou l'avatar de l'auteur */
 .post-author-badge {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: var(--primary, #6c63ff);
-  color: white;
+  background: var(--primary);
+  color: var(--on-primary);
   font-size: 0.75rem;
   font-weight: 700;
   display: inline-flex;
@@ -130,8 +130,9 @@
   transition: color 0.15s;
 }
 
-.post-author-name:hover { color: var(--primary, #6c63ff); }
+.post-author-name:hover { color: var(--primary); }
 
+/* Stats poussées à droite */
 .post-footer-right {
   margin-left: auto;
 }
