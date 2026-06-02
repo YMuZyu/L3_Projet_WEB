@@ -18,7 +18,7 @@ export default function LoginPage({ onLogin }) {
     }
 
     try {
-      const res = await fetch("http://localhost:10000/user/login", {
+      const res = await fetch("/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

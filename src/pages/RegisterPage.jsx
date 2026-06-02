@@ -36,7 +36,7 @@ export default function RegisterPage( ) {
         }
 
         try {
-            const response = await fetch("http://localhost:10000/user", {
+            const response = await fetch("/user", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ login, password, password2 })

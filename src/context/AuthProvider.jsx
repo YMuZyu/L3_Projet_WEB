@@ -16,7 +16,7 @@ export default function AuthProvider({ children }) {
     useEffect(() => {
         const checkSession = async () => {
             try {
-                const response = await fetch("http://localhost:10000/user/me", {
+                const response = await fetch("/user/me", {
                     credentials: "include" // envoie le cookie de session
                 })
                 if (response.ok) {
@@ -40,7 +40,7 @@ export default function AuthProvider({ children }) {
 
     const logout = async () => {
         try {
-            await fetch("http://localhost:10000/user/logout", {
+            await fetch("/user/logout", {
                 method: "POST",
                 credentials: "include"
             })
