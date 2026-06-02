@@ -1,25 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {
-    // Rend le serveur Vite accessible depuis d'autres machines du réseau (pas seulement localhost)
-    host: true,
-
+    host: true, // accessible depuis les autres machines du réseau
     proxy: {
-      // Toutes les requêtes fetch du frontend qui commencent par ces chemins
-      // sont redirigées automatiquement vers le serveur Express (port 10000).
-      // Grâce à ça, les autres PC du réseau n'ont besoin d'accéder qu'au
-      // serveur Vite (port 5173) : c'est lui qui fait le relais vers Express.
-      //
-      // Exemple pour les images de posts :
-      //   Le frontend fait fetch('/posts') → Vite redirige vers http://localhost:10000/posts
-      //   L'image est stockée à /uploads/photo.jpg sur le serveur Express.
-      //   Le frontend affiche <img src="/uploads/photo.jpg"> → Vite sert le fichier via Express.
-      //   Un autre PC qui accède à http://192.168.x.x:5173 voit l'image correctement,
-      //   car c'est Vite (sur le bon PC) qui va chercher le fichier, pas le navigateur distant.
-
+      // Redirige les appels API vers le serveur Express (port 10000)
+      // comme ça les URLs dans le code n'ont pas besoin de "http://localhost:10000"
       '/uploads':       { target: 'http://localhost:10000', changeOrigin: true },
       '/posts':         { target: 'http://localhost:10000', changeOrigin: true },
       '/user':          { target: 'http://localhost:10000', changeOrigin: true },
