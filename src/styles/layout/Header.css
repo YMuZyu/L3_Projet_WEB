@@ -85,6 +85,9 @@
 
 /* Bouton historique */
 .header-history-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   padding: 0.4rem 0.9rem;
   border: 1.5px solid var(--border-light);
   border-radius: var(--radius-pill);

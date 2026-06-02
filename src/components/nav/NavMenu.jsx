@@ -7,8 +7,8 @@ import '../../styles/nav/NavMenu.css'
 export default function NavMenu({ isConnected }) {
     return (
         <nav className="nav-menu">
-            <MenuItem label="🏠 Home" to="/" />
-            <MenuItem label="🏷️ Catégories" to="/categories" />
+            <MenuItem label="Home" to="/" />
+            <MenuItem label="Catégories" to="/categories" />
 
             {isConnected && (
                 <MenuItem label="➕ Poster" to="/create" />
