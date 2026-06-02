@@ -37,7 +37,7 @@ export default function CreatePostPage({ isConnected }) {
         }
 
         try {
-            const response = await fetch('http://localhost:10000/posts', {
+            const response = await fetch('/posts', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

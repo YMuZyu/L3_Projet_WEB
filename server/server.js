@@ -143,6 +143,7 @@ app.put("/user", async (req, res) => {
       password,
       isAdmin: false,
       isValidated: false,
+      avatar: null,
       createdAt: new Date()
     });
 
@@ -603,24 +604,18 @@ app.patch("/user/me/avatar", async (req, res) => {
   const { imageBase64 } = req.body;
   if (!imageBase64) return res.status(400).json({ message: "Image manquante" });
 
+  const valid = /^data:image\/(png|jpeg|jpg|gif|webp);base64,/.test(imageBase64);
+  if (!valid) return res.status(400).json({ message: "Format invalide" });
+
   try {
-    const matches = imageBase64.match(/^data:([a-zA-Z]+\/[a-zA-Z+]+);base64,(.+)$/);
-    if (!matches) return res.status(400).json({ message: "Format invalide" });
-
-    const ext = matches[1].split('/')[1].replace('+xml', '');
-    const buffer = Buffer.from(matches[2], 'base64');
-    const filename = `avatar-${req.session.user._id}-${Date.now()}.${ext}`;
-    await fs.writeFile(path.join(uploadsDir, filename), buffer);
-    const avatarUrl = `/uploads/${filename}`;
-
     const users = db.collection("users");
     await users.updateOne(
-      { _id: req.session.user._id },
-      { $set: { avatar: avatarUrl } }
+      { _id: new ObjectId(req.session.user._id) },
+      { $set: { avatar: imageBase64 } }
     );
-    req.session.user.avatar = avatarUrl;
+    req.session.user.avatar = imageBase64;
 
-    return res.json({ avatar: avatarUrl });
+    return res.json({ avatar: imageBase64 });
   } catch (err) {
     return res.status(500).json({ message: "Erreur serveur" });
   }

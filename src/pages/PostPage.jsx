@@ -17,7 +17,7 @@ export default function PostPage({ user, isConnected }) {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch(`http://localhost:10000/posts/${postId}`)
+                const response = await fetch(`/posts/${postId}`)
                 if (response.ok) {
                     const data = await response.json()
                     setPost(data)
@@ -33,7 +33,7 @@ export default function PostPage({ user, isConnected }) {
 
         const fetchReplies = async () => {
             try {
-                const response = await fetch(`http://localhost:10000/posts/${postId}/replies`)
+                const response = await fetch(`/posts/${postId}/replies`)
                 if (response.ok) {
                     const data = await response.json()
                     setReplies(data)

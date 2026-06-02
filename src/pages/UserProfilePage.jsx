@@ -20,7 +20,7 @@ export default function UserProfilePage({ user, isConnected }) {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await fetch(`http://localhost:10000/user/${userId}`)
+                const res = await fetch(`/user/${userId}`)
                 if (res.ok) setProfileUser(await res.json())
                 else setError("Utilisateur introuvable")
             } catch { setError("Erreur serveur") }
@@ -29,14 +29,14 @@ export default function UserProfilePage({ user, isConnected }) {
 
         const fetchPosts = async () => {
             try {
-                const res = await fetch(`http://localhost:10000/posts/user/${userId}`)
+                const res = await fetch(`/posts/user/${userId}`)
                 if (res.ok) setUserPosts(await res.json())
             } catch (err) { console.error(err) }
         }
 
         const fetchReplies = async () => {
             try {
-                const res = await fetch(`http://localhost:10000/user/${userId}/replies`)
+                const res = await fetch(`/user/${userId}/replies`)
                 if (res.ok) setUserReplies(await res.json())
             } catch (err) { console.error(err) }
         }

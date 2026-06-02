@@ -9,7 +9,7 @@ export default function TagsPage() {
     const selectedCat = searchParams.get('cat')
 
     useEffect(() => {
-        fetch('http://localhost:10000/posts')
+        fetch('/posts')
             .then(r => r.json())
             .then(setPosts)
             .catch(console.error)

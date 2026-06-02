@@ -17,7 +17,7 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
         if (!user) { navigate('/login'); return }
         try {
             const res = await fetch(
-                `http://localhost:10000/posts/${postId}/replies/${reply._id}/like`,
+                `/posts/${postId}/replies/${reply._id}/like`,
                 { method: 'POST', credentials: 'include' }
             )
             if (res.ok) {
@@ -37,7 +37,7 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
         if (!user) { navigate('/login'); return }
         try {
             const res = await fetch(
-                `http://localhost:10000/posts/${postId}/replies/${reply._id}/dislike`,
+                `/posts/${postId}/replies/${reply._id}/dislike`,
                 { method: 'POST', credentials: 'include' }
             )
             if (res.ok) {
@@ -58,7 +58,7 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
         setDeleting(true)
         try {
             const res = await fetch(
-                `http://localhost:10000/posts/${postId}/replies/${reply._id}`,
+                `/posts/${postId}/replies/${reply._id}`,
                 { method: 'DELETE', credentials: 'include' }
             )
             if (res.ok) {

@@ -8,15 +8,13 @@ export default function UserInfo({ user, isOwnProfile, onAvatarUpdate }) {
 
     if (!user) return null
 
-    const avatarSrc = user.avatar
-        ? `http://localhost:10000${user.avatar}`
-        : null
+    const avatarSrc = user.avatar || null
 
     const handleCrop = async (base64) => {
         setSaving(true)
         setShowCropper(false)
         try {
-            const res = await fetch('http://localhost:10000/user/me/avatar', {
+            const res = await fetch('/user/me/avatar', {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

@@ -18,7 +18,7 @@ export default function MessagesPage({ user, isConnected }) {
         if (!isConnected) return
         const fetchConvs = async () => {
             try {
-                const res = await fetch('http://localhost:10000/messages/conversations', { credentials: 'include' })
+                const res = await fetch('/messages/conversations', { credentials: 'include' })
                 if (res.ok) setConversations(await res.json())
             } catch {}
         }
@@ -31,14 +31,14 @@ export default function MessagesPage({ user, isConnected }) {
 
         const fetchPartner = async () => {
             try {
-                const res = await fetch(`http://localhost:10000/user/${partnerIdParam}`)
+                const res = await fetch(`/user/${partnerIdParam}`)
                 if (res.ok) setPartner(await res.json())
             } catch {}
         }
 
         const fetchMessages = async () => {
             try {
-                const res = await fetch(`http://localhost:10000/messages/conversation/${partnerIdParam}`, { credentials: 'include' })
+                const res = await fetch(`/messages/conversation/${partnerIdParam}`, { credentials: 'include' })
                 if (res.ok) setMessages(await res.json())
             } catch {}
         }
@@ -57,7 +57,7 @@ export default function MessagesPage({ user, isConnected }) {
         if (!content.trim() || !partnerIdParam) return
         setSending(true)
         try {
-            const res = await fetch('http://localhost:10000/messages', {
+            const res = await fetch('/messages', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',

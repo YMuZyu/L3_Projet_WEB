@@ -25,7 +25,7 @@ export default function Header({ user, isConnected, onLogout }) {
 
         const fetchCount = async () => {
             try {
-                const res = await fetch('http://localhost:10000/notifications/count', { credentials: 'include' })
+                const res = await fetch('/notifications/count', { credentials: 'include' })
                 if (res.ok) {
                     const data = await res.json()
                     setNotifCount(data.count)
@@ -86,6 +86,7 @@ export default function Header({ user, isConnected, onLogout }) {
 
                 <div ref={userRef} className="header-icon-wrapper">
                     <UserButton
+                        user={user}
                         onClick={() => {
                             setIsUserOpen(!isUserOpen)
                             setIsNotifOpen(false)

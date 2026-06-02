@@ -17,7 +17,7 @@ export default function ReplyForm({ postId, onSubmit, user }) {
         }
 
         try {
-            const response = await fetch(`http://localhost:10000/posts/${postId}/replies`, {
+            const response = await fetch(`/posts/${postId}/replies`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
