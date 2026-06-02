@@ -371,10 +371,10 @@ app.get("/posts/:postId/replies", async (req, res) => {
 });
 
 // ========================
-// CREATE REPLY
+// CREATE REPLY (supporte parentReplyId pour le reply-to-reply)
 // ========================
 app.post("/posts/:postId/replies", async (req, res) => {
-  const { content } = req.body;
+  const { content, parentReplyId } = req.body;
 
   if (!content) return res.status(400).json({ message: "Contenu manquant" });
   if (!req.session.user) return res.status(401).json({ message: "Non connecté" });
@@ -388,6 +388,7 @@ app.post("/posts/:postId/replies", async (req, res) => {
       content,
       author: req.session.user.login,
       userId: req.session.user._id.toString(),
+      parentReplyId: parentReplyId || null,
       createdAt: new Date(),
     };
 
@@ -410,6 +411,22 @@ app.post("/posts/:postId/replies", async (req, res) => {
         replyId: result.insertedId,
         preview: content.length > 80 ? content.substring(0, 80) + '...' : content
       });
+    }
+
+    // Notifier l'auteur de la réponse parente (reply-to-reply)
+    if (parentReplyId) {
+      const parentReply = await replies.findOne({ _id: new ObjectId(parentReplyId) });
+      if (parentReply && parentReply.userId) {
+        await createNotification(db, {
+          userId: parentReply.userId,
+          type: 'reply_reply',
+          fromUserId: req.session.user._id,
+          fromUserLogin: req.session.user.login,
+          postId: req.params.postId,
+          replyId: result.insertedId,
+          preview: content.length > 80 ? content.substring(0, 80) + '...' : content
+        });
+      }
     }
 
     return res.status(201).json({ ...newReply, _id: result.insertedId });
@@ -616,6 +633,37 @@ app.get("/user/:userId/replies", async (req, res) => {
 });
 
 // ========================
+// CHANGE LOGIN (pseudo)
+// ========================
+app.patch("/user/me/login", async (req, res) => {
+  if (!req.session.user) return res.status(401).json({ message: "Non connecté" });
+  const { login } = req.body;
+  if (!login?.trim()) return res.status(400).json({ message: "Pseudo manquant" });
+
+  const newLogin = login.trim();
+
+  try {
+    const users = db.collection("users");
+    const existing = await users.findOne({ login: newLogin });
+    if (existing) return res.status(409).json({ message: "Pseudo déjà utilisé" });
+
+    const myId = req.session.user._id.toString();
+
+    await users.updateOne({ _id: new ObjectId(myId) }, { $set: { login: newLogin } });
+    await db.collection("posts").updateMany({ userId: myId }, { $set: { author: newLogin } });
+    await db.collection("replies").updateMany({ userId: myId }, { $set: { author: newLogin } });
+    await db.collection("messages").updateMany({ fromUserId: myId }, { $set: { fromUserLogin: newLogin } });
+    await db.collection("messages").updateMany({ toUserId: myId }, { $set: { toUserLogin: newLogin } });
+    await db.collection("notifications").updateMany({ fromUserId: myId }, { $set: { fromUserLogin: newLogin } });
+
+    req.session.user.login = newLogin;
+    return res.json({ message: "Pseudo modifié", login: newLogin });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// ========================
 // UPDATE AVATAR
 // ========================
 app.patch("/user/me/avatar", async (req, res) => {
@@ -635,6 +683,47 @@ app.patch("/user/me/avatar", async (req, res) => {
     req.session.user.avatar = imageBase64;
 
     return res.json({ avatar: imageBase64 });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// ========================
+// HISTORIQUE PERSONNEL (5 récents par défaut, filtrables)
+// ========================
+app.get("/user/me/history", async (req, res) => {
+  if (!req.session.user) return res.status(401).json({ message: "Non connecté" });
+
+  const { search, category, date, recipient } = req.query;
+  const myId = req.session.user._id.toString();
+
+  try {
+    let posts   = await db.collection("posts").find({ userId: myId }).sort({ createdAt: -1 }).toArray();
+    let replies = await db.collection("replies").find({ userId: myId }).sort({ createdAt: -1 }).toArray();
+    let messages = await db.collection("messages").find({ fromUserId: myId }).sort({ createdAt: -1 }).toArray();
+
+    // Appliquer les filtres (l'historique retourne toujours tout, les filtres précisent)
+    if (search) {
+      const q = search.toLowerCase();
+      posts    = posts.filter(p => p.title?.toLowerCase().includes(q) || p.content?.toLowerCase().includes(q));
+      replies  = replies.filter(r => r.content?.toLowerCase().includes(q));
+      messages = messages.filter(m => m.content?.toLowerCase().includes(q));
+    }
+    if (category) {
+      posts = posts.filter(p => p.category?.toLowerCase() === category.toLowerCase());
+    }
+    if (date) {
+      const d0 = new Date(date);
+      const d1 = new Date(date); d1.setDate(d1.getDate() + 1);
+      posts    = posts.filter(p => new Date(p.createdAt) >= d0 && new Date(p.createdAt) < d1);
+      replies  = replies.filter(r => new Date(r.createdAt) >= d0 && new Date(r.createdAt) < d1);
+      messages = messages.filter(m => new Date(m.createdAt) >= d0 && new Date(m.createdAt) < d1);
+    }
+    if (recipient) {
+      messages = messages.filter(m => m.toUserLogin?.toLowerCase().includes(recipient.toLowerCase()));
+    }
+
+    return res.json({ posts, replies, messages });
   } catch (err) {
     return res.status(500).json({ message: "Erreur serveur" });
   }
@@ -905,6 +994,40 @@ app.patch("/admin/users/:id/admin", requireAdmin, async (req, res) => {
       { $set: { isAdmin } }
     );
     return res.json({ message: isAdmin ? "Droits admin accordés" : "Droits admin retirés" });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// ========================
+// ADMIN — SUPPRIMER UN POST (force)
+// ========================
+app.delete("/admin/posts/:postId", requireAdmin, async (req, res) => {
+  try {
+    const posts = db.collection("posts");
+    await posts.deleteOne({ _id: new ObjectId(req.params.postId) });
+    await db.collection("replies").deleteMany({ postId: req.params.postId });
+    return res.json({ message: "Post supprimé" });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// ========================
+// ADMIN — SUPPRIMER UNE RÉPONSE (force)
+// ========================
+app.delete("/admin/replies/:replyId", requireAdmin, async (req, res) => {
+  try {
+    const reply = await db.collection("replies").findOne({ _id: new ObjectId(req.params.replyId) });
+    if (!reply) return res.status(404).json({ message: "Réponse introuvable" });
+    await db.collection("replies").deleteOne({ _id: new ObjectId(req.params.replyId) });
+    if (reply.postId) {
+      await db.collection("posts").updateOne(
+        { _id: new ObjectId(reply.postId) },
+        { $inc: { comments: -1 } }
+      );
+    }
+    return res.json({ message: "Réponse supprimée" });
   } catch (err) {
     return res.status(500).json({ message: "Erreur serveur" });
   }

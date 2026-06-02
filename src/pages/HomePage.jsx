@@ -44,6 +44,7 @@ export default function HomePage({ isConnected }) {
 
     // États pour les filtres
     const [search, setSearch] = useState("")
+    const [author, setAuthor] = useState("")
     const [searchParams] = useSearchParams()
     const [category, setCategory] = useState(searchParams.get('cat') || "")
     const [sort, setSort] = useState("recent")
@@ -51,6 +52,7 @@ export default function HomePage({ isConnected }) {
     // Filtre et trie les posts selon les critères choisis par l'utilisateur
     const postsAffiches = posts
         .filter(p => p.title?.toLowerCase().includes(search.toLowerCase()))
+        .filter(p => !author || p.author?.toLowerCase().includes(author.toLowerCase()))
         .filter(p => category === "" || p.category === category)
         .sort((a, b) => {
             if (sort === "recent") return new Date(b.createdAt) - new Date(a.createdAt)
@@ -96,6 +98,7 @@ export default function HomePage({ isConnected }) {
             <div className="feed">
                 <FilterBar
                     setSearch={setSearch}
+                    setAuthor={setAuthor}
                     setCategory={setCategory}
                     setSort={setSort}
                     activeCategory={category}

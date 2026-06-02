@@ -120,3 +120,44 @@
 .emoji-list span:hover {
   background-color: var(--hover-bg);
 }
+
+/* Aperçu de la réponse citée dans le formulaire */
+.reply-quote-preview {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  background: var(--bg-color);
+  border-left: 3px solid var(--primary);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.reply-quote-author {
+  font-weight: 700;
+  color: var(--primary);
+  white-space: nowrap;
+}
+
+.reply-quote-content {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reply-quote-cancel {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0;
+  box-shadow: none;
+  line-height: 1;
+}
+
+.reply-quote-cancel:hover {
+  color: #ef4444;
+}

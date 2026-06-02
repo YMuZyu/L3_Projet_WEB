@@ -51,6 +51,11 @@ export default function AuthProvider({ children }) {
         setUser(prev => ({ ...prev, avatar: newAvatar }))
     }
 
+    // Met à jour le pseudo dans le contexte global
+    const updateLogin = (newLogin) => {
+        setUser(prev => ({ ...prev, login: newLogin }))
+    }
+
     // Appelé quand l'utilisateur clique sur "Déconnexion"
     // On détruit la session côté serveur puis on réinitialise l'état local
     const logout = async () => {
@@ -78,7 +83,8 @@ export default function AuthProvider({ children }) {
             isValidated: user?.isValidated || false, // raccourci pour savoir si le compte est validé
             login,
             logout,
-            updateAvatar
+            updateAvatar,
+            updateLogin
         }}>
             {children}
         </AuthContext.Provider>

@@ -83,6 +83,17 @@ export default function Header({ user, isConnected, onLogout }) {
             {/* Boutons notifications et profil */}
             <div className='header-right'>
 
+                {/* Bouton historique visible seulement si connecté */}
+                {isConnected && (
+                    <button
+                        className="header-history-btn"
+                        onClick={() => navigate('/history')}
+                        title="Mon historique"
+                    >
+                        📋 Historique
+                    </button>
+                )}
+
                 {/* Bouton notifications avec badge de compteur */}
                 <div ref={notifRef} className="header-icon-wrapper">
                     <NotifButton

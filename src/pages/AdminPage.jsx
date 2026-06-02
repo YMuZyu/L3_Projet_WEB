@@ -1,6 +1,3 @@
-// Page d'administration : gestion des inscriptions et des droits admin
-// Accessible uniquement aux administrateurs
-
 import { useState, useEffect, useContext } from "react"
 import { useNavigate, Navigate } from "react-router-dom"
 import { AuthContext } from "../context/AuthProvider.jsx"
@@ -18,23 +15,20 @@ export default function AdminPage() {
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
     const [forumOpen, setForumOpen] = useState(true)
+    const [userSearch, setUserSearch] = useState("")
 
-    // Récupère la liste des utilisateurs au chargement
     useEffect(() => {
         fetchUsers()
         fetchForumStatus()
     }, [])
 
-    // Rediriger si pas admin ou déconnecter
     if (!isAuthenticated || !user?.isAdmin) {
         return <Navigate to="/" replace />
     }
 
     const fetchForumStatus = async () => {
         try {
-            const res = await fetch('http://localhost:10000/admin/forum-status', {
-                credentials: 'include'
-            })
+            const res = await fetch(`${API}/admin/forum-status`, { credentials: 'include' })
             if (res.ok) {
                 const data = await res.json()
                 setForumOpen(data.isOpen)
@@ -42,24 +36,21 @@ export default function AdminPage() {
         } catch {}
     }
 
-    // Récupère tous les utilisateurs depuis le serveur
     const fetchUsers = async () => {
         try {
             const res = await fetch(`${API}/admin/users`, { credentials: "include" })
             if (res.ok) {
-                const data = await res.json()
-                setUsers(data)
+                setUsers(await res.json())
             } else {
                 setError("Accès refusé")
             }
-        } catch (err) {
+        } catch {
             setError("Erreur serveur")
         } finally {
             setLoading(false)
         }
     }
 
-    // Valider ou rejeter un utilisateur
     const handleValidate = async (id, isValidated) => {
         try {
             const res = await fetch(`${API}/admin/users/${id}/validate`, {
@@ -76,7 +67,6 @@ export default function AdminPage() {
         }
     }
 
-    // Donner ou retirer le statut admin à un utilisateur
     const handleToggleAdmin = async (id, isAdmin) => {
         try {
             const res = await fetch(`${API}/admin/users/${id}/admin`, {
@@ -95,7 +85,7 @@ export default function AdminPage() {
 
     const handleToggleForum = async () => {
         try {
-            const res = await fetch('http://localhost:10000/admin/forum-status', {
+            const res = await fetch(`${API}/admin/forum-status`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -108,9 +98,12 @@ export default function AdminPage() {
         } catch {}
     }
 
-    // Sépare les utilisateurs en attente des membres validés
     const pending = users.filter(u => !u.isValidated)
-    const members = users.filter(u => u.isValidated)
+
+    // Membres validés filtrés par la recherche
+    const members = users
+        .filter(u => u.isValidated)
+        .filter(u => !userSearch || u.login?.toLowerCase().includes(userSearch.toLowerCase()))
 
     if (loading) return <p className="admin-loading">Chargement...</p>
     if (error) return <p className="error">{error}</p>
@@ -121,7 +114,7 @@ export default function AdminPage() {
 
             {message && <p className="admin-message">{message}</p>}
 
-            {/* Inscriptions en attente de validation */}
+            {/* Inscriptions en attente */}
             <section className="admin-section">
                 <h2>Inscriptions en attente ({pending.length})</h2>
 
@@ -131,7 +124,13 @@ export default function AdminPage() {
                         <div className="admin-list">
                             {pending.map(u => (
                                 <div key={u._id} className="admin-user-card pending">
-                                    <span className="admin-login">{u.login}</span>
+                                    <span
+                                        className="admin-login admin-login-link"
+                                        onClick={() => navigate(`/profile/${u._id}`)}
+                                        title="Voir le profil"
+                                    >
+                                        {u.login}
+                                    </span>
                                     <span className="admin-date">
                                         Inscrit le {new Date(u.createdAt).toLocaleDateString()}
                                     </span>
@@ -156,20 +155,35 @@ export default function AdminPage() {
                 }
             </section>
 
-            {/* Liste des membres validés */}
+            {/* Liste des membres avec recherche */}
             <section className="admin-section">
-                <h2>Membres ({members.length})</h2>
+                <div className="admin-section-header">
+                    <h2>Membres ({members.length}{userSearch ? ` sur ${users.filter(u => u.isValidated).length}` : ""})</h2>
+                    <input
+                        className="admin-search-input"
+                        type="text"
+                        placeholder="🔍 Chercher un utilisateur..."
+                        value={userSearch}
+                        onChange={e => setUserSearch(e.target.value)}
+                    />
+                </div>
 
                 {members.length === 0
-                    ? <p className="admin-empty">Aucun membre validé</p>
+                    ? <p className="admin-empty">{userSearch ? "Aucun utilisateur trouvé" : "Aucun membre validé"}</p>
                     : (
                         <div className="admin-list">
                             {members.map(u => (
                                 <div key={u._id} className="admin-user-card">
-                                    <span className="admin-login">{u.login}</span>
+                                    {/* Login cliquable → profil pour exercer les droits depuis le profil */}
+                                    <span
+                                        className="admin-login admin-login-link"
+                                        onClick={() => navigate(`/profile/${u._id}`)}
+                                        title="Voir le profil et exercer les droits admin"
+                                    >
+                                        {u.login}
+                                    </span>
                                     {u.isAdmin && <span className="admin-badge">Admin</span>}
 
-                                    {/* On ne peut pas modifier ses propres droits */}
                                     {u._id.toString() === user._id.toString()
                                         ? <span className="admin-self">(vous)</span>
                                         : (
@@ -186,6 +200,12 @@ export default function AdminPage() {
                                                 >
                                                     Révoquer membre
                                                 </button>
+                                                <button
+                                                    className="btn-profile"
+                                                    onClick={() => navigate(`/profile/${u._id}`)}
+                                                >
+                                                    👤 Profil
+                                                </button>
                                             </div>
                                         )
                                     }
@@ -196,6 +216,7 @@ export default function AdminPage() {
                 }
             </section>
 
+            {/* Statut du forum */}
             <section className="admin-section">
                 <h2>🔒 Statut du forum</h2>
                 <div className="forum-status">

@@ -109,3 +109,72 @@
   color: var(--text-muted);
   line-height: 1.5;
 }
+
+/* Ligne pseudo + bouton édition */
+.user-login-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.login-edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 0.2em 0.4em;
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  box-shadow: none;
+  transition: color 0.15s, background 0.15s;
+}
+
+.login-edit-btn:hover {
+  color: var(--primary);
+  background: var(--hover-bg);
+}
+
+/* Formulaire inline d'édition du pseudo */
+.login-edit-form {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.login-edit-input {
+  padding: 0.35rem 0.75rem;
+  border: 1.5px solid var(--primary);
+  border-radius: var(--radius-pill);
+  background: var(--bg-color);
+  color: var(--text-main);
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  outline: none;
+  width: 170px;
+}
+
+.login-edit-save,
+.login-edit-cancel {
+  background: none;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 0.25em 0.55em;
+  box-shadow: none;
+  transition: background 0.15s;
+}
+
+.login-edit-save { color: #16a34a; }
+.login-edit-save:hover { background: #dcfce7; }
+.login-edit-cancel { color: #ef4444; }
+.login-edit-cancel:hover { background: #fee2e2; }
+
+.login-edit-error {
+  font-size: 0.78rem;
+  color: #ef4444;
+  margin: 0;
+  width: 100%;
+}

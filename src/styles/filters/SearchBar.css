@@ -24,3 +24,8 @@
 .search-input::placeholder {
   color: var(--text-muted);
 }
+
+.author-search {
+  flex: 0 0 160px;
+  min-width: 120px;
+}

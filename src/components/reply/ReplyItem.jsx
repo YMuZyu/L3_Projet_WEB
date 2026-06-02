@@ -1,11 +1,8 @@
-// Affiche un commentaire avec likes/dislikes et bouton supprimer
-// L'auteur peut supprimer son propre commentaire
-
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../../styles/reply/ReplyItem.css'
 
-export default function ReplyItem({ reply, postId, user, onDelete }) {
+export default function ReplyItem({ reply, postId, user, onDelete, onReply, allReplies = [] }) {
     const navigate = useNavigate()
     const [likes, setLikes] = useState(reply.likes?.length ?? 0)
     const [liked, setLiked] = useState(user ? (reply.likes || []).includes(user._id?.toString()) : false)
@@ -13,8 +10,12 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
     const [disliked, setDisliked] = useState(user ? (reply.dislikes || []).includes(user._id?.toString()) : false)
     const [deleting, setDeleting] = useState(false)
 
-    // Seul l'auteur ou admin peuvent supprimer un commentaire
     const canDelete = user && (user._id?.toString() === reply.userId || user.isAdmin)
+
+    // Retrouve la réponse parente dans la liste complète des réponses
+    const parentReply = reply.parentReplyId
+        ? allReplies.find(r => r._id?.toString() === reply.parentReplyId?.toString())
+        : null
 
     const handleLike = async (e) => {
         e.stopPropagation()
@@ -77,9 +78,24 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
 
     return (
         <div className="reply-item">
-            <div className="reply-header">
+            {/* Aperçu de la réponse citée */}
+            {parentReply && (
+                <div className="reply-quoted">
+                    <span
+                        className="reply-quoted-author"
+                        onClick={() => navigate(`/profile/${parentReply.userId}`)}
+                    >
+                        ↩ {parentReply.author}
+                    </span>
+                    <p className="reply-quoted-content">
+                        {parentReply.content?.length > 100
+                            ? parentReply.content.substring(0, 100) + '...'
+                            : parentReply.content}
+                    </p>
+                </div>
+            )}
 
-                {/* Auteur cliquable vers son profil */}
+            <div className="reply-header">
                 <span
                     className="reply-author"
                     onClick={() => navigate(`/profile/${reply.userId}`)}
@@ -93,7 +109,17 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
                         {new Date(reply.createdAt).toLocaleDateString()}
                     </span>
 
-                    {/* Boutons like/dislike */}
+                    {/* Bouton répondre (visible si connecté) */}
+                    {user && (
+                        <button
+                            className="reply-to-btn"
+                            onClick={() => onReply?.(reply)}
+                            title="Répondre"
+                        >
+                            ↩
+                        </button>
+                    )}
+
                     <button
                         className={`like-btn small${liked ? ' liked' : ''}`}
                         onClick={handleLike}
@@ -109,7 +135,6 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
                         {disliked ? '👎' : '👍🏻'} {dislikes}
                     </button>
 
-                    {/* Bouton supprimer visible seulement pour l'auteur ou l'admin */}
                     {canDelete && (
                         <button
                             className="delete-reply-btn"
@@ -122,7 +147,7 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
                     )}
                 </div>
             </div>
-            
+
             <p className="reply-content">{reply.content}</p>
         </div>
     )

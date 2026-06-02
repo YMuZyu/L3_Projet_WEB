@@ -83,6 +83,26 @@
   pointer-events: none; /* le badge ne bloque pas les clics */
 }
 
+/* Bouton historique */
+.header-history-btn {
+  padding: 0.4rem 0.9rem;
+  border: 1.5px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  color: var(--text-main);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: none;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+
+.header-history-btn:hover {
+  background: var(--hover-bg);
+  color: var(--primary);
+}
+
 /* Sur mobile on cache le menu central */
 @media (max-width: 768px) {
   .header-center {

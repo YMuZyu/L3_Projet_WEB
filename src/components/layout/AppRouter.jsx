@@ -8,6 +8,7 @@ import UserProfilePage from '../../pages/UserProfilePage.jsx'
 import AdminPage from '../../pages/AdminPage.jsx'
 import CategoriesPage from '../../pages/CategoriesPage.jsx'
 import MessagesPage from '../../pages/MessagesPage.jsx'
+import HistoryPage from '../../pages/HistoryPage.jsx'
 
 export default function AppRouter({ user, isConnected, onLogin, onLogout }) {
   return (
@@ -22,6 +23,7 @@ export default function AppRouter({ user, isConnected, onLogin, onLogout }) {
       <Route path="/categories"         element={<CategoriesPage />} />
       <Route path="/messages"           element={<MessagesPage user={user} isConnected={isConnected} />} />
       <Route path="/messages/:userId"   element={<MessagesPage user={user} isConnected={isConnected} />} />
+      <Route path="/history"            element={<HistoryPage user={user} isConnected={isConnected} />} />
     </Routes>
   )
 }

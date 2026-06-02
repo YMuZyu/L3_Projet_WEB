@@ -92,3 +92,54 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Bouton répondre */
+.reply-to-btn {
+  background: none;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  padding: 0.15em 0.55em;
+  cursor: pointer;
+  font-size: 0.78rem;
+  color: var(--primary);
+  box-shadow: none;
+  opacity: 0.7;
+  transition: opacity 0.15s, background 0.15s;
+}
+
+.reply-to-btn:hover {
+  opacity: 1;
+  background: var(--hover-bg);
+}
+
+/* Bloc citation de la réponse parente */
+.reply-quoted {
+  background: var(--bg-color);
+  border-left: 3px solid var(--primary);
+  border-radius: 8px;
+  padding: 0.4rem 0.75rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.reply-quoted-author {
+  font-weight: 700;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.reply-quoted-author:hover {
+  opacity: 0.75;
+}
+
+.reply-quoted-content {
+  margin: 0;
+  font-style: italic;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
