@@ -1,3 +1,5 @@
+// Sélecteur de tri : par date (récent/ancien) ou alphabétique
+
 import '../../styles/filters/SortSelector.css'
 
 const sortOptions = [
@@ -8,20 +10,17 @@ const sortOptions = [
 
 export default function SortSelector({ onSort }) {
     return (
-        <div className="sort-selector">
-            <label htmlFor="sort-select">Trier par :</label>
-            <select
-                id="sort-select"
-                className="sort-select"
-                onChange={(e) => onSort(e.target.value)}
-                defaultValue="recent"
-            >
-                {sortOptions.map(option => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
-            </select>
-        </div>
+        <select
+            id="sort-select"
+            className="filter-select"
+            onChange={(e) => onSort(e.target.value)}
+            defaultValue="recent"
+        >
+            {sortOptions.map(option => (
+                <option key={option.value} value={option.value}>
+                    {option.label}
+                </option>
+            ))}
+        </select>
     )
 }

@@ -1,3 +1,5 @@
+// Champ de recherche en temps réel : filtre les posts par titre
+
 import '../../styles/filters/SearchBar.css'
 
 export default function SearchBar({ onSearch }) {

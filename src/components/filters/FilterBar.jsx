@@ -1,3 +1,6 @@
+// Barre de filtres : recherche + filtre par catégorie + tri
+// Les selects sont groupés à droite de la barre de recherche
+
 import SearchBar from './SearchBar.jsx'
 import CategoryFilter from './CategoryFilter.jsx'
 import SortSelector from './SortSelector.jsx'
@@ -7,12 +10,16 @@ export default function FilterBar({ setSearch, setCategory, setSort, activeCateg
     return (
         <section className="filter-bar">
             <SearchBar onSearch={setSearch} />
-            <CategoryFilter
-                onSelect={setCategory}
-                activeCategory={activeCategory}
-                categories={categories}
-            />
-            <SortSelector onSort={setSort} />
+
+            {/* Groupe des selects à droite */}
+            <div className="filter-controls">
+                <CategoryFilter
+                    onSelect={setCategory}
+                    activeCategory={activeCategory}
+                    categories={categories}
+                />
+                <SortSelector onSort={setSort} />
+            </div>
         </section>
     )
 }
