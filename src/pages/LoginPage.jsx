@@ -1,3 +1,6 @@
+// Page de connexion : l'utilisateur entre son login et mot de passe
+// Si son compte n'est pas encore validé par un admin, il ne peut pas se connecter
+
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import '../styles/pages/LoginPage.css'
@@ -18,10 +21,11 @@ export default function LoginPage({ onLogin }) {
     }
 
     try {
+      // Envoi des identifiants au serveur
       const res = await fetch("/user/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
+        credentials: "include", // nécessaire pour recevoir le cookie de session
         body: JSON.stringify({ login: username, password: password })
       })
 
@@ -32,12 +36,13 @@ export default function LoginPage({ onLogin }) {
         return;
       }
 
-      // Compte en attente de validation admin
+      // Si le compte existe mais n'est pas encore validé par un admin
       if (!data.user.isValidated && !data.user.isAdmin) {
         setError("Votre compte est en attente de validation par un administrateur.")
         return
       }
 
+      // Connexion réussie : on met à jour le contexte et on redirige
       setError("")
       onLogin(data)
       navigate("/")
@@ -70,6 +75,7 @@ export default function LoginPage({ onLogin }) {
 
         <button type="submit">Se connecter</button>
       </form>
+      
       <p>Pas encore de compte ? <span onClick={() => navigate("/register")}>S'inscrire</span></p>
     </div>
   )
