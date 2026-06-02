@@ -6,6 +6,8 @@
   flex-direction: column;
   gap: 1.5rem;
 }
+
+/* Bouton retour vers la liste des posts */
 .back-btn {
   align-self: flex-start;
   padding: 0.45rem 1.1rem;

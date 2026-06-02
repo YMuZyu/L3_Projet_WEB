@@ -1,3 +1,6 @@
+// Page d'un post : affiche le détail du post et la section de réponses
+// Récupère le post et ses réponses depuis le serveur au chargement
+
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import PostDetail from "../components/posts/PostDetail.jsx"
@@ -6,7 +9,7 @@ import '../styles/pages/PostPage.css'
 
 export default function PostPage({ user, isConnected }) {
 
-    const { postId } = useParams()
+    const { postId } = useParams() // récupère l'id du post depuis l'URL
     const navigate = useNavigate()
 
     const [post, setPost] = useState(null)
@@ -15,9 +18,12 @@ export default function PostPage({ user, isConnected }) {
     const [error, setError] = useState("")
 
     useEffect(() => {
+        // Récupère le post
         const fetchPost = async () => {
             try {
-                const response = await fetch(`/posts/${postId}`)
+                const response = await fetch(`http://localhost:10000/posts/${postId}`, {
+                    credentials: 'include'
+                })
                 if (response.ok) {
                     const data = await response.json()
                     setPost(data)
@@ -31,9 +37,12 @@ export default function PostPage({ user, isConnected }) {
             }
         }
 
+        // Récupère les réponses du post
         const fetchReplies = async () => {
             try {
-                const response = await fetch(`/posts/${postId}/replies`)
+                const response = await fetch(`http://localhost:10000/posts/${postId}/replies`, {
+                    credentials: 'include'
+                })
                 if (response.ok) {
                     const data = await response.json()
                     setReplies(data)
@@ -47,6 +56,7 @@ export default function PostPage({ user, isConnected }) {
         fetchReplies()
     }, [postId])
 
+    // Pendant le chargement
     if (loading) return (
         <div className="post-page">
             <button className="back-btn" onClick={() => navigate('/')}>← Retour</button>
@@ -63,8 +73,13 @@ export default function PostPage({ user, isConnected }) {
 
     return (
         <div className="post-page">
+            {/* Bouton retour vers l'accueil */}
             <button className="back-btn" onClick={() => navigate('/')}>← Retour</button>
+            
+            {/* Détail complet du post */}
             <PostDetail post={post} user={user} />
+
+            {/* Section des réponses */}
             <ReplySection
                 postId={postId}
                 replies={replies}
