@@ -2,10 +2,13 @@
 // Tous les composants peuvent accéder à l'utilisateur connecté via useContext(AuthContext)
 
 import { useState, useEffect, createContext } from "react"
+import { useNavigate } from "react-router-dom"
 
 export const AuthContext = createContext()
 
 export default function AuthProvider({ children }) {
+
+    const navigate = useNavigate()
 
     const [user, setUser] = useState(null)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -52,7 +55,7 @@ export default function AuthProvider({ children }) {
     // On détruit la session côté serveur puis on réinitialise l'état local
     const logout = async () => {
         try {
-            await fetch("/user/logout", {
+            await fetch("http://localhost:10000/user/logout", {
                 method: "POST",
                 credentials: "include"
             })
@@ -61,6 +64,7 @@ export default function AuthProvider({ children }) {
         } finally {
             setUser(null)
             setIsAuthenticated(false)
+            navigate("/") //redirection vers l'accueil
         }
     }
 
