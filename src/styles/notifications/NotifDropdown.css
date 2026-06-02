@@ -13,22 +13,28 @@
 
 /* Onglets de filtre */
 .notif-tabs {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* 2 colonnes : 2 boutons par ligne */
   gap: 0.25rem;
-  padding: 0.5rem 0.5rem 0;
+  padding: 0.5rem;
   border-bottom: 1px solid var(--border-light);
+}
+
+.notif-tabs::-webkit-scrollbar {
+  display: none;
 }
 
 .notif-tab {
   background: none;
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
-  padding: 0.2em 0.65em;
-  font-size: 0.75rem;
+  padding: 0.35em 0.5em;
+  font-size: 0.78rem;
   cursor: pointer;
   color: var(--text-muted);
   box-shadow: none;
+  text-align: center;
+  white-space: nowrap;
   transition: background 0.15s, border-color 0.15s;
 }
 
