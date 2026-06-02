@@ -5,7 +5,7 @@
 import { useNavigate } from "react-router-dom"
 import '../../styles/post/PostCard.css'
 
-export default function PostCard({ post }) {
+export default function PostCard({ post, user }) {
     const navigate = useNavigate()
 
     const goToPost = () => navigate(`/post/${post._id}`)
@@ -63,10 +63,12 @@ export default function PostCard({ post }) {
 
                 {/* likes, dislikes, commentaires */}
                 <span className="post-footer-right">
-                    ❤️ {post.likes?.length ?? 0}
-                    &nbsp;
-                    👎 {post.dislikes?.length ?? 0}
-                    &nbsp;&nbsp;
+                    <img
+                        src={user && (post.likes || []).includes(user._id?.toString()) ? '/pikura-heart-20751_heart_like.gif' : '/heart_pas_encore_like.png'}
+                        alt="like"
+                        style={{ width: '1.1em', verticalAlign: 'middle' }}
+                    /> {post.likes?.length ?? 0}
+                    <img src="/image dislike.png" alt="dislike" style={{ width: '1.1em', verticalAlign: 'middle' }} /> {post.dislikes?.length ?? 0}
                     💬 {post.comments ?? 0}
                 </span>
             </div>

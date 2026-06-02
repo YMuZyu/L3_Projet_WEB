@@ -125,7 +125,7 @@ export default function UserProfilePage({ user, isConnected }) {
                             className="message-profile-btn"
                             onClick={() => navigate(`/messages/${userId}`)}
                         >
-                            ✉️ Envoyer un message
+                            <img src="/message.png" alt="message" style={{ width: '1em', verticalAlign: 'middle' }} /> Envoyer un message
                         </button>
                     )}
                     {isAdmin && !isOwnProfile && (
@@ -157,7 +157,7 @@ export default function UserProfilePage({ user, isConnected }) {
                         className={tab === 'messages' ? 'active' : ''}
                         onClick={() => navigate('/messages')}
                     >
-                        ✉️ Messages
+                        <img src="/message.png" alt="message" style={{ width: '1em', verticalAlign: 'middle' }} /> Messages
                     </button>
                 )}
             </div>

@@ -22,6 +22,7 @@ export default function PostDetail({ post, user }) {
     const [liked, setLiked] = useState(user ? (post.likes || []).includes(user._id?.toString()) : false)
     const [dislikes, setDislikes] = useState(post.dislikes?.length ?? 0)
     const [disliked, setDisliked] = useState(user ? (post.dislikes || []).includes(user._id?.toString()) : false)
+    const [likeHovered, setLikeHovered] = useState(false)
 
     if (!post) return null
 
@@ -109,11 +110,20 @@ export default function PostDetail({ post, user }) {
             )}
 
             <div className="post-vote-btns">
-                    <button className={`like-btn${liked ? ' liked' : ''}`} onClick={handleLike}>
-                        ❤️ {likes}
+                    <button
+                        className={`like-btn${liked ? ' liked' : ''}`}
+                        onClick={handleLike}
+                        onMouseEnter={() => setLikeHovered(true)}
+                        onMouseLeave={() => setLikeHovered(false)}
+                    >
+                        <img
+                            src={liked ? '/pikura-heart-20751_heart_like.gif' : likeHovered ? '/heart_souris_dessus.png' : '/heart_pas_encore_like.png'}
+                            alt="like"
+                            style={{ width: '1.1em', verticalAlign: 'middle' }}
+                        /> {likes}
                     </button>
                     <button className={`like-btn dislike-btn${disliked ? ' disliked' : ''}`} onClick={handleDislike}>
-                        👎 {dislikes}
+                        <img src="/image dislike.png" alt="dislike" style={{ width: '1.1em', verticalAlign: 'middle' }} /> {dislikes}
                     </button>
                 </div>
             </div>

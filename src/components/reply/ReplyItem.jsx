@@ -9,6 +9,7 @@ export default function ReplyItem({ reply, postId, user, onDelete, onReply, allR
     const [dislikes, setDislikes] = useState(reply.dislikes?.length ?? 0)
     const [disliked, setDisliked] = useState(user ? (reply.dislikes || []).includes(user._id?.toString()) : false)
     const [deleting, setDeleting] = useState(false)
+    const [likeHovered, setLikeHovered] = useState(false)
 
     const canDelete = user && (user._id?.toString() === reply.userId || user.isAdmin)
 
@@ -123,16 +124,22 @@ export default function ReplyItem({ reply, postId, user, onDelete, onReply, allR
                     <button
                         className={`like-btn small${liked ? ' liked' : ''}`}
                         onClick={handleLike}
+                        onMouseEnter={() => setLikeHovered(true)}
+                        onMouseLeave={() => setLikeHovered(false)}
                         title="J'aime"
                     >
-                        ❤️ {likes}
+                        <img
+                            src={liked ? '/pikura-heart-20751_heart_like.gif' : likeHovered ? '/heart_souris_dessus.png' : '/heart_pas_encore_like.png'}
+                            alt="like"
+                            style={{ width: '1em', verticalAlign: 'middle' }}
+                        /> {likes}
                     </button>
                     <button
                         className={`like-btn small dislike-btn${disliked ? ' disliked' : ''}`}
                         onClick={handleDislike}
                         title="Je n'aime pas"
                     >
-                        👎 {dislikes}
+                        <img src="/image dislike.png" alt="dislike" style={{ width: '1em', verticalAlign: 'middle' }} /> {dislikes}
                     </button>
 
                     {canDelete && (

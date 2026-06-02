@@ -112,7 +112,7 @@ export default function HomePage({ isConnected, user }) {
                     activeCategory={category}
                     categories={categories}
                 />
-                <PostList posts={postsAffiches} />
+                <PostList posts={postsAffiches} user={user} />
             </div>
 
             {/* Sidebar droite */}
@@ -149,7 +149,7 @@ export default function HomePage({ isConnected, user }) {
                                 onClick={() => navigate(`/post/${post._id}`)}
                             >
                                 <span className="popular-post-title">{post.title}</span>
-                                <span className="popular-post-likes">❤️ {post.likes?.length ?? 0}</span>
+                                <span className="popular-post-likes"><img src="/heart_pas_encore_like.png" alt="like" style={{ width: '1em', verticalAlign: 'middle' }} /> {post.likes?.length ?? 0}</span>
                             </div>
                         ))
                     }
