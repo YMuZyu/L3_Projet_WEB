@@ -47,6 +47,22 @@
   color: var(--text-muted);
 }
 
+.show-password-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.show-password-label input[type="checkbox"] {
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    accent-color: var(--primary);
+}
+
 /* Bouton de connexion */
 .login-form button[type="submit"] {
   padding: 0.9rem;

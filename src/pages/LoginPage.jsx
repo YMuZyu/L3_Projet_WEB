@@ -10,6 +10,7 @@ export default function LoginPage({ onLogin }) {
 
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
 
   const handleSubmit = async (e) => {
@@ -65,11 +66,20 @@ export default function LoginPage({ onLogin }) {
         />
 
         <input
-          type="password"
+          type={showPassword ? "text" : "password"}
           placeholder="Mot de passe"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        <label className="show-password-label">
+          <input
+              type="checkbox"
+              checked={showPassword}
+              onChange={() => setShowPassword(!showPassword)}
+          />
+          Afficher
+        </label>
 
         {error && <p className="error">{error}</p>}
 
