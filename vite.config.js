@@ -5,7 +5,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    host: true, // accessible depuis les autres machines du réseau
     proxy: {
       // Redirige les appels API vers le serveur Express (port 10000)
       // comme ça les URLs dans le code n'ont pas besoin de "http://localhost:10000"

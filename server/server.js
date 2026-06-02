@@ -332,6 +332,32 @@ app.get("/posts/:postId", async (req, res) => {
 });
 
 // ========================
+// DELETE POST
+// ========================
+app.delete("/posts/:postId", async (req, res) => {
+  if (!req.session.user) return res.status(401).json({ message: "Non connecté" });
+
+  try {
+    const posts = db.collection("posts");
+    const post = await posts.findOne({ _id: new ObjectId(req.params.postId) });
+
+    if (!post) return res.status(404).json({ message: "Post introuvable" });
+
+    const userId = req.session.user._id.toString();
+    if (post.userId.toString() !== userId && !req.session.user.isAdmin) {
+      return res.status(403).json({ message: "Non autorisé" });
+    }
+
+    await posts.deleteOne({ _id: new ObjectId(req.params.postId) });
+    await db.collection("replies").deleteMany({ postId: req.params.postId });
+
+    return res.json({ message: "Post supprimé" });
+  } catch (err) {
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+});
+
+// ========================
 // GET REPLIES
 // ========================
 app.get("/posts/:postId/replies", async (req, res) => {
