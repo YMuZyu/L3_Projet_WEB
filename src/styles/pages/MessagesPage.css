@@ -1,7 +1,12 @@
 .messages-page {
   display: flex;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 140px); /* réduit pour pas dépasser */
+  max-width: 900px; /* centre la page */
+  margin: 0 auto; /* centre la page */
   overflow: hidden;
+  background: var(--card-bg);
+  border-radius: var(--radius-soft);
+  box-shadow: var(--shadow-card);
 }
 
 .messages-login {
@@ -9,7 +14,7 @@
   color: var(--text-muted);
 }
 
-/* ===== Panneau gauche : conversations ===== */
+/* Panneau gauche : conversations */
 .conversations-panel {
   width: 280px;
   flex-shrink: 0;
@@ -51,14 +56,16 @@
 }
 
 .conv-item:hover { background: var(--hover-bg); }
-.conv-item.active { background: var(--primary-soft); }
+
+/* Actif : fond hover au lieu de primary-soft */
+.conv-item.active { background: var(--hover-bg); }
 
 .conv-avatar {
   width: 36px;
   height: 36px;
   border-radius: 50%;
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,12 +94,13 @@
   text-overflow: ellipsis;
 }
 
-/* ===== Panneau droit : chat ===== */
+/* Panneau droit : chat */
 .chat-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background: var(--bg-color);
 }
 
 .chat-placeholder {
@@ -113,7 +121,7 @@
   background: var(--card-bg);
 }
 
-.back-btn {
+.messages-page .back-btn {
   background: none;
   border: none;
   font-size: 1.1rem;
@@ -121,10 +129,11 @@
   color: var(--text-muted);
   padding: 0.2em 0.5em;
   border-radius: var(--radius-soft);
+  box-shadow: none;
   transition: background 0.15s;
 }
 
-.back-btn:hover { background: var(--hover-bg); }
+.messages-page .back-btn:hover { background: var(--hover-bg); }
 
 .chat-partner-name {
   font-weight: 700;
@@ -136,7 +145,7 @@
 
 .chat-partner-name:hover { color: var(--primary); }
 
-/* Zone messages */
+/* Zone messages scrollable */
 .chat-messages {
   flex: 1;
   overflow-y: auto;
@@ -153,7 +162,7 @@
   margin-top: 2rem;
 }
 
-/* Bulles */
+/* Bulles de messages */
 .chat-bubble {
   display: flex;
   flex-direction: column;
@@ -179,12 +188,14 @@
   word-break: break-word;
 }
 
+/* Mes messages : fond noir */
 .chat-bubble.mine .bubble-content {
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   border-bottom-right-radius: 4px;
 }
 
+/* Messages reçus : fond carte */
 .chat-bubble.theirs .bubble-content {
   background: var(--card-bg);
   color: var(--text-main);
@@ -210,13 +221,14 @@
 
 .chat-input {
   flex: 1;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-light);
   border-radius: var(--radius-pill);
   padding: 0.5rem 1rem;
   font-size: 0.9rem;
   outline: none;
-  background: var(--bg-main);
+  background: var(--bg-color);
   color: var(--text-main);
+  box-shadow: none;
   transition: border-color 0.15s;
 }
 
@@ -224,13 +236,14 @@
 
 .chat-send-btn {
   background: var(--primary);
-  color: white;
+  color: var(--on-primary);
   border: none;
   border-radius: var(--radius-pill);
   padding: 0.5rem 1.25rem;
   font-size: 0.875rem;
   font-weight: 700;
   cursor: pointer;
+  box-shadow: none;
   transition: opacity 0.15s;
 }
 
@@ -238,6 +251,6 @@
 .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 @media (max-width: 640px) {
-  .conversations-panel { width: 100%; display: none; }
-  .chat-panel { width: 100%; }
+  .conversations-panel { width: 100%; }
+  .chat-panel { display: none; }
 }
