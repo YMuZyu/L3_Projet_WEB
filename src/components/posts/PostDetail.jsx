@@ -1,14 +1,23 @@
+// Affiche le détail complet d'un post : image, titre, contenu, likes/dislikes
+// L'auteur et les admins peuvent supprimer le post
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../../styles/post/PostDetail.css'
 
+// Appel API pour supprimer un post
 async function deletePost(postId) {
-    const res = await fetch(`/posts/${postId}`, { method: 'DELETE', credentials: 'include' })
+    const res = await fetch(`http://localhost:10000/posts/${postId}`, {
+        method: 'DELETE',
+        credentials: 'include'
+    })
     return res.ok
 }
 
 export default function PostDetail({ post, user }) {
     const navigate = useNavigate()
+
+    // États locaux pour les likes/dislikes (mis à jour sans recharger la page)
     const [likes, setLikes] = useState(post.likes?.length ?? 0)
     const [liked, setLiked] = useState(user ? (post.likes || []).includes(user._id?.toString()) : false)
     const [dislikes, setDislikes] = useState(post.dislikes?.length ?? 0)
@@ -16,6 +25,7 @@ export default function PostDetail({ post, user }) {
 
     if (!post) return null
 
+    // Seul l'auteur ou un admin peut supprimer le post
     const isAuthor = user && user._id?.toString() === post.userId?.toString()
     const canDelete = isAuthor || user?.isAdmin
 
@@ -25,10 +35,11 @@ export default function PostDetail({ post, user }) {
         if (ok) navigate('/')
     }
 
+    // Like : si déjà liké on retire, sinon on ajoute
     const handleLike = async () => {
         if (!user) { navigate('/login'); return }
         try {
-            const res = await fetch(`/posts/${post._id}/like`, {
+            const res = await await fetch(`http://localhost:10000/posts/${post._id}/like`, {
                 method: 'POST',
                 credentials: 'include'
             })
@@ -44,10 +55,11 @@ export default function PostDetail({ post, user }) {
         }
     }
 
+    // Dislike : même logique que le like
     const handleDislike = async () => {
         if (!user) { navigate('/login'); return }
         try {
-            const res = await fetch(`/posts/${post._id}/dislike`, {
+            const res = await fetch(`http://localhost:10000/posts/${post._id}/dislike`, {
                 method: 'POST',
                 credentials: 'include'
             })
@@ -65,19 +77,23 @@ export default function PostDetail({ post, user }) {
 
     return (
         <div className="post-detail">
+
+            {/* Image du post si elle existe */}
             {post.imageUrl && (
                 <div className="post-detail-image">
                     <img src={`${post.imageUrl}`} alt={post.title} />
                 </div>
             )}
 
+            {/* Catégorie + date */}
             <div className="post-detail-header">
                 <span className="post-category">{post.category}</span>
                 <span className="post-date">{new Date(post.createdAt).toLocaleDateString()}</span>
             </div>
-
+            
             <h1 className="post-detail-title">{post.title}</h1>
-
+            
+            {/* Auteur + bouton supprimer + likes */}
             <div className="post-detail-meta">
                 <span
                     className="post-detail-author clickable"
@@ -85,19 +101,24 @@ export default function PostDetail({ post, user }) {
                 >
                     ✍️ {post.author}
                 </span>
+
                 {canDelete && (
-                <button className="delete-post-btn" onClick={handleDelete}>🗑️ Supprimer</button>
+                <button className="delete-post-btn" onClick={handleDelete}>
+                    🗑️ Supprimer
+                </button>
             )}
+
             <div className="post-vote-btns">
                     <button className={`like-btn${liked ? ' liked' : ''}`} onClick={handleLike}>
-                        {liked ? '❤️' : '🤍'} {likes}
+                        ❤️ {likes}
                     </button>
                     <button className={`like-btn dislike-btn${disliked ? ' disliked' : ''}`} onClick={handleDislike}>
-                        {disliked ? '👎' : '👍🏻'} {dislikes}
+                        👎 {dislikes}
                     </button>
                 </div>
             </div>
 
+            {/* Contenu du post */}
             <div className="post-detail-content">
                 <p>{post.content}</p>
             </div>

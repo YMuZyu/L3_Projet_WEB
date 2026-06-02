@@ -5,42 +5,7 @@
   box-shadow: var(--shadow-card);
 }
 
-/* Header : catégorie + date */
-.post-detail-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-/* .post-category est partagé avec PostCard.css */
-
-.post-detail-title {
-  margin: 0 0 0.75rem 0;
-  font-size: 1.75rem;
-  font-weight: 800;
-  line-height: 1.25;
-}
-
-.post-detail-author {
-  margin: 0 0 1.5rem 0;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
-
-/* Zone de contenu */
-.post-detail-content {
-  border-top: 1px solid var(--border-light);
-  padding-top: 1.25rem;
-}
-
-.post-detail-content p {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.7;
-  white-space: pre-wrap;
-}
-
+/* Image en haut de la carte, pleine largeur */
 .post-detail-image {
   margin: -2rem -2rem 1.5rem -2rem;
   max-height: 380px;
@@ -55,11 +20,39 @@
   display: block;
 }
 
+/* Catégorie + date */
+.post-detail-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+/* .post-category est partagé avec PostCard.css */
+/* On redéfinit ici sans backdrop-filter pour le fond blanc */
+.post-detail .post-category {
+  background-color: var(--border-light);
+  color: var(--text-main);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.2em 0.8em;
+  border-radius: var(--radius-pill);
+}
+
+.post-detail-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.75rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+/* Ligne auteur + bouton supprimer + votes */
 .post-detail-meta {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 0.75rem;
   margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .post-detail-author {
@@ -67,6 +60,7 @@
   color: var(--text-muted);
 }
 
+/* L'auteur est cliquable pour aller vers son profil */
 .post-detail-author.clickable {
   cursor: pointer;
   transition: color 0.15s;
@@ -76,35 +70,7 @@
   color: var(--primary);
 }
 
-.like-btn {
-  background: none;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  padding: 0.3em 0.9em;
-  cursor: pointer;
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  transition: background 0.15s, color 0.15s;
-}
-
-.like-btn:hover {
-  background: var(--card-bg);
-  color: var(--text-main);
-}
-
-.like-btn.liked {
-  border-color: #e0245e;
-  color: #e0245e;
-}
-
-.post-vote-btns {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.like-btn.dislike-btn { color: var(--text-muted); }
-.like-btn.dislike-btn.disliked { border-color: #f59e0b; color: #f59e0b; }
-
+/* Bouton supprimer — visible seulement pour l'auteur et les admins */
 .delete-post-btn {
   background: none;
   border: 1px solid #e0245e;
@@ -113,10 +79,56 @@
   color: #e0245e;
   cursor: pointer;
   font-size: 0.85rem;
+  box-shadow: none;
   transition: background 0.15s, color 0.15s;
 }
 
 .delete-post-btn:hover {
   background: #e0245e;
   color: white;
+}
+
+/* Boutons like / dislike */
+.post-vote-btns {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.like-btn {
+  background: none;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  padding: 0.3em 0.9em;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  box-shadow: none;
+  opacity: 0.5;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.like-btn:hover {
+  background: var(--hover-bg);
+  opacity: 0.8;
+}
+
+/* Like/dislike actif */
+.like-btn.liked,
+.like-btn.disliked {
+  opacity: 1;
+  border-color: var(--primary);
+}
+
+/* Contenu du post */
+.post-detail-content {
+  border-top: 1px solid var(--border-light);
+  padding-top: 1.25rem;
+}
+
+.post-detail-content p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.7;
+  white-space: pre-wrap;
 }
