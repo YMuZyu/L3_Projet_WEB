@@ -62,7 +62,7 @@ export default function HistoryPage({ user, isConnected }) {
         <div className="history-page">
             <div className="history-header">
                 <button className="back-btn" onClick={() => navigate(-1)}>← Retour</button>
-                <h1>📋 Mon historique</h1>
+                <h1><img src="/historique.png" alt="historique" style={{ width: '1.2em', verticalAlign: 'middle' }} /> Mon historique</h1>
                 <p className="history-hint">
                     {hasFilter
                         ? "Résultats filtrés — triés du plus récent au plus ancien."
@@ -75,7 +75,7 @@ export default function HistoryPage({ user, isConnected }) {
                 <input
                     className="history-filter-input"
                     type="text"
-                    placeholder="🔍 Mot-clé (titre, contenu)..."
+                    placeholder="Mot-clé (titre, contenu)..."
                     value={search}
                     onChange={e => setSearch(e.target.value)}
                 />

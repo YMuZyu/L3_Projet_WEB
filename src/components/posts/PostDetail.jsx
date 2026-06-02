@@ -105,7 +105,7 @@ export default function PostDetail({ post, user }) {
 
                 {canDelete && (
                 <button className="delete-post-btn" onClick={handleDelete}>
-                    🗑️ Supprimer
+                    Supprimer
                 </button>
             )}
 

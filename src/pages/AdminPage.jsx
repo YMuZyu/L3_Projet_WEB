@@ -162,7 +162,7 @@ export default function AdminPage() {
                     <input
                         className="admin-search-input"
                         type="text"
-                        placeholder="🔍 Chercher un utilisateur..."
+                        placeholder="Chercher un utilisateur..."
                         value={userSearch}
                         onChange={e => setUserSearch(e.target.value)}
                     />

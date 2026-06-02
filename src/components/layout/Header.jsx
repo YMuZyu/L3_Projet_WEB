@@ -90,7 +90,7 @@ export default function Header({ user, isConnected, onLogout }) {
                         onClick={() => navigate('/history')}
                         title="Mon historique"
                     >
-                        📋 Historique
+                        <img src="/historique.png" alt="historique" style={{ width: '1.1em' }} /> Historique
                     </button>
                 )}
 
