@@ -1,3 +1,6 @@
+// Barre du haut fixe : logo à gauche, menu au centre, notifications et profil à droite
+// Gère l'ouverture/fermeture des dropdowns et le compteur de notifications
+
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
 import logo from "../../resources/Sciences_SU.png"
@@ -16,16 +19,19 @@ export default function Header({ user, isConnected, onLogout }) {
     const [isUserOpen,  setIsUserOpen]  = useState(false)
     const [notifCount,  setNotifCount]  = useState(0)
 
+    // Références pour détecter les clics en dehors des dropdowns
     const notifRef = useRef(null)
     const userRef  = useRef(null)
 
-    // Récupérer le compteur de notifications non lues
+    // Récupère le nombre de notifications non lues toutes les 30 secondes
     useEffect(() => {
         if (!isConnected) { setNotifCount(0); return }
 
         const fetchCount = async () => {
             try {
-                const res = await fetch('/notifications/count', { credentials: 'include' })
+                const res = await fetch('/notifications/count', { 
+                    credentials: 'include' 
+                })
                 if (res.ok) {
                     const data = await res.json()
                     setNotifCount(data.count)
@@ -35,10 +41,10 @@ export default function Header({ user, isConnected, onLogout }) {
 
         fetchCount()
         const interval = setInterval(fetchCount, 30000)
-        return () => clearInterval(interval)
+        return () => clearInterval(interval) // nettoyage à la déconnexion
     }, [isConnected])
 
-    // Fermer les dropdowns au clic extérieur
+    // Ferme les dropdowns quand on clique en dehors
     useEffect(() => {
         function closeDropdown(event) {
             if (notifRef.current && !notifRef.current.contains(event.target)) {
@@ -52,6 +58,7 @@ export default function Header({ user, isConnected, onLogout }) {
         return () => document.removeEventListener('mousedown', closeDropdown)
     }, [])
 
+    // Ouvre le dropdown notifs et ferme celui du profil
     const handleNotifOpen = () => {
         setIsNotifOpen(!isNotifOpen)
         setIsUserOpen(false)
@@ -59,6 +66,8 @@ export default function Header({ user, isConnected, onLogout }) {
 
     return (
         <header className="header">
+
+            {/* Logo : clique pour revenir à l'accueil */}
             <div className="header-left">
                 <div className="logo" onClick={() => navigate('/')}>
                     <img src={logo} alt="Logo du forum" />
@@ -66,11 +75,15 @@ export default function Header({ user, isConnected, onLogout }) {
                 </div>
             </div>
 
+            {/* Menu de navigation central */}
             <div className="header-center">
                 <NavMenu isConnected={isConnected} />
             </div>
 
+            {/* Boutons notifications et profil */}
             <div className='header-right'>
+
+                {/* Bouton notifications avec badge de compteur */}
                 <div ref={notifRef} className="header-icon-wrapper">
                     <NotifButton
                         onClick={handleNotifOpen}
@@ -79,11 +92,12 @@ export default function Header({ user, isConnected, onLogout }) {
                     {isNotifOpen && (
                         <NotifDropdown
                             isConnected={isConnected}
-                            onRead={() => setNotifCount(0)}
+                            onRead={() => setNotifCount(0)} // remet le compteur à 0 à l'ouverture
                         />
                     )}
                 </div>
 
+                {/* Bouton profil avec dropdown connexion/déconnexion */}
                 <div ref={userRef} className="header-icon-wrapper">
                     <UserButton
                         user={user}
