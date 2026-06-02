@@ -1,14 +1,17 @@
+/* Mise en page verticale : header en haut, contenu au milieu, footer en bas */
+
 .app-layout {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
+/* Le contenu prend tout l'espace disponible entre header et footer */
 .app-layout > .content-area {
   flex: 1;
 }
 
-/* Message "Chargement..." */
+/* Message affiché pendant la vérification de session */
 .app-layout > p {
   text-align: center;
   padding: 3rem;

@@ -32,6 +32,12 @@ export default function LoginPage({ onLogin }) {
         return;
       }
 
+      // Compte en attente de validation admin
+      if (!data.user.isValidated && !data.user.isAdmin) {
+        setError("Votre compte est en attente de validation par un administrateur.")
+        return
+      }
+
       setError("")
       onLogin(data)
       navigate("/")
