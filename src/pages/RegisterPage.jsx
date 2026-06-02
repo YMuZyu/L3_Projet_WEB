@@ -1,7 +1,12 @@
+// Page d'inscription : l'utilisateur crée un compte
+// Après inscription, il doit attendre la validation d'un admin avant de pouvoir se connecter
+
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import '../styles/pages/RegisterPage.css'
 
+// Vérifie que le mot de passe est assez fort :
+// au moins 10 caractères, une majuscule, une minuscule et un chiffre
 const isPasswordStrong = (password) => {
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{10,}$/
     return regex.test(password)
@@ -20,6 +25,7 @@ export default function RegisterPage( ) {
 
     const handleRegister = async () => {
 
+        // Vérifications côté client avant d'envoyer au serveur
         if (!login || !password || !password2) {
             setMessage("Veuillez remplir tous les champs")
             return
@@ -36,18 +42,21 @@ export default function RegisterPage( ) {
         }
 
         try {
+            // Envoi de la demande d'inscription au serveur
             const response = await fetch("/user", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
+                credentials: "include", // nécessaire pour les cookies de session
                 body: JSON.stringify({ login, password, password2 })
             })
 
             const data = await response.json()
 
             if (response.status === 201) {
-                // Ne pas connecter l'utilisateur, il doit attendre validation admin
+                // Inscription créée mais pas encore validée par un admin
                 setIsSuccess(true)
                 setMessage("Inscription envoyée ! Un administrateur doit valider votre compte avant que vous puissiez vous connecter."),
+                // Redirection automatique vers la page de connexion après 3 secondes
                 setTimeout(() => navigate("/login"), 3000)
             }else {
                 setMessage(data.message)
@@ -85,6 +94,7 @@ export default function RegisterPage( ) {
                     onChange={(e) => setPassword2(e.target.value)}
                 />
                 
+                {/* Case à cocher pour afficher/masquer les deux champs mot de passe */}
                 <label className="show-password-label">
                     <input
                         type="checkbox"
@@ -94,12 +104,14 @@ export default function RegisterPage( ) {
                     Afficher
                 </label>
 
+                {/* Message d'erreur ou de succès */}
                 {message && (
                     <p className={isSuccess ? "message success" : "message"}>
                         {message}
                     </p>
                 )}
 
+                {/* Le bouton disparaît après une inscription réussie */}
                 {!isSuccess && (
                     <button className="register-btn" onClick={handleRegister}>
                         S'inscrire

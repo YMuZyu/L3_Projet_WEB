@@ -27,17 +27,21 @@ export default function AuthProvider({ children }) {
             } catch (err) {
                 console.error("Erreur session:", err)
             } finally {
+                // Dans tous les cas, on arrête le chargement
                 setIsLoading(false)
             }
         }
         checkSession()
     }, [])
 
+    // Appelé après un login réussi depuis LoginPage
     const login = (userData) => {
         setUser(userData.user)
         setIsAuthenticated(true)
     }
 
+    // Appelé quand l'utilisateur clique sur "Déconnexion"
+    // On détruit la session côté serveur puis on réinitialise l'état local
     const logout = async () => {
         try {
             await fetch("/user/logout", {
@@ -53,12 +57,13 @@ export default function AuthProvider({ children }) {
     }
 
     return (
+        // On expose les données et fonctions utiles à toute l'application
         <AuthContext.Provider value={{
             user,
             isAuthenticated,
             isLoading,
-            isAdmin: user?.isAdmin || false,
-            isValidated: user?.isValidated || false,
+            isAdmin: user?.isAdmin || false, // raccourci pour éviter user?.isAdmin partout
+            isValidated: user?.isValidated || false, // raccourci pour savoir si le compte est validé
             login,
             logout
         }}>
