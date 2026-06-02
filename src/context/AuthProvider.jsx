@@ -21,8 +21,11 @@ export default function AuthProvider({ children }) {
                 })
                 if (response.ok) {
                     const data = await response.json()
-                    setUser(data.user)
-                    setIsAuthenticated(true)
+                    // On accepte seulement les utilisateurs validés ou admins
+                    if (data.user.isValidated || data.user.isAdmin) {
+                        setUser(data.user)
+                        setIsAuthenticated(true)
+                    }
                 }
             } catch (err) {
                 console.error("Erreur session:", err)

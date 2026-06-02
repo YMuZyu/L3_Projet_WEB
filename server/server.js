@@ -147,11 +147,8 @@ app.put("/user", async (req, res) => {
       createdAt: new Date()
     });
 
-    req.session.user = { _id: result.insertedId, login, isAdmin: false, isValidated: false };
-
     return res.status(201).json({
-      user: { _id: result.insertedId, login, isAdmin: false, isValidated: false },
-      roles: []
+      message: "Utilisateur créé"
     });
   } catch (err) {
     console.error(err);
