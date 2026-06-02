@@ -11,6 +11,7 @@ export default function HomePage({ isConnected }) {
 
     const navigate = useNavigate()
     const [posts, setPosts] = useState([])
+    const [author, setAuthor] = useState("")
     const [forumOpen, setForumOpen] = useState(true)
 
     // Récupère tous les posts au chargement de la page
@@ -51,6 +52,7 @@ export default function HomePage({ isConnected }) {
     // Filtre et trie les posts selon les critères choisis par l'utilisateur
     const postsAffiches = posts
         .filter(p => p.title?.toLowerCase().includes(search.toLowerCase()))
+        .filter(p => author === "" || p.author?.toLowerCase().includes(author.toLowerCase()))
         .filter(p => category === "" || p.category === category)
         .sort((a, b) => {
             if (sort === "recent") return new Date(b.createdAt) - new Date(a.createdAt)
@@ -96,6 +98,7 @@ export default function HomePage({ isConnected }) {
             <div className="feed">
                 <FilterBar
                     setSearch={setSearch}
+                    setAuthor={setAuthor}
                     setCategory={setCategory}
                     setSort={setSort}
                     activeCategory={category}
