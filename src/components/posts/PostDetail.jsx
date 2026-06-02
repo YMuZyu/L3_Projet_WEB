@@ -11,6 +11,7 @@ async function deletePost(postId) {
         method: 'DELETE',
         credentials: 'include'
     })
+    console.log("POST SUPPRIMÉ")
     return res.ok
 }
 

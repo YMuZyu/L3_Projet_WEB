@@ -61,6 +61,7 @@ export default function CreatePostPage({ isConnected }) {
             setError('Erreur serveur')
             console.error(err)
         }
+        console.log("POST CRÉE")
     }
 
     return (
