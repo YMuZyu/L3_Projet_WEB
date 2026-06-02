@@ -2,6 +2,11 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../../styles/post/PostDetail.css'
 
+async function deletePost(postId) {
+    const res = await fetch(`/posts/${postId}`, { method: 'DELETE', credentials: 'include' })
+    return res.ok
+}
+
 export default function PostDetail({ post, user }) {
     const navigate = useNavigate()
     const [likes, setLikes] = useState(post.likes?.length ?? 0)
@@ -10,6 +15,15 @@ export default function PostDetail({ post, user }) {
     const [disliked, setDisliked] = useState(user ? (post.dislikes || []).includes(user._id?.toString()) : false)
 
     if (!post) return null
+
+    const isAuthor = user && user._id?.toString() === post.userId?.toString()
+    const canDelete = isAuthor || user?.isAdmin
+
+    const handleDelete = async () => {
+        if (!confirm('Supprimer ce post ?')) return
+        const ok = await deletePost(post._id)
+        if (ok) navigate('/')
+    }
 
     const handleLike = async () => {
         if (!user) { navigate('/login'); return }
@@ -71,7 +85,10 @@ export default function PostDetail({ post, user }) {
                 >
                     ✍️ {post.author}
                 </span>
-                <div className="post-vote-btns">
+                {canDelete && (
+                <button className="delete-post-btn" onClick={handleDelete}>🗑️ Supprimer</button>
+            )}
+            <div className="post-vote-btns">
                     <button className={`like-btn${liked ? ' liked' : ''}`} onClick={handleLike}>
                         {liked ? '❤️' : '🤍'} {likes}
                     </button>

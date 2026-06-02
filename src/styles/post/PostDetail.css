@@ -104,3 +104,19 @@
 
 .like-btn.dislike-btn { color: var(--text-muted); }
 .like-btn.dislike-btn.disliked { border-color: #f59e0b; color: #f59e0b; }
+
+.delete-post-btn {
+  background: none;
+  border: 1px solid #e0245e;
+  border-radius: var(--radius-pill);
+  padding: 0.3em 0.9em;
+  color: #e0245e;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.delete-post-btn:hover {
+  background: #e0245e;
+  color: white;
+}
