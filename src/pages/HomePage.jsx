@@ -1,3 +1,6 @@
+// Page d'accueil : affiche le forum ouvert avec les posts, les filtres et les catégories
+// Accessible à tous, mais seuls les membres connectés peuvent créer un post
+
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import PostList from '../components/posts/PostList.jsx'
@@ -9,13 +12,16 @@ export default function HomePage({ isConnected }) {
     const navigate = useNavigate()
     const [posts, setPosts] = useState([])
 
+    // Récupère tous les posts au chargement de la page
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await fetch('/posts')
+                const response = await fetch('http://localhost:10000/posts', {
+                    credentials: 'include'
+                })
                 if (response.ok) {
                     const data = await response.json()
-                    setPosts(data)  // plus de mapping, on garde les champs tels quels
+                    setPosts(data)
                 }
             } catch (error) {
                 console.error('Erreur lors du fetch des posts:', error)
@@ -24,10 +30,12 @@ export default function HomePage({ isConnected }) {
         fetchPosts()
     }, [])
 
+    // États pour les filtres
     const [search, setSearch] = useState("")
     const [category, setCategory] = useState("")
     const [sort, setSort] = useState("recent")
 
+    // Filtre et trie les posts selon les critères choisis par l'utilisateur
     const postsAffiches = posts
         .filter(p => p.title?.toLowerCase().includes(search.toLowerCase()))
         .filter(p => category === "" || p.category === category)
@@ -38,13 +46,14 @@ export default function HomePage({ isConnected }) {
             return 0
     })
 
-    // on va faire en sorte que pour chaque objet crée, une catégorie est automatiquement crée dans CategoryFilter
+    // On va faire en sorte que pour chaque objet crée, une catégorie est automatiquement crée dans CategoryFilter
     // donc on va faire une copie d'ensemble tel que pour chaque post on prend son category
     const categories = [...new Set(posts.map(post => post.category))]
         
     return (
         <div className="home-page">
 
+            {/* Sidebar gauche : liste des catégories cliquables */}
             <aside className="sidebar-left">
                 <h3>Catégories</h3>
                 <ul>
@@ -52,6 +61,7 @@ export default function HomePage({ isConnected }) {
                         <li
                             key={cat}
                             className={category === cat ? "active" : ""}
+                            // Clic sur une catégorie déjà active la désélectionne
                             onClick={() => setCategory(category === cat ? "" : cat)}
                         >
                             {cat}
@@ -60,6 +70,7 @@ export default function HomePage({ isConnected }) {
                 </ul>
             </aside>
 
+            {/* Zone centrale : barre de filtres + liste des posts */}
             <div className="feed">
                 <FilterBar
                     setSearch={setSearch}
@@ -71,6 +82,7 @@ export default function HomePage({ isConnected }) {
                 <PostList posts={postsAffiches} />
             </div>
 
+            {/* Sidebar droite : widget bienvenue avec bouton selon l'état de connexion */}
             <aside className="sidebar-right">
                 <div className="sidebar-widget">
                     <h3>Bienvenue</h3>
