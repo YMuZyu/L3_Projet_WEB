@@ -101,6 +101,7 @@
   flex-direction: column;
   overflow: hidden;
   background: var(--bg-color);
+  border-left: 1px solid var(--border-light);
 }
 
 .chat-placeholder {
@@ -250,7 +251,22 @@
 .chat-send-btn:hover:not(:disabled) { opacity: 0.85; }
 .chat-send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-@media (max-width: 640px) {
-  .conversations-panel { width: 100%; }
-  .chat-panel { display: none; }
+@media (max-width: 800px) {
+  .conversations-panel {
+    width: 100%;
+  }
+
+  /* Par défaut sur petit écran : montrer la liste, cacher le chat */
+  .chat-panel {
+    display: none;
+  }
+
+  /* Si une conversation est ouverte : cacher la liste, montrer le chat */
+  .messages-page.has-partner .conversations-panel {
+    display: none;
+  }
+
+  .messages-page.has-partner .chat-panel {
+    display: flex;
+  }
 }

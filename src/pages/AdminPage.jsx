@@ -198,13 +198,13 @@ export default function AdminPage() {
                                                     className="btn-reject"
                                                     onClick={() => handleValidate(u._id, false)}
                                                 >
-                                                    Révoquer membre
+                                                    Retirer membre
                                                 </button>
                                                 <button
                                                     className="btn-profile"
                                                     onClick={() => navigate(`/profile/${u._id}`)}
                                                 >
-                                                    👤 Profil
+                                                    Profil
                                                 </button>
                                             </div>
                                         )
@@ -218,7 +218,7 @@ export default function AdminPage() {
 
             {/* Statut du forum */}
             <section className="admin-section">
-                <h2>🔒 Statut du forum</h2>
+                <h2>Statut du forum</h2>
                 <div className="forum-status">
                     <span className={`status-badge ${forumOpen ? 'open' : 'closed'}`}>
                         {forumOpen ? '🟢 Forum ouvert' : '🔴 Forum fermé'}

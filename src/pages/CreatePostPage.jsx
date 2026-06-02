@@ -123,7 +123,7 @@ export default function CreatePostPage({ isConnected }) {
                         />
                     ) : (
                         <button type="button" className="add-image-btn" onClick={() => setShowCropper(true)}>
-                            📷 Ajouter une image
+                            Ajouter une image
                         </button>
                     )}
                 </div>

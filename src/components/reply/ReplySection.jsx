@@ -28,7 +28,7 @@ export default function ReplySection({ postId, replies, setReplies, user, isConn
                 <input
                     type="text"
                     className="reply-author-search"
-                    placeholder="👤 Filtrer par auteur..."
+                    placeholder="Filtrer par auteur..."
                     value={authorSearch}
                     onChange={e => setAuthorSearch(e.target.value)}
                 />

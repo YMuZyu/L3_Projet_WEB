@@ -123,8 +123,8 @@ export default function HomePage({ isConnected, user }) {
                     {isConnected ? (
                         <>
                             <h3>👋 Bonjour, {user?.login} !</h3>
-                            <button onClick={() => navigate("/create")}>➕ Créer un post</button>
-                            <button onClick={() => navigate(`/profile/${user?._id}`)}>👤 Mon profil</button>
+                            <button onClick={() => navigate("/create")}>Créer un post</button>
+                            <button onClick={() => navigate(`/profile/${user?._id}`)}>Mon profil</button>
                         </>
                     ) : (
                         <>

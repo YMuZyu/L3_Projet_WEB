@@ -125,7 +125,7 @@ export default function UserProfilePage({ user, isConnected }) {
                             className="message-profile-btn"
                             onClick={() => navigate(`/messages/${userId}`)}
                         >
-                            <img src="/message.png" alt="message" style={{ width: '1em', verticalAlign: 'middle' }} /> Envoyer un message
+                            Envoyer un message
                         </button>
                     )}
                     {isAdmin && !isOwnProfile && (
@@ -133,7 +133,7 @@ export default function UserProfilePage({ user, isConnected }) {
                             className={`admin-revoke-btn${profileUser?.isValidated === false ? ' revoked' : ''}`}
                             onClick={handleAdminRevoke}
                         >
-                            {profileUser?.isValidated === false ? '✅ Réactiver membre' : '🚫 Révoquer membre'}
+                            {profileUser?.isValidated === false ? 'Réactiver membre' : 'Révoquer membre'}
                         </button>
                     )}
                 </div>
@@ -144,22 +144,14 @@ export default function UserProfilePage({ user, isConnected }) {
                     className={tab === 'posts' ? 'active' : ''}
                     onClick={() => setTab('posts')}
                 >
-                    📝 Posts ({userPosts.length})
+                    Posts ({userPosts.length})
                 </button>
                 <button
                     className={tab === 'replies' ? 'active' : ''}
                     onClick={() => setTab('replies')}
                 >
-                    💬 Réponses ({userReplies.length})
+                    Réponses ({userReplies.length})
                 </button>
-                {isOwnProfile && (
-                    <button
-                        className={tab === 'messages' ? 'active' : ''}
-                        onClick={() => navigate('/messages')}
-                    >
-                        <img src="/message.png" alt="message" style={{ width: '1em', verticalAlign: 'middle' }} /> Messages
-                    </button>
-                )}
             </div>
 
             <div className="profile-content">
@@ -185,7 +177,7 @@ export default function UserProfilePage({ user, isConnected }) {
                                                         onClick={e => { e.stopPropagation(); handleAdminDeletePost(post._id) }}
                                                         title="Supprimer (admin)"
                                                     >
-                                                        🗑️ Admin
+                                                        Supprimer
                                                     </button>
                                                 )}
                                             </div>
@@ -241,7 +233,7 @@ export default function UserProfilePage({ user, isConnected }) {
                                                     onClick={e => { e.stopPropagation(); handleAdminDeleteReply(reply._id) }}
                                                     title="Supprimer (admin)"
                                                 >
-                                                    🗑️ Admin
+                                                    Supprimer
                                                 </button>
                                             )}
                                         </div>

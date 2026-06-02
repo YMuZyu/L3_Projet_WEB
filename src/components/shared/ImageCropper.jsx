@@ -146,7 +146,7 @@ export default function ImageCropper({ shape = 'rect', onCrop, onCancel }) {
         return (
             <div className="image-cropper-picker">
                 <label className="cropper-file-label">
-                    <span>📁 Choisir une image</span>
+                    <span>Choisir une image</span>
                     <input type="file" accept="image/*" onChange={handleFile} />
                 </label>
                 {onCancel && (
@@ -192,7 +192,7 @@ export default function ImageCropper({ shape = 'rect', onCrop, onCancel }) {
                     <button type="button" className="cropper-cancel" onClick={onCancel}>Annuler</button>
                 )}
                 <button type="button" className="cropper-confirm" onClick={handleCrop}>
-                    ✂️ Recadrer
+                    Confirmer
                 </button>
             </div>
         </div>

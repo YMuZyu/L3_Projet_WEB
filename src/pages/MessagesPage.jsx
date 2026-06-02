@@ -92,7 +92,7 @@ export default function MessagesPage({ user, isConnected }) {
     }
 
     return (
-        <div className="messages-page">
+        <div className={`messages-page${partnerIdParam ? ' has-partner' : ''}`}>
             {/* Panneau gauche : liste des conversations */}
             <aside className="conversations-panel">
                 <div className="conv-header">

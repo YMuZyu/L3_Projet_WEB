@@ -11,7 +11,10 @@ export default function NavMenu({ isConnected }) {
             <MenuItem label="Catégories" to="/categories" />
 
             {isConnected && (
-                <MenuItem label="➕ Poster" to="/create" />
+                <>
+                    <MenuItem label="✉️ Messages" to="/messages" />
+                    <MenuItem label="➕ Poster" to="/create" />
+                </>
             )}
         </nav>
     )

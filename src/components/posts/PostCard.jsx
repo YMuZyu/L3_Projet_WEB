@@ -66,10 +66,10 @@ export default function PostCard({ post, user }) {
                     <img
                         src={user && (post.likes || []).includes(user._id?.toString()) ? '/pikura-heart-20751_heart_like.gif' : '/heart_pas_encore_like.png'}
                         alt="like"
-                        style={{ width: '1.1em', verticalAlign: 'middle' }}
+                        style={{ width: '1.2em', verticalAlign: 'middle' }}
                     /> {post.likes?.length ?? 0}
-                    <img src="/image dislike.png" alt="dislike" style={{ width: '1.1em', verticalAlign: 'middle' }} /> {post.dislikes?.length ?? 0}
-                    💬 {post.comments ?? 0}
+                    <img src="/image dislike.png" alt="dislike" style={{ width: '1.4em', verticalAlign: 'middle' }} /> {post.dislikes?.length ?? 0}
+                    <img src="/messager.png" alt="dislike" style={{ width: '0.9em', verticalAlign: 'middle' }} /> {post.comments ?? 0}
                 </span>
             </div>
         </article>

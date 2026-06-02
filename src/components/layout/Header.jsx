@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from "react-router-dom"
-import logo from "../../ressources/logo.png"
+import logo from "../../../public/logo.png"
 import NavMenu from '../nav/NavMenu.jsx'
 import NotifButton from '../notifications/NotifButton.jsx'
 import NotifDropdown from '../notifications/NotifDropdown.jsx'
@@ -29,7 +29,7 @@ export default function Header({ user, isConnected, onLogout }) {
 
         const fetchCount = async () => {
             try {
-                const res = await fetch('/notifications/count', { 
+                const res = await fetch('http://localhost:10000/notifications/count', { 
                     credentials: 'include' 
                 })
                 if (res.ok) {
@@ -90,7 +90,7 @@ export default function Header({ user, isConnected, onLogout }) {
                         onClick={() => navigate('/history')}
                         title="Mon historique"
                     >
-                        <img src="/historique.png" alt="historique" style={{ width: '1.1em' }} /> Historique
+                        Historique
                     </button>
                 )}
 

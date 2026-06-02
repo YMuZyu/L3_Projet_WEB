@@ -60,7 +60,7 @@ export default function CategoriesPage() {
 
     return (
         <div className="tags-page">
-            <h2>🏷️ Catégories</h2>
+            <h2>Catégories</h2>
             <p className="tags-subtitle">
                 {categories.length} catégorie{categories.length > 1 ? 's' : ''} — cliquez pour explorer
             </p>
