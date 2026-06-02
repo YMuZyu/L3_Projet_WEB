@@ -1,3 +1,5 @@
+/* utilisé par ReplySection et ReplyList */
+
 .reply-section {
   display: flex;
   flex-direction: column;
@@ -11,6 +13,7 @@
   color: var(--text-main);
 }
 
+/* Message si non connecté */
 .reply-login {
   text-align: center;
   padding: 1rem;

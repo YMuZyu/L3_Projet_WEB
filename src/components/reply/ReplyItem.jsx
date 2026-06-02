@@ -1,3 +1,6 @@
+// Affiche un commentaire avec likes/dislikes et bouton supprimer
+// L'auteur peut supprimer son propre commentaire
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../../styles/reply/ReplyItem.css'
@@ -10,14 +13,15 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
     const [disliked, setDisliked] = useState(user ? (reply.dislikes || []).includes(user._id?.toString()) : false)
     const [deleting, setDeleting] = useState(false)
 
-    const isOwn = user && user._id?.toString() === reply.userId
+    // Seul l'auteur ou admin peuvent supprimer un commentaire
+    const canDelete = user && (user._id?.toString() === reply.userId || user.isAdmin)
 
     const handleLike = async (e) => {
         e.stopPropagation()
         if (!user) { navigate('/login'); return }
         try {
             const res = await fetch(
-                `/posts/${postId}/replies/${reply._id}/like`,
+                `http://localhost:10000/posts/${postId}/replies/${reply._id}/like`,
                 { method: 'POST', credentials: 'include' }
             )
             if (res.ok) {
@@ -37,7 +41,7 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
         if (!user) { navigate('/login'); return }
         try {
             const res = await fetch(
-                `/posts/${postId}/replies/${reply._id}/dislike`,
+                `http://localhost:10000/posts/${postId}/replies/${reply._id}/dislike`,
                 { method: 'POST', credentials: 'include' }
             )
             if (res.ok) {
@@ -58,7 +62,7 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
         setDeleting(true)
         try {
             const res = await fetch(
-                `/posts/${postId}/replies/${reply._id}`,
+                `http://localhost:10000/posts/${postId}/replies/${reply._id}`,
                 { method: 'DELETE', credentials: 'include' }
             )
             if (res.ok) {
@@ -74,6 +78,8 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
     return (
         <div className="reply-item">
             <div className="reply-header">
+
+                {/* Auteur cliquable vers son profil */}
                 <span
                     className="reply-author"
                     onClick={() => navigate(`/profile/${reply.userId}`)}
@@ -81,10 +87,13 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
                 >
                     ✍️ {reply.author}
                 </span>
+
                 <div className="reply-header-right">
                     <span className="reply-date">
                         {new Date(reply.createdAt).toLocaleDateString()}
                     </span>
+
+                    {/* Boutons like/dislike */}
                     <button
                         className={`like-btn small${liked ? ' liked' : ''}`}
                         onClick={handleLike}
@@ -99,7 +108,9 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
                     >
                         {disliked ? '👎' : '👍🏻'} {dislikes}
                     </button>
-                    {isOwn && (
+
+                    {/* Bouton supprimer visible seulement pour l'auteur ou l'admin */}
+                    {canDelete && (
                         <button
                             className="delete-reply-btn"
                             onClick={handleDelete}
@@ -111,6 +122,7 @@ export default function ReplyItem({ reply, postId, user, onDelete }) {
                     )}
                 </div>
             </div>
+            
             <p className="reply-content">{reply.content}</p>
         </div>
     )

@@ -1,3 +1,5 @@
+/* inclut les styles du sélecteur d'emojis */
+
 .reply-form {
   display: flex;
   flex-direction: column;
@@ -8,9 +10,9 @@
   box-shadow: var(--shadow-card);
 }
 
-/* Textarea (pas de className, ciblé via parent) */
 .reply-form textarea {
   width: 100%;
+  min-height: 90px;
   padding: 0.75rem 1rem;
   border: none;
   border-radius: 12px;
@@ -21,28 +23,30 @@
   line-height: 1.6;
   resize: vertical;
   outline: none;
+  box-sizing: border-box;
   transition: box-shadow 0.2s ease;
 }
 
 .reply-form textarea:focus {
-  box-shadow: 0 0 0 2px var(--primary);
+  box-shadow: 0 0 0 1.5px var(--border-light);
 }
 
 .reply-form textarea::placeholder {
   color: var(--text-muted);
 }
 
-/* Footer : emoji + erreur + bouton */
+/* Footer : emoji + erreur + bouton envoyer */
 .reply-form-footer {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
+
 .reply-form .error {
   flex: 1;
 }
 
-/* Bouton envoyer (pas de className, ciblé via parent) */
+/* Bouton envoyer */
 .reply-form button[type="submit"] {
   margin-left: auto;
   padding: 0.5rem 1.25rem;
@@ -54,22 +58,19 @@
   font-weight: 700;
   cursor: pointer;
   box-shadow: none;
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .reply-form button[type="submit"]:hover {
-  background-color: var(--primary-dark);
+  opacity: 0.85;
   transform: translateY(-1px);
 }
 
-/* ---- Emoji picker ---- */
+/* Sélecteur d'emojis */
 .emoji-picker {
   position: relative;
 }
 
-/* Bouton toggle emoji (pas de className) */
 .emoji-picker > button {
   padding: 0.35rem 0.6rem;
   border: none;
@@ -85,7 +86,7 @@
   background-color: var(--hover-bg);
 }
 
-/* Liste d'emojis */
+/* Grille d'emojis */
 .emoji-list {
   position: absolute;
   bottom: calc(100% + 8px);
@@ -99,6 +100,12 @@
   border-radius: var(--radius-soft);
   box-shadow: var(--shadow-hover);
   animation: dropdown-in 0.15s ease forwards;
+}
+
+/* Animation d'apparition */
+@keyframes dropdown-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .emoji-list span {

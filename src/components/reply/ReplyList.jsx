@@ -1,3 +1,5 @@
+// Affiche la liste des commentaires d'un post
+
 import ReplyItem from "./ReplyItem.jsx"
 import '../../styles/reply/ReplySection.css'
 

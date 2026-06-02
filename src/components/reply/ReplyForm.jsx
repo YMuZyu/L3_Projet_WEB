@@ -1,3 +1,5 @@
+// Formulaire pour écrire un commentaire avec sélecteur d'emojis
+
 import { useState } from "react"
 import Emoji from "./Emoji.jsx"
 import '../../styles/reply/ReplyForm.css'
@@ -17,7 +19,7 @@ export default function ReplyForm({ postId, onSubmit, user }) {
         }
 
         try {
-            const response = await fetch(`/posts/${postId}/replies`, {
+            const response = await fetch(`http://localhost:10000/posts/${postId}/replies`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -28,7 +30,7 @@ export default function ReplyForm({ postId, onSubmit, user }) {
 
             if (response.ok) {
                 onSubmit(data)
-                setContent("")
+                setContent("") // vider le champ après envoi
             } else {
                 setError(data.message || "Erreur lors de l'envoi")
             }
@@ -39,6 +41,7 @@ export default function ReplyForm({ postId, onSubmit, user }) {
         }
     }
 
+    // Ajoute l'emoji à la fin du texte en cours
     const handleEmojiSelect = (emoji) => {
         setContent(prev => prev + emoji)
     }
