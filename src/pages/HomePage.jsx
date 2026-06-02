@@ -7,7 +7,7 @@ import PostList from '../components/posts/PostList.jsx'
 import FilterBar from '../components/filters/FilterBar.jsx'
 import '../styles/pages/HomePage.css'
 
-export default function HomePage({ isConnected }) {
+export default function HomePage({ isConnected, user }) {
 
     const navigate = useNavigate()
     const [posts, setPosts] = useState([])
@@ -61,10 +61,8 @@ export default function HomePage({ isConnected }) {
             return 0
     })
 
-    // On va faire en sorte que pour chaque objet crée, une catégorie est automatiquement crée dans CategoryFilter
-    // donc on va faire une copie d'ensemble tel que pour chaque post on prend son category
     const categories = [...new Set(posts.map(post => post.category))]
-    
+
     if (!forumOpen) {
         return (
             <div className="forum-closed">
@@ -73,7 +71,7 @@ export default function HomePage({ isConnected }) {
             </div>
         )
     }
-    
+
     return (
         <div className="home-page">
 
@@ -85,7 +83,6 @@ export default function HomePage({ isConnected }) {
                         <li
                             key={cat}
                             className={category === cat ? "active" : ""}
-                            // Clic sur une catégorie déjà active la désélectionne
                             onClick={() => setCategory(category === cat ? "" : cat)}
                         >
                             {cat}
@@ -107,16 +104,46 @@ export default function HomePage({ isConnected }) {
                 <PostList posts={postsAffiches} />
             </div>
 
-            {/* Sidebar droite : widget bienvenue avec bouton selon l'état de connexion */}
+            {/* Sidebar droite */}
             <aside className="sidebar-right">
+
+                {/* Widget bienvenue */}
                 <div className="sidebar-widget">
-                    <h3>Bienvenue</h3>
-                    <p>Rejoignez la communauté et participez aux discussions.</p>
-                    {isConnected
-                        ? <button onClick={() => navigate("/create")}>Créer un post</button>
-                        : <button onClick={() => navigate("/login")}>Se connecter</button>
+                    {isConnected ? (
+                        <>
+                            <h3>👋 Bonjour, {user?.login} !</h3>
+                            <button onClick={() => navigate("/create")}>➕ Créer un post</button>
+                            <button onClick={() => navigate(`/profile/${user?._id}`)}>👤 Mon profil</button>
+                        </>
+                    ) : (
+                        <>
+                            <h3>Bienvenue</h3>
+                            <p>Rejoignez la communauté et participez aux discussions.</p>
+                            <button onClick={() => navigate("/login")}>Se connecter</button>
+                            <button onClick={() => navigate("/register")}>S'inscrire</button>
+                        </>
+                    )}
+                </div>
+
+                {/* Widget posts populaires */}
+                <div className="sidebar-widget">
+                    <h3>🔥 Posts populaires</h3>
+                    {[...posts]
+                        .sort((a, b) => (b.likes?.length ?? 0) - (a.likes?.length ?? 0))
+                        .slice(0, 3)
+                        .map(post => (
+                            <div
+                                key={post._id}
+                                className="popular-post"
+                                onClick={() => navigate(`/post/${post._id}`)}
+                            >
+                                <span className="popular-post-title">{post.title}</span>
+                                <span className="popular-post-likes">❤️ {post.likes?.length ?? 0}</span>
+                            </div>
+                        ))
                     }
                 </div>
+
             </aside>
 
         </div>

@@ -1,3 +1,5 @@
+﻿// Barre de filtres : recherche par titre + recherche par auteur + categorie + tri
+
 import SearchBar from './SearchBar.jsx'
 import CategoryFilter from './CategoryFilter.jsx'
 import SortSelector from './SortSelector.jsx'
@@ -8,11 +10,10 @@ export default function FilterBar({ setSearch, setAuthor, setCategory, setSort, 
         <section className="filter-bar">
             <SearchBar onSearch={setSearch} />
 
-            {/* Champ recherche par auteur */}
             <input
                 type="text"
                 className="search-input author-search"
-                placeholder="👤 Auteur..."
+                placeholder="Auteur..."
                 onChange={e => setAuthor?.(e.target.value)}
             />
 
