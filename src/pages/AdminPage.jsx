@@ -17,15 +17,29 @@ export default function AdminPage() {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
+    const [forumOpen, setForumOpen] = useState(true)
 
     // Récupère la liste des utilisateurs au chargement
     useEffect(() => {
         fetchUsers()
+        fetchForumStatus()
     }, [])
 
     // Rediriger si pas admin ou déconnecter
     if (!isAuthenticated || !user?.isAdmin) {
         return <Navigate to="/" replace />
+    }
+
+    const fetchForumStatus = async () => {
+        try {
+            const res = await fetch('http://localhost:10000/admin/forum-status', {
+                credentials: 'include'
+            })
+            if (res.ok) {
+                const data = await res.json()
+                setForumOpen(data.isOpen)
+            }
+        } catch {}
     }
 
     // Récupère tous les utilisateurs depuis le serveur
@@ -77,6 +91,21 @@ export default function AdminPage() {
         } catch {
             setMessage("Erreur serveur")
         }
+    }
+
+    const handleToggleForum = async () => {
+        try {
+            const res = await fetch('http://localhost:10000/admin/forum-status', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ isOpen: !forumOpen })
+            })
+            if (res.ok) {
+                setForumOpen(!forumOpen)
+                setMessage(forumOpen ? "Forum fermé" : "Forum ouvert")
+            }
+        } catch {}
     }
 
     // Sépare les utilisateurs en attente des membres validés
@@ -165,6 +194,21 @@ export default function AdminPage() {
                         </div>
                     )
                 }
+            </section>
+
+            <section className="admin-section">
+                <h2>🔒 Statut du forum</h2>
+                <div className="forum-status">
+                    <span className={`status-badge ${forumOpen ? 'open' : 'closed'}`}>
+                        {forumOpen ? '🟢 Forum ouvert' : '🔴 Forum fermé'}
+                    </span>
+                    <button
+                        className={forumOpen ? 'btn-reject' : 'btn-validate'}
+                        onClick={handleToggleForum}
+                    >
+                        {forumOpen ? 'Fermer le forum' : 'Ouvrir le forum'}
+                    </button>
+                </div>
             </section>
         </div>
     )

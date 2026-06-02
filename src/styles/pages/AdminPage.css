@@ -131,3 +131,15 @@
 .btn-remove-admin:hover {
   opacity: 0.8;
 }
+
+.forum-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-badge {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-main);
+}

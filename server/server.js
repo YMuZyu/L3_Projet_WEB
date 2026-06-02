@@ -825,6 +825,37 @@ function requireAdmin(req, res, next) {
 }
 
 // ========================
+// GET état du forum
+// ========================
+app.get("/admin/forum-status", async (req, res) => {
+    try {
+        const config = db.collection("config")
+        const status = await config.findOne({ key: "forum_open" })
+        return res.json({ isOpen: status ? status.value : true })
+    } catch (err) {
+        return res.status(500).json({ message: "Erreur serveur" })
+    }
+})
+
+// ========================
+// PATCH ouvrir/fermer le forum (admin)
+// ========================
+app.patch("/admin/forum-status", requireAdmin, async (req, res) => {
+    const { isOpen } = req.body
+    try {
+        const config = db.collection("config")
+        await config.updateOne(
+            { key: "forum_open" },
+            { $set: { key: "forum_open", value: isOpen } },
+            { upsert: true }
+        )
+        return res.json({ message: isOpen ? "Forum ouvert" : "Forum fermé" })
+    } catch (err) {
+        return res.status(500).json({ message: "Erreur serveur" })
+    }
+})
+
+// ========================
 // GET ALL USERS (admin)
 // ========================
 app.get("/admin/users", requireAdmin, async (req, res) => {

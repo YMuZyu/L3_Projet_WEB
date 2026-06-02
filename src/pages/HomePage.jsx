@@ -11,6 +11,7 @@ export default function HomePage({ isConnected }) {
 
     const navigate = useNavigate()
     const [posts, setPosts] = useState([])
+    const [forumOpen, setForumOpen] = useState(true)
 
     // Récupère tous les posts au chargement de la page
     useEffect(() => {
@@ -27,7 +28,18 @@ export default function HomePage({ isConnected }) {
                 console.error('Erreur lors du fetch des posts:', error)
             }
         }
-        fetchPosts()
+        fetchPosts();
+
+        const checkForumStatus = async () => {
+            try {
+                const res = await fetch('http://localhost:10000/admin/forum-status')
+                if (res.ok) {
+                    const data = await res.json()
+                    setForumOpen(data.isOpen)
+                }
+            } catch {}
+        }
+        checkForumStatus()
     }, [])
 
     // États pour les filtres
@@ -50,7 +62,16 @@ export default function HomePage({ isConnected }) {
     // On va faire en sorte que pour chaque objet crée, une catégorie est automatiquement crée dans CategoryFilter
     // donc on va faire une copie d'ensemble tel que pour chaque post on prend son category
     const categories = [...new Set(posts.map(post => post.category))]
-        
+    
+    if (!forumOpen) {
+        return (
+            <div className="forum-closed">
+                <h2>🔒 Forum temporairement fermé</h2>
+                <p>Le forum est actuellement fermé par un administrateur. Revenez plus tard.</p>
+            </div>
+        )
+    }
+    
     return (
         <div className="home-page">
 
