@@ -6,15 +6,15 @@ import UserPosts from "../components/user/UserPosts.jsx"
 import '../styles/pages/UserProfilePage.css'
 
 export default function UserProfilePage({ user, isConnected }) {
-    const { userId }   = useParams()
-    const navigate     = useNavigate()
+    const { userId } = useParams()
+    const navigate = useNavigate()
 
     const [profileUser, setProfileUser] = useState(null)
-    const [userPosts,   setUserPosts]   = useState([])
+    const [userPosts, setUserPosts] = useState([])
     const [userReplies, setUserReplies] = useState([])
-    const [tab,         setTab]         = useState('posts')
-    const [loading,     setLoading]     = useState(true)
-    const [error,       setError]       = useState("")
+    const [tab, setTab] = useState('posts')
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState("")
 
     const { updateAvatar } = useContext(AuthContext)
     const isOwnProfile = user && user._id === userId
@@ -58,6 +58,11 @@ export default function UserProfilePage({ user, isConnected }) {
 
     return (
         <div className="profile-page">
+            {/* Bouton pour retourner à la page précédente */}
+            <button className="back-btn" onClick={() => navigate(-1)}>
+                ← Retour
+            </button>
+            
             <div className="profile-header">
                 <UserInfo
                     user={profileUser}
