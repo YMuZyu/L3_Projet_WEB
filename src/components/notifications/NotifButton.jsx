@@ -1,3 +1,5 @@
+// Bouton cloche dans le header avec badge de compteur de notifications non lues
+
 import '../../styles/layout/Header.css'
 
 export default function NotifButton({ onClick, count }) {

@@ -1,23 +1,24 @@
+// Affiche une notification avec icône, texte, aperçu et date
+// Clique sur la notification → redirige vers le contenu concerné
+
 import '../../styles/notifications/NotifItem.css'
 
 const TYPE_ICONS = {
-    reply_post:  '💬',
-    reply_reply: '↩️',
-    message:     '✉️',
-    like_post:   '❤️',
-    like_reply:  '❤️',
+    reply_post: '💬',
+    message: '✉️',
+    like_post: '❤️',
+    like_reply: '❤️',
 }
 
 const TYPE_LABELS = {
-    reply_post:  'a répondu à votre post',
-    reply_reply: 'a répondu à votre réponse',
-    message:     'vous a envoyé un message',
-    like_post:   'a aimé votre post',
-    like_reply:  'a aimé votre réponse',
+    reply_post: 'a répondu à votre post',
+    message: 'vous a envoyé un message',
+    like_post: 'a aimé votre post',
+    like_reply: 'a aimé votre réponse',
 }
 
 export default function NotifItem({ notification, onClick }) {
-    const icon  = TYPE_ICONS[notification.type]  || '🔔'
+    const icon = TYPE_ICONS[notification.type] || '🔔'
     const label = TYPE_LABELS[notification.type] || ''
 
     return (
@@ -30,6 +31,8 @@ export default function NotifItem({ notification, onClick }) {
                 <p className="notif-text">
                     <strong>{notification.fromUserLogin}</strong> {label}
                 </p>
+
+                {/* Aperçu du contenu de la notification */}
                 {notification.preview && (
                     <p className="notif-preview">{notification.preview}</p>
                 )}
@@ -39,6 +42,8 @@ export default function NotifItem({ notification, onClick }) {
                     })}
                 </span>
             </div>
+
+            {/* Point rouge pour les notifications non lues */}
             {!notification.read && <span className="notif-dot" />}
         </div>
     )

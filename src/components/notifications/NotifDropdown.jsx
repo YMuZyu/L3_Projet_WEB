@@ -1,3 +1,5 @@
+// Dropdown des notifications : liste si connecté, message sinon
+
 import Dropdown from "../common/Dropdown.jsx"
 import NotifList from "./NotifList.jsx"
 import '../../styles/notifications/NotifDropdown.css'

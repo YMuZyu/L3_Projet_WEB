@@ -11,7 +11,8 @@
 
 .notif-item:hover { background: var(--hover-bg); }
 
-.notif-item.unread { background-color: var(--primary-soft); }
+/* Notification non lue : fond légèrement coloré */
+.notif-item.unread { background-color: var(--card-yellow); }
 
 .notif-icon {
   font-size: 1.1rem;
@@ -31,9 +32,10 @@
   line-height: 1.4;
 }
 
-.notif-item.read .notif-text { color: var(--text-muted); }
+.notif-item.read .notif-text   { color: var(--text-muted); }
 .notif-item.unread .notif-text { font-weight: 600; }
 
+/* Aperçu tronqué du contenu */
 .notif-preview {
   margin: 0 0 0.2rem 0;
   font-size: 0.78rem;
@@ -49,7 +51,7 @@
   color: var(--text-muted);
 }
 
-/* Point rouge pour non lue */
+/* Point rouge pour les non lues */
 .notif-dot {
   width: 8px;
   height: 8px;

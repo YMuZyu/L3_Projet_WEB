@@ -11,7 +11,7 @@
   width: 320px;
 }
 
-/* Tabs de filtre */
+/* Onglets de filtre */
 .notif-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -28,13 +28,15 @@
   font-size: 0.75rem;
   cursor: pointer;
   color: var(--text-muted);
+  box-shadow: none;
   transition: background 0.15s, border-color 0.15s;
 }
 
 .notif-tab:hover { background: var(--hover-bg); }
 
+/* Onglet actif */
 .notif-tab.active {
-  background: var(--primary-soft);
+  background: var(--hover-bg);
   border-color: var(--primary);
   color: var(--primary);
   font-weight: 700;
@@ -50,6 +52,7 @@
   padding: 0.4rem 0.75rem;
   text-align: right;
   align-self: flex-end;
+  box-shadow: none;
 }
 
 .notif-read-all-btn:hover { text-decoration: underline; }
