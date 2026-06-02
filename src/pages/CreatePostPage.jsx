@@ -1,3 +1,6 @@
+// Page de création d'un post : titre, catégorie, contenu, image optionnelle
+// Accessible uniquement aux membres connectés
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ImageCropper from '../components/shared/ImageCropper.jsx'
@@ -6,13 +9,14 @@ import '../styles/pages/CreatePostPage.css'
 export default function CreatePostPage({ isConnected }) {
     const navigate = useNavigate()
 
-    const [title,        setTitle]        = useState('')
-    const [content,      setContent]      = useState('')
-    const [category,     setCategory]     = useState('')
-    const [imageBase64,  setImageBase64]  = useState(null)
-    const [showCropper,  setShowCropper]  = useState(false)
-    const [error,        setError]        = useState('')
+    const [title, setTitle] = useState('')
+    const [content, setContent] = useState('')
+    const [category, setCategory] = useState('')
+    const [imageBase64, setImageBase64] = useState(null)
+    const [showCropper, setShowCropper] = useState(false)
+    const [error, setError] = useState('')
 
+    // Si l'utilisateur n'est pas connecté, on lui propose de se connecter
     if (!isConnected) {
         return (
             <div className="create-post-page">
@@ -22,6 +26,7 @@ export default function CreatePostPage({ isConnected }) {
         )
     }
 
+    // Appelé quand l'image est découpée par ImageCropper
     const handleCrop = (base64) => {
         setImageBase64(base64)
         setShowCropper(false)
@@ -61,6 +66,7 @@ export default function CreatePostPage({ isConnected }) {
     return (
         <div className="create-post-page">
             <h2>Créer un nouveau sujet</h2>
+
             <form onSubmit={handleSubmit} className="create-post-form">
 
                 <div className="form-group">
@@ -99,6 +105,7 @@ export default function CreatePostPage({ isConnected }) {
                     />
                 </div>
 
+                {/* Section image : aperçu si choisie, croppper si en cours, bouton sinon */}
                 <div className="form-group">
                     <label>Image (optionnelle)</label>
                     {imageBase64 ? (
