@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { useParams, useNavigate } from "react-router-dom"
+import { AuthContext } from "../context/AuthProvider.jsx"
 import UserInfo from "../components/user/UserInfo.jsx"
 import UserPosts from "../components/user/UserPosts.jsx"
 import '../styles/pages/UserProfilePage.css'
@@ -15,6 +16,7 @@ export default function UserProfilePage({ user, isConnected }) {
     const [loading,     setLoading]     = useState(true)
     const [error,       setError]       = useState("")
 
+    const { updateAvatar } = useContext(AuthContext)
     const isOwnProfile = user && user._id === userId
 
     useEffect(() => {
@@ -48,6 +50,7 @@ export default function UserProfilePage({ user, isConnected }) {
 
     const handleAvatarUpdate = (newAvatarPath) => {
         setProfileUser(prev => ({ ...prev, avatar: newAvatarPath }))
+        updateAvatar(newAvatarPath) // met à jour le header (UserButton) immédiatement
     }
 
     if (loading) return <p className="loading">Chargement...</p>

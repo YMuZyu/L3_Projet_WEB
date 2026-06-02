@@ -247,16 +247,12 @@ app.post("/posts", async (req, res) => {
   }
 
   try {
+    // Stockage en base64 dans MongoDB (comme les avatars) pour que l'image
+    // soit accessible depuis n'importe quel PC sans partage de fichiers
     let imageUrl = null;
     if (imageBase64) {
-      const matches = imageBase64.match(/^data:([a-zA-Z]+\/[a-zA-Z+]+);base64,(.+)$/);
-      if (matches) {
-        const ext = matches[1].split('/')[1].replace('+xml', '');
-        const buffer = Buffer.from(matches[2], 'base64');
-        const filename = `${Date.now()}.${ext}`;
-        await fs.writeFile(path.join(uploadsDir, filename), buffer);
-        imageUrl = `/uploads/${filename}`;
-      }
+      const valid = /^data:image\/(png|jpeg|jpg|gif|webp);base64,/.test(imageBase64);
+      if (valid) imageUrl = imageBase64;
     }
 
     const posts = db.collection("posts");
@@ -610,7 +606,7 @@ app.patch("/user/me/avatar", async (req, res) => {
   try {
     const users = db.collection("users");
     await users.updateOne(
-      { _id: new ObjectId(req.session.user._id) },
+      { _id: new ObjectId(req.session.user._id.toString()) },
       { $set: { avatar: imageBase64 } }
     );
     req.session.user.avatar = imageBase64;
