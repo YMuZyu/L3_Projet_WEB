@@ -17,12 +17,14 @@ export default function UserProfilePage({ user, isConnected }) {
     const [error, setError] = useState("")
 
     const { updateAvatar } = useContext(AuthContext)
-    const isOwnProfile = user && user._id === userId
+    const isOwnProfile = user && user._id?.toString() === userId
 
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await fetch(`/user/${userId}`)
+                const res = await fetch(`http://localhost:10000/user/${userId}`, {
+                    credentials: 'include'
+                })
                 if (res.ok) setProfileUser(await res.json())
                 else setError("Utilisateur introuvable")
             } catch { setError("Erreur serveur") }
@@ -31,14 +33,18 @@ export default function UserProfilePage({ user, isConnected }) {
 
         const fetchPosts = async () => {
             try {
-                const res = await fetch(`/posts/user/${userId}`)
+                const res = await fetch(`http://localhost:10000/posts/user/${userId}`, {
+                    credentials: 'include'
+                })
                 if (res.ok) setUserPosts(await res.json())
             } catch (err) { console.error(err) }
         }
 
         const fetchReplies = async () => {
             try {
-                const res = await fetch(`/user/${userId}/replies`)
+                const res = await fetch(`http://localhost:10000/user/${userId}/replies`, {
+                    credentials: 'include'
+                })
                 if (res.ok) setUserReplies(await res.json())
             } catch (err) { console.error(err) }
         }

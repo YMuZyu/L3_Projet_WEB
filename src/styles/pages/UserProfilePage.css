@@ -63,8 +63,8 @@
   padding: 0.5rem 1.25rem;
   border: none;
   border-radius: var(--radius-pill);
-  background-color: var(--primary-soft);
-  color: var(--primary);
+  background-color: var(--hover-bg);
+  color: var(--text-main);
   font-weight: 700;
   font-size: 0.875rem;
   cursor: pointer;
@@ -89,7 +89,7 @@
 .profile-tabs {
   display: flex;
   gap: 0.5rem;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 2px solid var(--border-light);
   padding-bottom: 0;
 }
 
@@ -157,7 +157,7 @@
   bottom: 0;
   right: 0;
   background: white;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-light);
   border-radius: 50%;
   width: 26px;
   height: 26px;

@@ -47,8 +47,8 @@ export default function AuthProvider({ children }) {
     }
 
     // Met à jour l'avatar dans le contexte global (header, UserButton, etc.)
-    const updateAvatar = (avatar) => {
-        setUser(prev => ({ ...prev, avatar }))
+    const updateAvatar = (newAvatar) => {
+        setUser(prev => ({ ...prev, avatar: newAvatar }))
     }
 
     // Appelé quand l'utilisateur clique sur "Déconnexion"
