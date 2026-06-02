@@ -1,9 +1,12 @@
+// Page d'administration : gestion des inscriptions et des droits admin
+// Accessible uniquement aux administrateurs
+
 import { useState, useEffect, useContext } from "react"
 import { useNavigate, Navigate } from "react-router-dom"
 import { AuthContext } from "../context/AuthProvider.jsx"
 import '../styles/pages/AdminPage.css'
 
-const API = ""
+const API = "http://localhost:10000"
 
 export default function AdminPage() {
 
@@ -15,15 +18,17 @@ export default function AdminPage() {
     const [error, setError] = useState("")
     const [message, setMessage] = useState("")
 
+    // Récupère la liste des utilisateurs au chargement
+    useEffect(() => {
+        fetchUsers()
+    }, [])
+
     // Rediriger si pas admin ou déconnecter
     if (!isAuthenticated || !user?.isAdmin) {
         return <Navigate to="/" replace />
     }
 
-    useEffect(() => {
-        fetchUsers()
-    }, [])
-
+    // Récupère tous les utilisateurs depuis le serveur
     const fetchUsers = async () => {
         try {
             const res = await fetch(`${API}/admin/users`, { credentials: "include" })
@@ -40,6 +45,7 @@ export default function AdminPage() {
         }
     }
 
+    // Valider ou rejeter un utilisateur
     const handleValidate = async (id, isValidated) => {
         try {
             const res = await fetch(`${API}/admin/users/${id}/validate`, {
@@ -56,6 +62,7 @@ export default function AdminPage() {
         }
     }
 
+    // Donner ou retirer le statut admin à un utilisateur
     const handleToggleAdmin = async (id, isAdmin) => {
         try {
             const res = await fetch(`${API}/admin/users/${id}/admin`, {
@@ -72,11 +79,12 @@ export default function AdminPage() {
         }
     }
 
+    // Sépare les utilisateurs en attente des membres validés
     const pending = users.filter(u => !u.isValidated)
     const members = users.filter(u => u.isValidated)
 
     if (loading) return <p className="admin-loading">Chargement...</p>
-    if (error)   return <p className="error">{error}</p>
+    if (error) return <p className="error">{error}</p>
 
     return (
         <div className="admin-page">
@@ -84,7 +92,7 @@ export default function AdminPage() {
 
             {message && <p className="admin-message">{message}</p>}
 
-            {/* Inscriptions en attente */}
+            {/* Inscriptions en attente de validation */}
             <section className="admin-section">
                 <h2>Inscriptions en attente ({pending.length})</h2>
 
@@ -119,7 +127,7 @@ export default function AdminPage() {
                 }
             </section>
 
-            {/* Membres validés */}
+            {/* Liste des membres validés */}
             <section className="admin-section">
                 <h2>Membres ({members.length})</h2>
 
@@ -131,6 +139,8 @@ export default function AdminPage() {
                                 <div key={u._id} className="admin-user-card">
                                     <span className="admin-login">{u.login}</span>
                                     {u.isAdmin && <span className="admin-badge">Admin</span>}
+
+                                    {/* On ne peut pas modifier ses propres droits */}
                                     {u._id.toString() === user._id.toString()
                                         ? <span className="admin-self">(vous)</span>
                                         : (
