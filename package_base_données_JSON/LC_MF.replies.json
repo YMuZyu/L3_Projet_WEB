@@ -1,0 +1,13 @@
+[{
+  "_id": {
+    "$oid": "6a1f37eeb1e834386ef12885"
+  },
+  "postId": "6a1f00ff7ae4523e7a1e4d1f",
+  "content": "fr",
+  "author": "Franck",
+  "userId": "6a1e13e6557bb9372bd4db13",
+  "parentReplyId": null,
+  "createdAt": {
+    "$date": "2026-06-02T20:07:10.402Z"
+  }
+}]
